@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间: 要和mapper持久层层的接口全限定名相同-->
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <!-- 定义ResultMap，将结果映射到Map -->
+    <resultMap id="scoreDetailMapResult" type="java.util.LinkedHashMap">
+        <result column="username" property="username"/>
+        <result column="project" property="project"/>
+        <result column="score" property="score"/>
+    </resultMap>
+
+    <!-- id与UserMapper对应接口中的函数名, resultType是返回的类型 -->
+    <select id="selectAll" resultType="user">
+        SELECT * FROM users
+    </select>
+
+    <!-- 查询语句, 返回类型使用上面定义的ResultMap -->
+    <select id="selectUserScore" resultMap="scoreDetailMapResult">
+        SELECT u.username, s.project, s.score
+        FROM score s
+                 JOIN users u ON s.studentid = u.id
+        ORDER BY s.score DESC
+    </select>
+</mapper>

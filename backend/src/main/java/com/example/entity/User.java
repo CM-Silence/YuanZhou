@@ -1,26 +1,62 @@
 package com.example.entity;
 
-import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.time.LocalDateTime;
 
-import java.util.Date;
-
-@AllArgsConstructor
 public class User {
-    private Integer id;
+    //id(学校编号、或者个人编号)
+    private String uid;
+
+    //学生姓名/教师姓名/社会人士姓名
+    private String name;
+
+    //用户账号
     private String username;
-    private Date birthday;
-    private String sex;
-    private String address;
 
-    public User() {
+    //用户密码
+    private String password;
+
+    //电话号码
+    private Integer phone;
+
+    //邮箱（老师与学生用）
+    private String email;
+
+    //班级(学生用）
+    private String className;
+
+    //职业类型(社会人士注册用）
+    private String occuptionalType;
+
+    //单位类型(社会人士注册用）
+    private String unitType;
+
+    //所在单位(社会人士注册用）
+    private String unit;
+
+    //创建时间
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    //最后登录时间
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime loginTime;
+
+    public String getUid() {
+        return uid;
     }
 
-    public Integer getId() {
-        return id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {
@@ -31,39 +67,93 @@ public class User {
         this.username = username;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public String getPassword() {
+        return password;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSex() {
-        return sex;
+    public Integer getPhone() {
+        return phone;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getOccuptionalType() {
+        return occuptionalType;
+    }
+
+    public void setOccuptionalType(String occuptionalType) {
+        this.occuptionalType = occuptionalType;
+    }
+
+    public String getUnitType() {
+        return unitType;
+    }
+
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(LocalDateTime loginTime) {
+        this.loginTime = loginTime;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
-                ", birthday=" + birthday +
-                ", sex='" + sex + '\'' +
-                ", address='" + address + '\'' +
+                ", password='" + password + '\'' +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                ", className='" + className + '\'' +
+                ", occuptionalType='" + occuptionalType + '\'' +
+                ", unitType='" + unitType + '\'' +
+                ", unit='" + unit + '\'' +
+                ", createTime=" + createTime +
+                ", loginTime=" + loginTime +
                 '}';
     }
 }
-

@@ -2,7 +2,10 @@ package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class User {
     //id(学校编号、或者个人编号)
@@ -20,7 +23,7 @@ public class User {
     //电话号码
     private Integer phone;
 
-    //邮箱（老师与学生用）
+    //邮箱
     private String email;
 
     //班级(学生用）
@@ -35,13 +38,15 @@ public class User {
     //所在单位(社会人士注册用）
     private String unit;
 
+    @Transient//声明这个字段不需要和数据库对应
+    private String token;
+
     //创建时间
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     //最后登录时间
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime loginTime;
+    private Date loginTime;
 
     public String getUid() {
         return uid;
@@ -131,12 +136,20 @@ public class User {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getLoginTime() {
+    public Date getLoginTime() {
         return loginTime;
     }
 
-    public void setLoginTime(LocalDateTime loginTime) {
+    public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

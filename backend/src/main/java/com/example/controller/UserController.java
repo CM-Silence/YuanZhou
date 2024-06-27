@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.common.JWTUtils;
+import com.example.common.Result;
 import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
+import com.example.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public Map<String, Object> login(User user){
@@ -61,5 +66,15 @@ public class UserController {
         return map;
     }
 
+    @PostMapping("/register")
+    public Result register(@RequestParam String username,@RequestParam String password) {
+        User user = userService.findByUserName(username);
+        if (user == null) {
+            userService.register(username, password);
+            return Result.success("注册成功");
+        } else {
+            return Result.error("用户名被占用，请重新注册");
+        }
+    }
 }
 

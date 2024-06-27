@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间: 要和mapper持久层层的接口全限定名相同-->
+<mapper namespace="com.example.mapper.UserMapper">
+
+    <select id="selectUser" resultType="User" parameterType="User">
+        select * from user WHERE username = #{username} and password = #{password}
+    </select>
+</mapper>

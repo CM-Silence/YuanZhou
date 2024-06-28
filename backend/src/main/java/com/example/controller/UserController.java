@@ -32,20 +32,21 @@ public class UserController {
         log.info("用户名：[{}]", user.getUsername());
         log.info("密码：[{}]", user.getPassword());
         Map<String, Object> map = new HashMap<>();
-        try {
-            User userDB = userServiceImpl.login(user);
-            Map<String, String> payload = new HashMap<>();
-            payload.put("id", userDB.getUid());
-            payload.put("username", userDB.getUsername());
-            //生成jwt令牌
-            String token = JWTUtils.getToken(payload);
-            map.put("state", true);
-            map.put("msg", "认证成功!");
-            map.put("token", token);  //响应token
-        } catch (Exception e) {
-            map.put("state", false);
-            map.put("msg", e.getMessage());
-        }
+            try {
+                User userDB = userServiceImpl.login(user);
+                Map<String, String> payload = new HashMap<>();
+                payload.put("id", userDB.getUid());
+                payload.put("username", userDB.getUsername());
+                //生成jwt令牌
+                String token = JWTUtils.getToken(payload);
+                map.put("state", true);
+                map.put("msg", "认证成功!");
+                map.put("token", token);  //响应token
+            } catch (Exception e) {
+                map.put("state", false);
+                map.put("msg", e.getMessage());
+            }
+
         return map;
     }
 
@@ -76,5 +77,6 @@ public class UserController {
             return Result.error("用户名被占用，请重新注册");
         }
     }
+
 }
 

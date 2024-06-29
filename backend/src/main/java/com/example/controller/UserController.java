@@ -3,6 +3,7 @@ package com.example.controller;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.example.common.JWTUtils;
 import com.example.common.Result;
 import com.example.entity.News;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //告诉SpringBoot当前类是一个控制器，可以接收前端请求。交给Spring容器管理
@@ -23,7 +25,7 @@ import java.util.Map;
 @RestController //默认返回时会经过视图解析器
 @RequestMapping("/user")
 @Slf4j
-
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -103,8 +105,8 @@ public class UserController {
     }
 
     @GetMapping("/news/page")
-    public Result<Page> page(int page, int pageSize, String name){
-        log.info("page = {}, pageSize = {}, name = {}", page, pageSize, name);
+    public Result<Page> page(int page, int pageSize, String title){
+        log.info("page = {}, pageSize = {}, name = {}", page, pageSize, title);
 
         //构造分页构造器
         Page pageInfo = new Page(page, pageSize);
@@ -113,13 +115,16 @@ public class UserController {
         LambdaQueryWrapper<News> queryWrapper = new LambdaQueryWrapper<>();
 
         //添加模糊查询，使用like进行模糊查询
-        queryWrapper.like(name != null, News::getTitle, name);
+        queryWrapper.like(title != null, News::getTitle, title);
+       //TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""), News.class);
 
         //添加排序条件
-        queryWrapper.orderByAsc(News::getCreateTime);
 
+        //queryWrapper.orderByDesc(true,News::getCreateTime);
+        List<News> list = newsService.list();
         //执行分页查询
-        newsService.page(pageInfo, queryWrapper);
+        //newsService.page(pageInfo,queryWrapper);
+
         return Result.success(pageInfo);
     }
 

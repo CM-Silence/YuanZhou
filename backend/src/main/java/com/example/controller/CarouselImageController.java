@@ -1,19 +1,18 @@
 package com.example.controller;
 
-import com.example.common.Result;
 import com.example.entity.CarouselImages;
 import com.example.mapper.CarouselImageMapper;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tk.mybatis.mapper.genid.GenId;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/carousel")
+@CrossOrigin
 public class CarouselImageController {
 
     private final CarouselImageMapper carouselImageMapper;

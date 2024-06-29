@@ -1,11 +1,12 @@
 package com.example.mapper;
 
-import com.example.entity.Resource;
+import com.example.entity.CarouselImages;
+import com.example.entity.CarouselImages;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface CarouselImageMapper {
-    List<Resource> findAll();
+    List<CarouselImages> findAll();
 }

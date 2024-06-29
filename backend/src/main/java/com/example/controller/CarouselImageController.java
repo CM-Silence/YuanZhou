@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Resource;
+import com.example.entity.CarouselImages;
 import com.example.mapper.CarouselImageMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +25,11 @@ public class CarouselImageController {
     @GetMapping("/get")
     public List<String> getCarouselImageUrls() {
         //从数据库当中获取CarouselImage列表
-        List<Resource> resourceList = carouselImageMapper.findAll();
+        List<CarouselImages> resourceList = carouselImageMapper.findAll();
 
         //提取出ImageUrl字段组成数组（或列表）
         List<String> imageUrls = resourceList.stream()
-                .map(Resource::getFilePath)
+                .map(CarouselImages::getImageUrl)
                 .collect(Collectors.toList());
 
         //返回图片url列表

@@ -5,8 +5,8 @@
 <!--namespace命名空间: 要和mapper持久层层的接口全限定名相同-->
 <mapper namespace="com.example.mapper.CarouselImageMapper">
 
-    <select id="findAll" resultType="com.example.entity.Resource">
-        SELECT * FROM resource
+    <select id="findAll" resultType="com.example.entity.CarouselImages">
+        SELECT * FROM carousel_images
     </select>
 
 </mapper>

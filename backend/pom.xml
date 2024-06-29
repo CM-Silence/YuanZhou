@@ -127,7 +127,12 @@
 			<version>5.8.2</version> <!-- 请注意，版本号可能有所不同，请根据需要选择最新版本 -->
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.4.2</version>
+        </dependency>
+    </dependencies>
 
 
 

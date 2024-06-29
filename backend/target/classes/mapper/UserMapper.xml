@@ -8,4 +8,13 @@
     <select id="selectUser" resultType="User" parameterType="User">
         select * from user WHERE username = #{username} and password = #{password}
     </select>
+
+    <select id="findByUserName" resultType="User">
+        select * from user where username = #{username}
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into user (username, password) value (#{username}, #{password})
+    </insert>
+
 </mapper>

@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -17,6 +20,9 @@ import java.util.Date;
 @Accessors(chain = true)
 public class User implements Serializable {
     private final static Long Serializable = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //id(学校编号、或者个人编号)
     private String uid;
 

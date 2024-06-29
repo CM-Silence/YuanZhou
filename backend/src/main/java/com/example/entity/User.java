@@ -2,27 +2,22 @@ package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
+@TableName("user")
 public class User implements Serializable {
     private final static Long Serializable = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //id(学校编号、或者个人编号)
     private String uid;
 

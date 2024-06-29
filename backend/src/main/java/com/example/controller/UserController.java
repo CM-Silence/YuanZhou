@@ -109,21 +109,20 @@ public class UserController {
         log.info("page = {}, pageSize = {}, name = {}", page, pageSize, title);
 
         //构造分页构造器
-        Page pageInfo = new Page(page, pageSize);
+        Page<News> pageInfo = new Page<>(page, pageSize);
 
         //构造条件构造器
         LambdaQueryWrapper<News> queryWrapper = new LambdaQueryWrapper<>();
 
         //添加模糊查询，使用like进行模糊查询
         queryWrapper.like(title != null, News::getTitle, title);
-       //TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""), News.class);
 
         //添加排序条件
 
-        //queryWrapper.orderByDesc(true,News::getCreateTime);
-        List<News> list = newsService.list();
+       // queryWrapper.orderByDesc(News::getCreateTime);
+
         //执行分页查询
-        //newsService.page(pageInfo,queryWrapper);
+        List<News> news = newsService.list();
 
         return Result.success(pageInfo);
     }

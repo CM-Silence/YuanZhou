@@ -1,21 +1,20 @@
 package com.example.entity;
 
-import lombok.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@Table(name = "news")
 @Data
-public class News {
+public class News implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     //id，主键
     private Integer id;
 
@@ -25,14 +24,14 @@ public class News {
     //新闻内容
     private String content;
 
+    @TableField("publish_date")
     //发布日期
-    @Column(name = "publish_date")
     private String publishDate;
 
+    @TableField("category_id")
     //新闻分类id，外键，关联到新闻分类表
-    @Column(name = "category_id")
     private String categoryId;
 
     //创建日期，用于排序
-    private Date createTime;
+    private LocalDateTime createTime;
 }

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.0</version>
+		<version>3.1.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -43,29 +43,21 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
+			<version>8.0.33</version>
+		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>3.5.5</version>
 		</dependency>
 
-		<dependency>
-			<!--封装了一些简单的crud方法-->
-			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper</artifactId>
-			<version>4.1.5</version>
-		</dependency>
+
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-annotation</artifactId>
-			<version>3.4.2</version>
-		</dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-core</artifactId>
-            <version>3.4.2</version>
-        </dependency>
+
 		<!--JWT登录鉴权-->
 		<dependency>
 			<groupId>com.auth0</groupId>
@@ -127,11 +119,6 @@
 			<version>5.8.2</version> <!-- 请注意，版本号可能有所不同，请根据需要选择最新版本 -->
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
-            <version>3.4.2</version>
-        </dependency>
     </dependencies>
 
 

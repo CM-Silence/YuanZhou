@@ -7,7 +7,6 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import axios from 'axios'
 
 import router from './router'
-import store from './store'
 
 axios.defaults.baseURL = "http://127.0.0.1:8217";
 
@@ -19,8 +18,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.provide("axios", axios)
 
-app.use(store)
-    .use(router)
+app.use(router)
     .use(ElementPlus)
 
 app.mount('#app')

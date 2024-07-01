@@ -6,9 +6,25 @@ import {router} from "@/router/index.js";
  * @description 请求头中需要附带的鉴权token
  * */
 let token = ''
+/**
+ * @description 默认请求头
+ * */
+const defaultHeaders = {
+    'Authorization': token
+}
 
 const getToken = () => {
     token = "bearer " + localStorage.getItem("token");
+    defaultHeaders.Authorization = token
+}
+
+function jsonToFormData(jsonObj, formData = new FormData()) {
+    for (let key in jsonObj) {
+        if (jsonObj.hasOwnProperty(key)) {
+            formData.append(key, jsonObj[key]);
+        }
+    }
+    return formData;
 }
 
 /**
@@ -22,9 +38,6 @@ const getToken = () => {
 export const axiosGet = async ({url, params = {}, headers = {}, name = 'axios_get'}) => {
     getToken()
     let resultObj = false
-    const defaultHeaders = {
-        'Authorization': token
-    }
     await axios.get(`/api${url}`, {
         headers: {...defaultHeaders, ...headers},
         params: params
@@ -47,15 +60,16 @@ export const axiosGet = async ({url, params = {}, headers = {}, name = 'axios_ge
  * @param data 请求体
  * @param headers 请求头
  * @param name 调用者
+ * @param isFormData 是否需要传FormData格式数据(默认为json格式)
  * @description 发送delete请求的函数
  * @return result 请求是否成功
  * */
-export const axiosDelete = async ({url, data, headers = {}, name = 'axiosDelete'}) => {
+export const axiosDelete = async ({url, data, headers = {}, name = 'axiosDelete', isFormData = false}) => {
     getToken()
-    let result = false
-    const defaultHeaders = {
-        'Authorization': token
+    if(isFormData){
+        data = jsonToFormData(data)
     }
+    let result = false
     await axios.delete(`/api${url}`, {
         headers: {...defaultHeaders, ...headers},
         data: data
@@ -78,15 +92,16 @@ export const axiosDelete = async ({url, data, headers = {}, name = 'axiosDelete'
  * @param data 请求体
  * @param headers 请求头
  * @param name 调用者
+ * @param isFormData 是否需要传FormData格式数据(默认为json格式)
  * @description 发送post请求的函数
  * @return result 请求是否成功
  * */
-export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost'}) => {
+export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost', isFormData = false}) => {
     getToken()
-    let result = false
-    const defaultHeaders = {
-        'Authorization': token
+    if(isFormData){
+        data = jsonToFormData(data)
     }
+    let result = false
     await axios.post(`${url}`, data, {
         headers: {...defaultHeaders, ...headers},
     })
@@ -108,15 +123,16 @@ export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost'}) =
  * @param data 请求体
  * @param headers 请求头
  * @param name 调用者
+ * @param isFormData 是否需要传FormData格式数据(默认为json格式)
  * @description 发送put请求的函数
  * @return result 请求是否成功
  * */
-export const axiosPut = async ({url, data, headers = {}, name = 'axiosPut'}) => {
+export const axiosPut = async ({url, data, headers = {}, name = 'axiosPut', isFormData = false}) => {
     getToken()
-    let result = false
-    const defaultHeaders = {
-        'Authorization': token
+    if(isFormData){
+        data = jsonToFormData(data)
     }
+    let result = false
     await axios.put(`/api${url}`, data, {
         headers: {...defaultHeaders, ...headers},
     })

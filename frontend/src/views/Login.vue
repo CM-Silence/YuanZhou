@@ -174,7 +174,8 @@ async function submitRegisterForm(form) {
       const result = await axiosPost({
         url: '/user/register',
         data: state.registerForm,
-        name: 'register'
+        name: 'register',
+        isFormData: true
       })
       if(result){
         ElMessage.success('用户注册成功')
@@ -197,7 +198,12 @@ const submitForm = async (form) => {
       };
 
       if (state.ruleForm.username && state.ruleForm.password) {
-        const result = await axiosPost({url: '/user/login', data: data, name: 'login'})
+        const result = await axiosPost({
+          url: '/user/login',
+          data: data,
+          name: 'login',
+          isFormData: true
+        })
         if(result && result.data.code === 201){
           // 需要将返回的数据存入Store中
           localStorage.setItem("token", result.data.data.token)

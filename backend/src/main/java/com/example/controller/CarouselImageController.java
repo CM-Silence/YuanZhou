@@ -11,8 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/carousel")
+@RequestMapping("/api/carousel")
 @CrossOrigin
+
+/*
+  返回url轮播图片
+ */
 public class CarouselImageController {
 
     private final CarouselImageMapper carouselImageMapper;

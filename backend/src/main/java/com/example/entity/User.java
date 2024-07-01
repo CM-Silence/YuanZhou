@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 
 import java.io.Serializable;
@@ -52,7 +51,8 @@ public class User implements Serializable {
     private String token;
 
     //status 状态，也就是权限，不同数字有不同的权限含义
-    private Integer status;
+    //0 社会人士，1 学生， 2 教师， 3 管理员
+    private Integer permission;
 
     //创建时间
     @TableField(fill = FieldFill.INSERT)

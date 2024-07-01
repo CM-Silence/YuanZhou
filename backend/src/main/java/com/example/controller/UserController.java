@@ -3,7 +3,6 @@ package com.example.controller;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import com.example.common.JWTUtils;
 import com.example.common.Result;
 import com.example.entity.News;
@@ -17,13 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 //告诉SpringBoot当前类是一个控制器，可以接收前端请求。交给Spring容器管理
 @SuppressWarnings("{all}")
 @RestController //默认返回时会经过视图解析器
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @Slf4j
 @CrossOrigin
 public class UserController {
@@ -46,19 +44,27 @@ public class UserController {
     public Map<String, Object> login(User user){
         log.info("用户名：[{}]", user.getUsername());
         log.info("密码：[{}]", user.getPassword());
+
         Map<String, Object> map = new HashMap<>();
             try {
                 User userDB = userServiceImpl.login(user);
-                Map<String, String> payload = new HashMap<>();
-                payload.put("id", userDB.getUid());
-                payload.put("username", userDB.getUsername());
-                //生成jwt令牌
-                String token = JWTUtils.getToken(payload);
-                map.put("state", true);
-                map.put("msg", "认证成功!");
-                map.put("token", token);  //响应token
-            } catch (Exception e) {
-                map.put("state", false);
+                if (userDB != null){ Map<String, String> payload = new HashMap<>();
+                    payload.put("id", userDB.getUid());
+                    payload.put("username", userDB.getUsername());
+                    //生成jwt令牌
+                    String token = JWTUtils.getToken(payload);
+                    map.put("msg", "login success");
+                    map.put("code", 201);
+                    map.put("data", userDB);//响应token}
+                    map.put("token", token);
+
+            } else {
+                    map.put("code",404);
+                    map.put("msg", "User not found or invalid credentials");
+                }
+
+            }catch (Exception e){
+                map.put("code", 500);
                 map.put("msg", e.getMessage());
             }
 
@@ -74,7 +80,7 @@ public class UserController {
     public Map<String,Object> test(HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
 
-        /**
+        /*
          * 验证令牌交给拦截器
          * 这里只需要处理自己的业务逻辑
          */
@@ -94,13 +100,19 @@ public class UserController {
      * @return 注册信息
      */
     @PostMapping("/register")
-    public Result register(@RequestParam String username,@RequestParam String password) {
+    public Map<String, Object> register(@RequestParam String username,@RequestParam String password) {
         User user = userService.findByUserName(username);
         if (user == null) {
             userService.register(username, password);
-            return Result.success("注册成功");
+            Map<String, Object> successResponse = new HashMap<>();
+            successResponse.put("msg", "register success");
+            successResponse.put("code", 201);
+            return successResponse;
         } else {
-            return Result.error("用户名被占用，请重新注册");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("msg", "the username is occupied, please re-register");
+            errorResponse.put("code", 400);
+            return errorResponse;
         }
     }
 
@@ -118,11 +130,10 @@ public class UserController {
         queryWrapper.like(title != null, News::getTitle, title);
 
         //添加排序条件
-
-       // queryWrapper.orderByDesc(News::getCreateTime);
+        queryWrapper.orderByDesc(News::getCreateTime);
 
         //执行分页查询
-        List<News> news = newsService.list();
+        newsService.page(pageInfo,queryWrapper);
 
         return Result.success(pageInfo);
     }

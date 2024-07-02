@@ -1,37 +1,62 @@
 package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@TableName("news")
 public class News implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //id，主键
+
+    //标识+8位唯一索引(主键)
+    @TableField("mid")
+    private String mid;
+
+    //数据库内置索引
+    @TableField("id")
     private Integer id;
 
-    //新闻标题
-    private String title;
+    //浏览量
+    @TableField("view_amount")
+    private Integer viewAmount;
 
-    //新闻内容
+    //消息来源
+    @TableField("src")
+    private String src;
+
+    //编辑者
+    @TableField("editor")
+    private String editor;
+
+    //消息内容
+    @TableField("content")
     private String content;
 
-    @TableField("publish_date")
-    //发布日期
-    private String publishDate;
+    //类型（0：资讯，1：公告）
+    @TableField("type")
+    private Integer type;
 
-    @TableField("category_id")
-    //新闻分类id，外键，关联到新闻分类表
-    private String categoryId;
+    //审核通过时间
+    @TableField("audited_time")
+    private Date auditedTime;
 
-    //创建日期，用于排序
-    private LocalDateTime createTime;
+    //创建时间
+    @TableField("create_at")
+    private Date createdAt;
+
+    //更新时间
+    @TableField("updated_at")
+    private Date updatedAt;
+
+    //附件列表
+    @TableField("files")
+    private String files;
 }

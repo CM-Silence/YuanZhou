@@ -1,11 +1,7 @@
 package com.example.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.JWTUtils;
-import com.example.common.Result;
-import com.example.entity.News;
 import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
 import com.example.service.NewsService;
@@ -114,28 +110,6 @@ public class UserController {
             errorResponse.put("code", 400);
             return errorResponse;
         }
-    }
-
-    @GetMapping("/news/page")
-    public Result<Page> page(int page, int pageSize, String title){
-        log.info("page = {}, pageSize = {}, name = {}", page, pageSize, title);
-
-        //构造分页构造器
-        Page<News> pageInfo = new Page<>(page, pageSize);
-
-        //构造条件构造器
-        LambdaQueryWrapper<News> queryWrapper = new LambdaQueryWrapper<>();
-
-        //添加模糊查询，使用like进行模糊查询
-        queryWrapper.like(title != null, News::getTitle, title);
-
-        //添加排序条件
-        queryWrapper.orderByDesc(News::getCreateTime);
-
-        //执行分页查询
-        newsService.page(pageInfo,queryWrapper);
-
-        return Result.success(pageInfo);
     }
 
 

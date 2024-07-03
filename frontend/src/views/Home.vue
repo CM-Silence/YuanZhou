@@ -31,7 +31,7 @@
             </el-text>
 
             <el-menu-item
-                v-if="state.user.permission < 3"
+                v-if="state.user?.permission < 3"
                 v-for="item in userHeadMenuItemList"
                 :index="item.path"
             >
@@ -42,7 +42,7 @@
             </el-menu-item>
 
             <el-menu-item
-                v-if="state.user.permission >= 3"
+                v-if="state.user?.permission >= 3"
                 v-for="item in adminHeadMenuItemList"
                 :index="item.path"
             >

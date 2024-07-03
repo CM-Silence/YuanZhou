@@ -9,4 +9,8 @@
         SELECT * FROM news
     </select>
 
+    <select id="selectList" resultType="com.example.entity.User">
+        SELECT * FROM user
+    </select>
+
 </mapper>

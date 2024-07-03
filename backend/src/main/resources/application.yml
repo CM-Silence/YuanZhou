@@ -8,13 +8,12 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/yuan_zhou?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-  devtools:
-    add-properties: true
-    restart:
-      additional-paths: src/main/java
-#配置Mybatis和xml映射
-mybatis:
-  # sql映射文件地址
-  mapper-locations: classpath:mapper/*.xml
-  #别名
-  type-aliases-package: com.example.entity
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto #数据库id自增
+  configuration:
+    map-underscore-to-camel-case: false  # 开启驼峰命名
+    auto-mapping-behavior: full # 自动映射任何复杂结果
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/com/example/mapper/*.xml

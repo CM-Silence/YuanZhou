@@ -5,19 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "course")
 public class Course {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //课程id，自增
     private Integer courseId;
 
@@ -37,7 +32,5 @@ public class Course {
     private Date endTime;
 
     //外键，引用user表uid，课程负责人
-    @ManyToOne
-    @JoinColumn(name = "courseLeaderId")
     private User courseLeaderId;
 }

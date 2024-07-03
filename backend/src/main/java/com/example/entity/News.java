@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +25,10 @@ public class News implements Serializable {
     //数据库内置索引
     @TableField("id")
     private Integer id;
+
+    //标题
+    @TableField("title")
+    private String title;
 
     //浏览量
     @TableField("view_amount")
@@ -56,7 +62,8 @@ public class News implements Serializable {
     @TableField("updated_at")
     private Date updatedAt;
 
-    //附件列表
     @TableField("files")
-    private String files;
+    private List<Files> files = new ArrayList<>();
+
 }
+

@@ -31,7 +31,19 @@
             </el-text>
 
             <el-menu-item
+                v-if="state.user?.permission < 3"
                 v-for="item in userHeadMenuItemList"
+                :index="item.path"
+            >
+              <el-icon v-if="item.isHomePage">
+                <home-filled />
+              </el-icon>
+              {{item.label}}
+            </el-menu-item>
+
+            <el-menu-item
+                v-if="state.user?.permission >= 3"
+                v-for="item in adminHeadMenuItemList"
                 :index="item.path"
             >
               <el-icon v-if="item.isHomePage">
@@ -81,7 +93,7 @@
 import {h, onMounted, reactive} from 'vue'
 import router from "@/router/index.js";
 import {HomeFilled, User} from "@element-plus/icons-vue";
-import {ElMessageBox} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 //import {axiosGet} from "@/utils/axiosUtil.js";
 
 onMounted(initialize)
@@ -94,6 +106,15 @@ const userHeadMenuItemList = [
   {label: '实验室', path: '/home/labs'},
   {label: '共享开发', path: '/home/shared'},
   {label: '用户中心', path: '/home/userCenter'},
+]
+
+const adminHeadMenuItemList = [
+  {label: '数据预览', path: '/home/homePage'},
+  {label: '综合管理', path: '/home/news'},
+  {label: '系统信息', path: '/home/res'},
+  {label: '资源管理', path: '/home/training'},
+  {label: '实训管理', path: '/home/labs'},
+  {label: '监控管理', path: '/home/shared'},
 ]
 
 const state = reactive({
@@ -151,15 +172,15 @@ const pageChange = (key = '') => {
 //初始化
 async function initialize(){
   pageChange()
-  // const userJson = localStorage.getItem("user") || '';
-  // if(!userJson){
-  //   ElMessage.error("用户信息获取失败，请重新登录！")
-  //   await router.push('/')
-  // }
-  // else{
-  //   state.user = JSON.parse(userJson)
-  //   console.log("user", state.user)
-  // }
+  const userJson = localStorage.getItem("user") || '';
+  if(!userJson){
+    ElMessage.error("用户信息获取失败，请重新登录！")
+    await router.push('/')
+  }
+  else{
+    state.user = JSON.parse(userJson)
+    console.log("user", state.user)
+  }
   // const result = await axiosGet({url: '/auth', name: 'auth'})
   // if(!result){
   //   await router.push('/')

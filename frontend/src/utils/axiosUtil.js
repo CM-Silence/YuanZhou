@@ -102,7 +102,7 @@ export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost', is
         data = jsonToFormData(data)
     }
     let result = false
-    await axios.post(`${url}`, data, {
+    await axios.post(`/api${url}`, data, {
         headers: {...defaultHeaders, ...headers},
     })
     .then( message => {

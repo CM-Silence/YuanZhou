@@ -36,16 +36,12 @@ onMounted(init)
 
 //侧边菜单内容
 const sideMenu = [
-  {name: 'Information', label: "新闻资讯", path: "/home/news/information", icon: "User"},
-  {name: 'Notices', label: "公告通知", path: "/home/news/notices", icon: "OfficeBuilding"},
+  {name: 'Information', label: "新闻资讯", path: "/home/news/information", icon: "Tickets"},
+  {name: 'Notices', label: "公告通知", path: "/home/news/notices", icon: "Bell"},
 ];
 
 //初始tab内容
-const defaultTab = {
-  name: 'UserManagement',
-  label: '用户管理',
-  path: '/home/setting/userManagement',
-}
+const defaultTab = {name: 'Information', label: "新闻资讯", path: "/home/news/information"}
 
 let myTab = ref(null);
 

@@ -20,7 +20,7 @@
 
 <script setup>
 
-import {router} from "@/router/index.js";
+import router from "@/router/index.js";
 import {ref, watch} from "vue";
 import {objectToUrl} from "@/utils/objectUtil.js"
 

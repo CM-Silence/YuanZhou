@@ -4,19 +4,5 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace命名空间: 要和mapper持久层层的接口全限定名相同-->
 <mapper namespace="com.example.mapper.NewsMapper">
-    <update id="countNewsListByParams">
-        SELECT COUNT(*) FROM news
-    </update>
-
-    <select id="selectAll" resultType="com.example.entity.News">
-        SELECT * FROM news
-    </select>
-    <select id="selectNewsListParams" resultType="com.example.entity.News">
-        SELECT * FROM news n LEFT JOIN files f on n.id = f.id
-    </select>
-
-    <select id="selectList" resultType="com.example.entity.User">
-        SELECT * FROM user
-    </select>
 
 </mapper>

@@ -100,12 +100,12 @@ onMounted(initialize)
 
 const userHeadMenuItemList = [
   {label: '首页', path: '/home/homePage', isHomePage: true},
-  {label: '新闻公告', path: '/home/news'},
-  {label: '资源中心', path: '/home/res'},
+  {label: '新闻公告', path: '/home/news/information'},
+  {label: '资源中心', path: '/home/res/audio'},
   {label: '实训中心', path: '/home/training'},
   {label: '实验室', path: '/home/labs'},
-  {label: '共享开发', path: '/home/shared'},
-  {label: '用户中心', path: '/home/userCenter'},
+  {label: '共享开发', path: '/home/shared/sharedLab'},
+  {label: '用户中心', path: '/home/userCenter/myInfo'},
 ]
 
 const adminHeadMenuItemList = [

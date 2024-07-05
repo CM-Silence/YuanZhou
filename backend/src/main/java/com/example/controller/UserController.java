@@ -4,7 +4,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.common.JWTUtils;
 import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
-import com.example.service.NewsService;
 import com.example.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +26,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private NewsService newsService;
 
 
     /**

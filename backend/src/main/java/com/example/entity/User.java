@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -66,8 +67,8 @@ public class User implements Serializable {
     private Integer permission;
 
     //创建时间
-    @TableField("create_time")
-    private LocalDateTime createTime;
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    private LocalDateTime createdTime;
 
     //最后登录时间
     @TableField("login_time")

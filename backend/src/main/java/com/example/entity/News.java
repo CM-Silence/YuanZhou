@@ -6,64 +6,48 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @TableName("news")
-public class News implements Serializable {
+public class News {
+    @TableField("img")
+    private String img;
 
-
-    //标识+8位唯一索引(主键)
-    @TableField("mid")
-    private String mid;
-
-    //数据库内置索引
-    @TableField("id")
-    private Integer id;
-
-    //标题
     @TableField("title")
     private String title;
 
-    //浏览量
-    @TableField("view_amount")
-    private Integer viewAmount;
+    @TableField("audited_time")
+    private LocalDateTime auditedTime;
 
-    //消息来源
     @TableField("src")
     private String src;
 
-    //编辑者
     @TableField("editor")
     private String editor;
 
-    //消息内容
+    @TableField("view_amount")
+    private Integer viewAmount;
+
     @TableField("content")
     private String content;
 
-    //类型（0：资讯，1：公告）
     @TableField("type")
     private Integer type;
 
-    //审核通过时间
-    @TableField("audited_time")
-    private Date auditedTime;
+    @TableField("created_at")
+    private LocalDateTime createdAt;
 
-    //创建时间
-    @TableField("create_at")
-    private Date createdAt;
-
-    //更新时间
     @TableField("updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
-    @TableField("files")
-    private List<Files> files = new ArrayList<>();
+    @TableField("mid")
+    private String mid;
+
+    @TableField("id")
+    private Integer id;
+
 
 }
-

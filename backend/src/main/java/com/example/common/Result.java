@@ -3,10 +3,6 @@ package com.example.common;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 通用返回结果类，服务端响应的数据最终都会封装成此对象
  * @param <T>
@@ -22,12 +18,18 @@ public class Result<T> {
 
     private T data; //数据
 
-    private Map map = new HashMap(); //动态数据
-
-    public static <T> Result<T> success(T object) {
+    public static <T> Result<T> success1(T object, String msg) {
         Result<T> r = new Result<T>();
+        r.msg = msg;
+        r.code = 200;
         r.data = object;
-        r.code = 1;
+        return r;
+    }
+
+    public static <T> Result<T> success2(String msg) {
+        Result<T> r = new Result<T>();
+        r.msg = msg;
+        r.code = 200;
         return r;
     }
 
@@ -39,7 +41,6 @@ public class Result<T> {
     }
 
     public Result<T> add(String key, Object value) {
-        this.map.put(key, value);
         return this;
     }
 

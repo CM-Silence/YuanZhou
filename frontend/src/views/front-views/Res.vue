@@ -5,7 +5,6 @@
         width="collapse"
     >
       <SideBar
-          class="side-menu"
           :menu-list="sideMenu"
           @selectMenu="handleSelect"
       >
@@ -57,10 +56,6 @@ function handleSelect(menu){
 </script>
 
 <style scoped>
-.side-menu {
-  height: 100%;
-  border: 0 !important;
-}
 .main-container{
   padding: 5px;
 }

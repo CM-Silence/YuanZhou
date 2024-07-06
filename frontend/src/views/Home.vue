@@ -205,10 +205,11 @@ async function initialize(){
   display: flex;
   padding: 0;
   max-width: 100%;
-  background-color: #f6f6f6;
+  background-color: #fdfdfd;
 }
 .head-menu {
   width: 100%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   border: 0 !important;
 }
 .main-logo {

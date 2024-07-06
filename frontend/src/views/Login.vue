@@ -5,7 +5,7 @@
         <img class="logo" src="@/assets/logo.png"  alt="圆舟，启动！"/>
         <div class="name">
           <div class="title">CirArk</div>
-          <div class="tips">圆舟在线教育平台</div>
+          <div class="tips">虚拟仿真教育平台</div>
         </div>
       </div>
       <el-form label-position="top"

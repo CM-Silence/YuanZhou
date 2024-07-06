@@ -1,7 +1,6 @@
 package com.example.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +12,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("news")
 public class News {
+
     @TableField("img")
     private String img;
 
     @TableField("title")
     private String title;
 
-    @TableField("audited_time")
+    @TableField(value = "audited_time",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime auditedTime;
 
     @TableField("src")
@@ -37,17 +37,16 @@ public class News {
     @TableField("type")
     private Integer type;
 
-    @TableField("created_at")
-    private LocalDateTime createdAt;
+    @TableField(value = "created_at",fill = FieldFill.INSERT)
+    private LocalDateTime createdTime;
 
-    @TableField("updated_at")
-    private LocalDateTime updatedAt;
+    @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
-    @TableField("mid")
-    private String mid;
-
-    @TableField("id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @TableField("mid")
+    private Integer mid;
 
 }

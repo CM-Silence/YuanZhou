@@ -8,10 +8,10 @@ import com.example.service.ResourcesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
 @RestController
 @RequestMapping("/api/res")
 @Slf4j
@@ -37,11 +37,14 @@ public class ResourcesController {
                                         @RequestParam(required = false) String start_time,
                                         @RequestParam(required = false) String end_time){
 
+
         //将string类型的时间转化为LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+
         LocalDateTime startTime = null;
         LocalDateTime endTime = null;
+
 
         if (start_time != null && !start_time.isEmpty()){
             try{
@@ -105,7 +108,12 @@ public class ResourcesController {
      */
     @DeleteMapping("/delete")
     public Result<String> delete(String rid) {
-        resourcesService.removeById(rid);
+        if (rid == null){
+            return Result.error("delete error");
+        } else {
+
+            resourcesService.removeById(rid);
+        }
         return Result.success2("delete success");
     }
 

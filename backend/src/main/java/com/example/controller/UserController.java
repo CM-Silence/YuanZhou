@@ -12,13 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-//告诉SpringBoot当前类是一个控制器，可以接收前端请求。交给Spring容器管理
-@SuppressWarnings("{all}")
 @RestController //默认返回时会经过视图解析器
 @RequestMapping("/api/user")
 @Slf4j
-@CrossOrigin
 public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -34,7 +30,7 @@ public class UserController {
      * @return token
      */
     @PostMapping("/login")
-    public Map<String, Object> login(User user){
+    public Map<String, Object> login(@RequestBody User user){
         log.info("用户名：[{}]", user.getUsername());
         log.info("密码：[{}]", user.getPassword());
 
@@ -42,7 +38,7 @@ public class UserController {
             try {
                 User userDB = userServiceImpl.login(user);
                 if (userDB != null){ Map<String, String> payload = new HashMap<>();
-                    payload.put("id", userDB.getUid());
+                    payload.put("id", String.valueOf(userDB.getUid()));
                     payload.put("username", userDB.getUsername());
                     //生成jwt令牌
                     String token = JWTUtils.getToken(payload);

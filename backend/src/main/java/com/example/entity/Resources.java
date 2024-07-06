@@ -1,19 +1,18 @@
 package com.example.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("resources")
+@Setter
 public class Resources {
 
     @TableField("img")
@@ -49,10 +48,10 @@ public class Resources {
     @TableField(value = "created_at",fill = FieldFill.INSERT)
     private LocalDateTime createdTime;
 
-    @TableField(value = "update_at",fill = FieldFill.INSERT)
+    @TableField(value = "update_at",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @TableField("rid")
+    @TableId(value = "rid", type = IdType.AUTO)
     private Integer rid;
 
 }

@@ -26,7 +26,7 @@
               />
             </a>
             <el-text size="large" style="color: #333333; margin-right: 10px; white-space: nowrap">
-              圆舟在线教育平台
+              虚拟仿真教育平台
             </el-text>
 
             <el-menu-item

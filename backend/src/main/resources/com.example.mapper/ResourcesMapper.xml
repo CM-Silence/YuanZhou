@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--namespace命名空间: 要和mapper持久层层的接口全限定名相同-->
-<mapper namespace="com.example.mapper.NewsMapper">
+<mapper namespace="com.example.mapper.ResourcesMapper">
 
 </mapper>

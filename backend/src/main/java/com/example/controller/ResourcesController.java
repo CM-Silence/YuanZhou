@@ -2,12 +2,17 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.common.FileUploadUtil;
+import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
 import com.example.entity.Resources;
 import com.example.service.ResourcesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -123,8 +128,12 @@ public class ResourcesController {
      * @return 成功信息
      */
     @PostMapping("/add")
-    public Result<String> add (Resources resources){
+    public Result<String> add (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile files) throws IOException {
         log.info(resources.toString());
+        String uploadImage = ImageUploadUtil.uploadImage(img);
+        String uploadFile = FileUploadUtil.uploadFile(files);
+        resources.setImg1(uploadImage);
+        resources.setFiles1(uploadFile);
 
         resourcesService.save(resources);
         return Result.success2("新增资源成功");

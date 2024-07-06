@@ -20,8 +20,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info(metaObject.toString());
         metaObject.setValue("createdTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("auditedTime",LocalDateTime.now());
-        metaObject.setValue("loginTime",LocalDateTime.now());
     }
 
     /**
@@ -34,7 +32,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info(metaObject.toString());
 
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("auditedTime",LocalDateTime.now());
         metaObject.setValue("loginTime",LocalDateTime.now());
     }
 }

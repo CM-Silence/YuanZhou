@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
-
     private UserMapper userMapper;
+
         @Override
         @Transactional(propagation = Propagation.SUPPORTS)
         public User login(User user) {

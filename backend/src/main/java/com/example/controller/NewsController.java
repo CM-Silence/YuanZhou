@@ -8,11 +8,9 @@ import com.example.service.NewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
 @RestController
 @RequestMapping("/api/news")
 @Slf4j
@@ -71,8 +69,8 @@ public class NewsController {
 
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, News::getTitle, name);
-        queryWrapper.gt(startTime != null,News::getCreatedAt, startTime);
-        queryWrapper.lt(endTime != null,News::getCreatedAt, endTime);
+        queryWrapper.gt(startTime != null,News::getCreatedTime, startTime);
+        queryWrapper.lt(endTime != null,News::getCreatedTime, endTime);
         //添加对type的筛选条件
         if(type != null)
         { switch (type) {
@@ -113,7 +111,11 @@ public class NewsController {
      */
     @DeleteMapping("/delete")
     public Result<String> delete(String id) {
-        newsService.removeById(id);
+        if (id == null){
+            return Result.error("delete error");
+        } else {
+            newsService.removeById(id);
+        }
         return Result.success2("delete success");
     }
 

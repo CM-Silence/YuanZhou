@@ -1,25 +1,20 @@
 package com.example.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.*;
-
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @TableName("user")
-public class User implements Serializable {
-    private final static Long Serializable = 1L;
+public class User {
 
     //uid(学校编号、或者个人编号)
-    @TableField("uid")
-    private String uid;
+    @TableId(value = "uid", type = IdType.AUTO)
+    private Integer uid;
 
     //学生姓名/教师姓名/社会人士姓名
     @TableField("name")
@@ -38,7 +33,7 @@ public class User implements Serializable {
     private String phone;
 
     //邮箱
-    @TableField("phone")
+    @TableField("email")
     private String email;
 
     //班级(学生用）
@@ -57,20 +52,19 @@ public class User implements Serializable {
     @TableField("unit")
     private String unit;
 
+    //创建时间
+    @TableField(value = "created_time",fill = FieldFill.INSERT)
+    private LocalDateTime createdTime;
+
+    //最后登录时间
+    @TableField(value = "login_time",fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime loginTime;
+
     //token
     @TableField("token")
     private String token;
 
-    //status 状态，也就是权限，不同数字有不同的权限含义
     //0 社会人士，1 学生， 2 教师， 3 管理员
     @TableField("permission")
     private Integer permission;
-
-    //创建时间
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
-    private LocalDateTime createdTime;
-
-    //最后登录时间
-    @TableField("login_time")
-    private Date loginTime;
 }

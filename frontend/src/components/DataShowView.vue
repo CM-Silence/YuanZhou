@@ -20,6 +20,18 @@
 
   </el-main>
 
+  <el-footer
+      style="margin-top: 15px"
+  >
+    <el-pagination
+        v-model:current-page="state.currentPage"
+        :page-count="state.pageCount"
+        background
+        layout="prev, pager, next, jumper"
+        @current-change="update(state.currentPage)"
+    />
+  </el-footer>
+
 </el-container>
 </template>
 
@@ -28,6 +40,7 @@ import DataShowViewHeader from "@/components/DataShowViewHeader.vue";
 import ResCard from "@/components/resCard.vue";
 import {onMounted, reactive, ref} from "vue";
 import {axiosGet} from "@/utils/axiosUtil";
+import router from "@/router";
 
 //页面元素数量
 const PAGE_SIZE = 12
@@ -35,6 +48,7 @@ const PAGE_SIZE = 12
 const state = reactive({
   isLoading: false,
   current_page: 1,
+  pageCount: 1,
   searchCondition: {
     keyWord: '',
     start_time: '',
@@ -175,10 +189,15 @@ const prop = defineProps({
     default: () => {},
     description: '请求时附带的参数'
   },
+  keyData: {
+    type: String,
+    default: () => '',
+    description: '数据主键'
+  },
 })
 
 //对外事件列表
-const emit = defineEmits(["addTab", "removeTab"]);
+const emit = defineEmits(["clickCard"]);
 
 const refresh = () => {
   console.log("refresh")
@@ -205,9 +224,11 @@ async function update(currentPage) {
   //后端分页
   state.isLoading = true
   const defaultParams = {
-    page: currentPage,
-    page_size: PAGE_SIZE,
-    keyword: state.searchWord
+    ...{
+      page: currentPage,
+      page_size: PAGE_SIZE,
+    },
+    ...state.searchCondition
   }
   state.currentDataArray = await getData(prop.urls['getData'], {...defaultParams, ...prop.extraParams}, `getData-page${currentPage}`)
   //判断数据更新后当前页数是否大于总页数
@@ -226,6 +247,7 @@ async function update(currentPage) {
 const getData = async (url, params = {}, name = 'getData') => {
   const result = await axiosGet({url: url, params: params, name: name})
   if (result && result.data && result.data.rows) {
+    state.pageCount = Math.max(result.data['total_pages'], 1)
     return result.data.rows
   }
   else{
@@ -235,7 +257,8 @@ const getData = async (url, params = {}, name = 'getData') => {
 
 const cardClick = (res) => {
   console.log("cardClick", res)
-  emit("addTab", res)
+  localStorage.setItem(res[prop.keyData], res)
+  emit("clickCard", res.title, `/home/res/resShowView?resId=${res[prop.keyData]}`)
 }
 
 onMounted(() => {
@@ -250,6 +273,7 @@ onMounted(() => {
   flex-wrap: wrap; /* 允许容器内子元素换行 */
   justify-content: flex-start; /* 水平分布，两端对齐 */
   width: 100%;
+  min-height: 60vh;
   padding: 5px;
 }
 </style>

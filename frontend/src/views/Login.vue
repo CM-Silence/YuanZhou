@@ -40,7 +40,7 @@
           <br>
           <el-checkbox v-model="state.remember" @change="!state.remember">记住密码</el-checkbox>
           <el-button type="primary" text style="margin-left: 130px" @click="state.settingFormVisible = true">一键注册</el-button>
-          <el-button color="#d9c98b" style="width: 100%; margin-top: 20px" type="primary" @click="submitForm(loginForm)" :loading="state.loading" round>
+          <el-button style="width: 100%; margin-top: 20px" type="primary" @click="submitForm(loginForm)" :loading="state.loading" round>
             <el-text style="color: white">登录</el-text>
           </el-button>
         </el-form-item>
@@ -192,6 +192,7 @@ const submitForm = async (form) => {
   console.log(form)
   form.validate(async (valid) => {
     if (valid) {
+      state.loading = true
       const data = {
         username: state.ruleForm.username,
         password: state.ruleForm.password
@@ -267,7 +268,7 @@ const submitForm = async (form) => {
 }
 .head .title {
   font-size: 28px;
-  color: #d9c98b;
+  color: #409eff;
   font-weight: bold;
 }
 .head .tips {

@@ -7,9 +7,20 @@
   >
     <el-tab-pane
         v-for="item in tabList"
-        :label="item.label"
         :name="item.path"
-    />
+
+    >
+      <template #label>
+        <div class="label-div">
+          <el-text
+              class="label-text"
+              truncated
+          >
+            {{item.label}}
+          </el-text>
+        </div>
+      </template>
+    </el-tab-pane>
   </el-tabs>
   <router-view v-slot="{ Component }">
     <keep-alive :include="cachedViews">
@@ -103,5 +114,12 @@ function removeTab(currentTab){
 </script>
 
 <style scoped>
-
+.label-div{
+  max-width: 100px;
+}
+.label-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>

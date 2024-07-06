@@ -80,7 +80,7 @@ const prop = defineProps({
   flex-direction: column;
   justify-content: flex-start; /* 子元素在父容器中垂直分布 */
   width: 240px;
-  height: 210px;
+  height: 220px;
   margin: 0 12px 5px 12px;
   cursor: pointer;
 }

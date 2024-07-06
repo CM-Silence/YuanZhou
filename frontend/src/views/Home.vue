@@ -15,8 +15,7 @@
               class="head-menu"
               mode="horizontal"
               @select="handleSelect"
-              background-color="#ffffe0"
-              text-color="#333333"
+              text-color="#000"
           >
             <!--左侧头部-->
             <a href="https://ys.mihoyo.com/" title="进入官网" target="_blank">
@@ -206,6 +205,7 @@ async function initialize(){
   display: flex;
   padding: 0;
   max-width: 100%;
+  background-color: #f6f6f6;
 }
 .head-menu {
   width: 100%;

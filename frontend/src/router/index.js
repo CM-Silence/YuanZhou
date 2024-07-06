@@ -15,6 +15,7 @@ import Audio from "@/views/front-views/res/Audio.vue";
 import Doc from "@/views/front-views/res/Doc.vue";
 import Video from "@/views/front-views/res/Video.vue";
 import Virtual from "@/views/front-views/res/Virtual.vue";
+import ResShowView from "@/views/front-views/res/resShowView.vue";
 
 import Shared from "@/views/front-views/Shared.vue";
 import SharedLab from "@/views/front-views/shared/SharedLab.vue";
@@ -47,6 +48,7 @@ const routes = [
           {path: 'notices', name: 'Notices', component: Notices},
         ]},
       {path: 'res', name: 'Res', component: Res, children:[
+          {path: 'resShowView', name: 'ResShowView', component: ResShowView},
           {path: 'audio', name: 'Audio', component: Audio},
           {path: 'doc', name: 'Doc', component: Doc},
           {path: 'video', name: 'Video', component: Video},

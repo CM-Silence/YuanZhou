@@ -15,6 +15,7 @@ import java.util.Map;
 @RestController //默认返回时会经过视图解析器
 @RequestMapping("/api/user")
 @Slf4j
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
@@ -30,7 +31,7 @@ public class UserController {
      * @return token
      */
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody User user){
+    public Map<String, Object> login(@ModelAttribute User user){
         log.info("用户名：[{}]", user.getUsername());
         log.info("密码：[{}]", user.getPassword());
 

@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @TableName("user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     //uid(学校编号、或者个人编号)
-    @TableId(value = "uid", type = IdType.AUTO)
+    @TableId("uid")
     private Integer uid;
 
     //学生姓名/教师姓名/社会人士姓名

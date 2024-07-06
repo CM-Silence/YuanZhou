@@ -23,7 +23,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             if (user!=null){
                 return userDB;
             }
-            throw  new RuntimeException("登录失败 -.-");
+            throw new RuntimeException("登录失败 -.-");
         }
 
     @Override

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class News {
 
     @TableField("img")
-    private String img;
+    private String img1;
 
     @TableField("title")
     private String title;
@@ -35,7 +35,7 @@ public class News {
     private String content;
 
     @TableField("files")
-    private String files;
+    private String files1;
 
     @TableField("type")
     private Integer type;

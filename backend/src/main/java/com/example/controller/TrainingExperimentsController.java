@@ -6,7 +6,6 @@ import com.example.common.FileInfoExtractor;
 import com.example.common.FileUploadUtil;
 import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
-import com.example.entity.Resources;
 import com.example.entity.TrainingExperiments;
 import com.example.service.TrainingExperimentsService;
 import lombok.extern.slf4j.Slf4j;
@@ -95,20 +94,23 @@ public class TrainingExperimentsController {
     @PostMapping("/add")
     public Result<String> add (TrainingExperiments trainingExperiments, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(trainingExperiments.toString());
+        if(img != null) {
+            //将img文件转化为url，并将图片存入本地
+            String uploadImage = ImageUploadUtil.uploadImage(img);
+            //将url存入数据库
+            trainingExperiments.setImg1(uploadImage);
+        }
 
-        //将img文件转化为url，并将图片存入本地
-        String uploadImage = ImageUploadUtil.uploadImage(img);
+        if(files != null) {
+            //将附件files转化为url，并将图片存入本地
+            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
 
-        //将附件files转化为url，并将图片存入本地
-        String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+            //将files的url转化为json格式
+            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
 
-        //将url转化为json格式
-        String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
-
-        //将url存入数据库
-        trainingExperiments.setImg1(uploadImage);
-        trainingExperiments.setFiles1(uploadFile1);
-
+            //将url存入数据库
+            trainingExperiments.setFiles1(uploadFile1);
+        }
         //引用IService当中的save方法保存其他数据
         trainingExperimentsService.save(trainingExperiments);
         return Result.success2("新增资源成功");
@@ -127,9 +129,26 @@ public class TrainingExperimentsController {
     }
 
     @PutMapping("edit")
-    public Result<String> edit(TrainingExperiments trainingExperiments){
+    public Result<String> edit (TrainingExperiments trainingExperiments, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(trainingExperiments.toString());
+        if(img != null) {
+            //将img文件转化为url，并将图片存入本地
+            String uploadImage = ImageUploadUtil.uploadImage(img);
+            //将url存入数据库
+            trainingExperiments.setImg1(uploadImage);
+        }
 
+        if(files != null) {
+            //将附件files转化为url，并将图片存入本地
+            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+
+            //将files的url转化为json格式
+            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+
+            //将url存入数据库
+            trainingExperiments.setFiles1(uploadFile1);
+
+        }
         trainingExperimentsService.updateById(trainingExperiments);
         return Result.success2("修改成功");
     }

@@ -2,12 +2,18 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.common.FileInfoExtractor;
+import com.example.common.FileUploadUtil;
+import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
 import com.example.entity.News;
 import com.example.service.NewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -69,8 +75,8 @@ public class NewsController {
 
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, News::getTitle, name);
-        queryWrapper.gt(startTime != null,News::getCreatedTime, startTime);
-        queryWrapper.lt(endTime != null,News::getCreatedTime, endTime);
+        queryWrapper.gt(startTime != null,News::getCreate_at, startTime);
+        queryWrapper.lt(endTime != null,News::getCreate_at, endTime);
         //添加对type的筛选条件
         if(type != null)
         { switch (type) {
@@ -97,9 +103,22 @@ public class NewsController {
      * @return 成功信息
      */
     @PostMapping("/add")
-    public Result<String> add (News news){
+    public Result<String> add (News news, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(news.toString());
+        //将img文件转化为url，并将图片存入本地
+        String uploadImage = ImageUploadUtil.uploadImage(img);
 
+        //将附件files转化为url，并将图片存入本地
+        String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+
+        //将url转化为json格式
+        String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+
+        //将url存入数据库
+        news.setImg(uploadImage);
+        news.setFiles(uploadFile1);
+
+        //引用IService当中的save方法保存其他数据
         newsService.save(news);
         return Result.success2("新增资源成功");
     }

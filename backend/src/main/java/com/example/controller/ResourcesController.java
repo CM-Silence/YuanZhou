@@ -79,8 +79,8 @@ public class ResourcesController {
 
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, Resources::getTitle, name);
-        queryWrapper.gt(startTime != null,Resources::getCreatedTime, startTime);
-        queryWrapper.lt(endTime != null,Resources::getCreatedTime, endTime);
+        queryWrapper.gt(startTime != null,Resources::getCreate_at, startTime);
+        queryWrapper.lt(endTime != null,Resources::getCreate_at, endTime);
         //添加对type的筛选条件
         if(type != null)
             { switch (type) {
@@ -104,6 +104,7 @@ public class ResourcesController {
         //执行分页查询
         resourcesService.page(pageInfo, queryWrapper);
 
+        //返回数据
         return Result.success1(pageInfo, "get message success");
     }
 
@@ -131,12 +132,21 @@ public class ResourcesController {
     @PostMapping("/add")
     public Result<String> add (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(resources.toString());
+
+        //将img文件转化为url，并将图片存入本地
         String uploadImage = ImageUploadUtil.uploadImage(img);
+
+        //将附件files转化为url，并将图片存入本地
         String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+
+        //将url转化为json格式
         String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+
+        //将url存入数据库
         resources.setImg1(uploadImage);
         resources.setFiles1(uploadFile1);
 
+        //引用IService当中的save方法保存其他数据
         resourcesService.save(resources);
         return Result.success2("新增资源成功");
     }

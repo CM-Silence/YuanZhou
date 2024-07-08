@@ -38,27 +38,27 @@ public class User {
 
     //班级(学生用）
     @TableField("class_name")
-    private String className;
+    private String class_name;
 
     //职业类型(社会人士注册用）
     @TableField("occupational_type")
-    private String occupationalType;
+    private String occupational_type;
 
     //单位类型(社会人士注册用）
     @TableField("unit_type")
-    private String unitType;
+    private String unit_type;
 
     //所在单位(社会人士注册用）
     @TableField("unit")
     private String unit;
 
     //创建时间
-    @TableField(value = "created_time",fill = FieldFill.INSERT)
-    private LocalDateTime createdTime;
+    @TableField(value = "create_at",fill = FieldFill.INSERT)
+    private LocalDateTime created_at;
 
     //最后登录时间
-    @TableField(value = "login_time",fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime loginTime;
+    @TableField(value = "login_at",fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime login_at;
 
     //token
     @TableField("token")

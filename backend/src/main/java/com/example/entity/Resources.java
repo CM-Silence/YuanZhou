@@ -27,13 +27,13 @@ public class Resources {
     private String administrator;
 
     @TableField("view_amount")
-    private Integer viewAmount;
+    private Integer view_amount;
 
     @TableField("like_amount")
-    private Integer likeAmount;
+    private Integer like_amount;
 
     @TableField("collect_amount")
-    private Integer collectAmount;
+    private Integer collect_amount;
 
     @TableField("content")
     private String content;
@@ -44,11 +44,11 @@ public class Resources {
     @TableField("type")
     private Integer type;
 
-    @TableField(value = "created_at",fill = FieldFill.INSERT)
-    private LocalDateTime createdTime;
+    @TableField(value = "create_at",fill = FieldFill.INSERT)
+    private LocalDateTime create_at;
 
     @TableField(value = "update_at",fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime update_at;
 
     @TableId(value = "rid", type = IdType.AUTO)
     private Integer rid;

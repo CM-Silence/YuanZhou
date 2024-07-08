@@ -3,6 +3,7 @@ import {ref} from "vue";
 
 //用户
 export const CURRENT_USER = ref(getUser())
+export const CURRENT_PAGE = ref(getCurrentPage())
 
 export function getUser(){
     const userJson = localStorage.getItem("user") || '';
@@ -39,4 +40,22 @@ export function getUserPermission(){
     else{
         return user.permission
     }
+}
+
+export function getCurrentPage(){
+    const CURRENT_PATH = window.location.hash  // 获取当前路径，例如 "#/page/subpage"
+    const pageList = CURRENT_PATH.split(/[#?]/)
+    let index = pageList.length - 1
+    if(CURRENT_PATH.includes('?')){
+        index--
+    }
+    return pageList[index]
+}
+
+export function refreshCurrentPage(){
+    CURRENT_PAGE.value = getCurrentPage()
+}
+
+export function setCurrentPage(path){
+    CURRENT_PAGE.value = path
 }

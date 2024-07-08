@@ -89,4 +89,7 @@ const refresh = () =>{
   width: 300px;
   padding-right: 30px;
 }
+.form-item .el-input{
+  width: 250px;
+}
 </style>

@@ -2,7 +2,7 @@
   <el-container>
     <el-header style="height: auto">
       <div style="margin-top: 10px">
-        <el-carousel trigger="click" height="40vh" type="card" interval="6000" style="width: 100%">
+        <el-carousel trigger="click" height="40vh" type="card" :interval="6000" style="width: 100%">
           <el-carousel-item v-for="item in imgList" :key="item">
             <el-image
               style="width: 100%; height: auto"

@@ -62,6 +62,7 @@
 
 <script setup>
 import router from "@/router";
+import {setCurrentPage} from "@/utils/appManager";
 
 const prop = defineProps({
   url: {
@@ -79,9 +80,10 @@ const showMore = () =>{
   router.push(prop.url)
 }
 
-const clickCard = (item) =>{
+const clickCard = async (item) => {
   localStorage.setItem(item.mid, JSON.stringify(item))
-  router.push(`/home/news/newsShowView?newsId=${item.mid}`)
+  await router.push(`/home/news/newsShowView?newsId=${item.mid}`)
+  setCurrentPage('/home/news/information')
 }
 </script>
 

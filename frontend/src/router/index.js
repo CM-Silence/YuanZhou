@@ -5,6 +5,8 @@ import Home from "@/views/Home.vue";
 import HomePage from "@/views/front-views/HomePage.vue";
 
 import Labs from "@/views/front-views/Labs.vue";
+import AllLabs from "@/views/front-views/labs/AllLabs.vue";
+import LabsShowView from "@/views/front-views/labs/LabsShowView.vue";
 
 import News from "@/views/front-views/News.vue";
 import Information from "@/views/front-views/news/Information.vue";
@@ -23,6 +25,8 @@ import SharedLab from "@/views/front-views/shared/SharedLab.vue";
 import SharedRes from "@/views/front-views/shared/SharedRes.vue";
 
 import Training from "@/views/front-views/Training.vue";
+import TrainingCenter from "@/views/front-views/training/trainingCenter.vue";
+import TrainingShowView from "@/views/front-views/training/TrainingShowView.vue";
 
 import UserCenter from "@/views/front-views/UserCenter.vue";
 import MyCollection from "@/views/front-views/user-center/MyCollection.vue";
@@ -43,7 +47,10 @@ const routes = [
     component: Home,
     children:[
       {path: 'homePage', name: 'HomePage', component: HomePage},
-      {path: 'labs', name: 'Labs', component: Labs},
+      {path: 'labs', name: 'Labs', component: Labs, children: [
+          {path: 'allLabs', name: 'AllLabs', component: AllLabs},
+          {path: 'labsShowView', name: 'LabsShowView', component: LabsShowView},
+        ]},
       {path: 'news', name: 'News', component: News, children:[
           {path: 'information', name: 'Information', component: Information},
           {path: 'notices', name: 'Notices', component: Notices},
@@ -60,7 +67,10 @@ const routes = [
           {path: 'sharedLab', name: 'SharedLab', component: SharedLab},
           {path: 'sharedRes', name: 'SharedRes', component: SharedRes},
         ]},
-      {path: 'training', name: 'Training', component: Training},
+      {path: 'training', name: 'Training', component: Training, children: [
+          {path: 'trainingCenter', name: 'TrainingCenter', component: TrainingCenter},
+          {path: 'trainingShowView', name: 'TrainingShowView', component: TrainingShowView},
+        ]},
       {path: 'userCenter', name: 'UserCenter', component: UserCenter, children:[
           {path: 'myCollection', name: 'MyCollection', component: MyCollection},
           {path: 'myCourse', name: 'MyCourse', component: MyCourse},

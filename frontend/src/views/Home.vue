@@ -11,7 +11,7 @@
           <el-menu
               :router="true"
               :ellipsis="false"
-              :default-active="state.defaultPage"
+              :default-active="defaultPage"
               class="head-menu"
               mode="horizontal"
               @select="handleSelect"
@@ -93,7 +93,7 @@ import {h, onMounted, reactive} from 'vue'
 import router from "@/router/index.js";
 import {HomeFilled, User} from "@element-plus/icons-vue";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {getUser} from "@/utils/appManager";
+import {CURRENT_PAGE, getUser, refreshCurrentPage, setCurrentPage} from "@/utils/appManager";
 //import {axiosGet} from "@/utils/axiosUtil.js";
 
 onMounted(initialize)
@@ -102,8 +102,8 @@ const userHeadMenuItemList = [
   {label: '首页', path: '/home/homePage', isHomePage: true},
   {label: '新闻公告', path: '/home/news/information'},
   {label: '资源中心', path: '/home/res/audio'},
-  {label: '实训中心', path: '/home/training'},
-  {label: '实验室', path: '/home/labs'},
+  {label: '实训中心', path: '/home/training/trainingCenter'},
+  {label: '实验室', path: '/home/labs/allLabs'},
   {label: '共享开发', path: '/home/shared/sharedLab'},
   {label: '用户中心', path: '/home/userCenter/myInfo'},
 ]
@@ -119,10 +119,11 @@ const adminHeadMenuItemList = [
 
 const state = reactive({
   nowMenuActive: '',  //当前首部栏界面
-  defaultPage: '',  //当前路由界面
   headMenuOffset: 0,  //首部菜单锚点偏移量
   user: null,  //用户
 })
+
+const defaultPage = CURRENT_PAGE  //当前路由界面
 
 function help(){
   window.open('https://sr.mihoyo.com/', '_blank');
@@ -140,6 +141,7 @@ async function about(){
       ])
     ]),
     confirmButtonText: '确定',
+    callback: () => {},
   })
 }
 
@@ -156,13 +158,12 @@ const handleSelect = (key) => {
 
 const pageChange = (key = '') => {
   if(key === ''){
-    const CURRENT_PATH = window.location.hash  // 获取当前路径，例如 "#/page/subpage"
-    const pageList = CURRENT_PATH.split('#')
-    state.defaultPage = pageList[pageList.length - 1]
-    state.nowMenuActive = state.defaultPage
+    refreshCurrentPage()
+    state.nowMenuActive = defaultPage.value
   }
   else{
     state.nowMenuActive = key
+    setCurrentPage(key)
   }
   //homePage中的首部菜单固定在首部, 其他界面不固定
   state.headMenuOffset = state.nowMenuActive === '/home/homePage' ? 0 : -65535

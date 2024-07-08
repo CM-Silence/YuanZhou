@@ -93,6 +93,7 @@ import {h, onMounted, reactive} from 'vue'
 import router from "@/router/index.js";
 import {HomeFilled, User} from "@element-plus/icons-vue";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {getUser} from "@/utils/appManager";
 //import {axiosGet} from "@/utils/axiosUtil.js";
 
 onMounted(initialize)
@@ -171,13 +172,13 @@ const pageChange = (key = '') => {
 //初始化
 async function initialize(){
   pageChange()
-  const userJson = localStorage.getItem("user") || '';
-  if(!userJson){
+  const user = getUser()
+  if(!user){
     ElMessage.error("用户信息获取失败，请重新登录！")
     await router.push('/')
   }
   else{
-    state.user = JSON.parse(userJson)
+    state.user = user
     console.log("user", state.user)
   }
   // const result = await axiosGet({url: '/auth', name: 'auth'})

@@ -30,7 +30,8 @@
 import {onMounted, ref} from "vue";
 import SideBar from "@/components/SideBar.vue";
 import MyTab from "@/components/MyTab.vue";
-
+import {useRoute} from "vue-router";
+const route = useRoute();
 onMounted(init)
 
 //侧边菜单内容
@@ -45,7 +46,15 @@ const defaultTab = {name: 'Information', label: "新闻资讯", path: "/home/new
 let myTab = ref(null);
 
 //初始化函数
-function init() {}
+function init() {
+  if(route.query.newsId){
+    const result = localStorage.getItem(route.query.newsId) || ''
+    if(result){
+      const res = JSON.parse(result)
+      myTab.value.addTab('NewsShowView', res.title, `${route.path}?newsId=${route.query.newsId}`)
+    }
+  }
+}
 
 //点击侧边栏菜单
 function handleSelect(menu){

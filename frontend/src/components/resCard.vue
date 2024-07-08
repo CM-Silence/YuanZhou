@@ -63,7 +63,7 @@ import axios from "axios";
 import {Collection, Star, View} from "@element-plus/icons-vue";
 
 //对外事件列表
-const emit = defineEmits(["cardClick"]);
+const emit = defineEmits(["itemClick"]);
 
 const prop = defineProps({
   res: {

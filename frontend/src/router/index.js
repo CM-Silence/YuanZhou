@@ -9,6 +9,7 @@ import Labs from "@/views/front-views/Labs.vue";
 import News from "@/views/front-views/News.vue";
 import Information from "@/views/front-views/news/Information.vue";
 import Notices from "@/views/front-views/news/Notices.vue";
+import NewsShowView from "@/views/front-views/news/NewsShowView.vue";
 
 import Res from "@/views/front-views/Res.vue";
 import Audio from "@/views/front-views/res/Audio.vue";
@@ -46,6 +47,7 @@ const routes = [
       {path: 'news', name: 'News', component: News, children:[
           {path: 'information', name: 'Information', component: Information},
           {path: 'notices', name: 'Notices', component: Notices},
+          {path: 'newsShowView', name: 'NewsShowView', component: NewsShowView},
         ]},
       {path: 'res', name: 'Res', component: Res, children:[
           {path: 'resShowView', name: 'ResShowView', component: ResShowView},

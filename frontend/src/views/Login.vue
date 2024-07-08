@@ -209,7 +209,6 @@ const submitForm = async (form) => {
           // 需要将返回的数据存入Store中
           localStorage.setItem("token", result.data.token)
           localStorage.setItem("user", JSON.stringify(result.data.data))
-          console.log("ss", result.data)
           // 记住账号密码
           if (state.remember) {
             localStorage.setItem("username", state.ruleForm.username)

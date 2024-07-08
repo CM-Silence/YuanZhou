@@ -64,18 +64,28 @@ const resList = ref([
     view_amount: 1284,
     like_amount: 327,
     collect_amount: 243,
-    content: "资源简介1",
+    content: "那些三四五级能效的空调，都不能叫“电费刺客”了，简直是名副其实的“电费屠夫”。 \n" +
+        "为什么这些空调会更费电？而一级能效的空调要更省电呢？今天跟大家聊聊为什么你的房东总是在买三级能效的空调。\n" +
+        "\n" +
+        "【参考资料】\n" +
+        "房东安的5级能效空调，如何成为你的电费刺客 -有数工作室\n" +
+        "如何选择一个节能省电的空调？空调的原理又是什么？ -李永乐老师\n" +
+        "How does the air conditioner work? -Msope\n" +
+        "空调如何改变了世界？ -中国气象报社\n" +
+        "为什么一级能效空调比三级能效贵那么多？ -知乎\n" +
+        "中华人民共和国国家标准 GB21455\n" +
+        "空调的发展史——伟大的发明之一，提高生活舒适度的“神器”  -搜狐",
     files: [
       {
         "name": "附件一",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV14S411N7UT/?spm_id_from=333.1007.tianma.3-3-9.click"
       },
       {
         "name": "附件二",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV12S411c72A/?spm_id_from=333.1007.tianma.3-2-8.click&vd_source=ba5c065b9db579a06dccfed889011b68"
       }
     ],
-    type: 0,
+    type: 1,
     created_at: "2023-02-12 16:03:15",
     updated_at: "2024-02-16 10:06:17",
     rid: "r0000001"
@@ -92,14 +102,14 @@ const resList = ref([
     files: [
       {
         "name": "附件一",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV14S411N7UT/?spm_id_from=333.1007.tianma.3-3-9.click"
       },
       {
         "name": "附件二",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV12S411c72A/?spm_id_from=333.1007.tianma.3-2-8.click&vd_source=ba5c065b9db579a06dccfed889011b68"
       }
     ],
-    type: 0,
+    type: 2,
     created_at: "2023-02-12 16:03:15",
     updated_at: "2024-05-18 18:30:05",
     rid: "r0000002"
@@ -116,14 +126,14 @@ const resList = ref([
     files: [
       {
         "name": "附件一",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV14S411N7UT/?spm_id_from=333.1007.tianma.3-3-9.click"
       },
       {
         "name": "附件二",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV12S411c72A/?spm_id_from=333.1007.tianma.3-2-8.click&vd_source=ba5c065b9db579a06dccfed889011b68"
       }
     ],
-    type: 0,
+    type: 3,
     created_at: "2023-02-12 16:03:15",
     updated_at: "2024-03-19 12:26:10",
     rid: "r0000003"
@@ -140,14 +150,14 @@ const resList = ref([
     files: [
       {
         "name": "附件一",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV14S411N7UT/?spm_id_from=333.1007.tianma.3-3-9.click"
       },
       {
         "name": "附件二",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV12S411c72A/?spm_id_from=333.1007.tianma.3-2-8.click&vd_source=ba5c065b9db579a06dccfed889011b68"
       }
     ],
-    type: 0,
+    type: 4,
     created_at: "2023-02-12 16:03:15",
     updated_at: "2024-02-16 10:06:17",
     rid: "r0000004"
@@ -164,14 +174,14 @@ const resList = ref([
     files: [
       {
         "name": "附件一",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV14S411N7UT/?spm_id_from=333.1007.tianma.3-3-9.click"
       },
       {
         "name": "附件二",
-        "url": ""
+        "url": "https://www.bilibili.com/video/BV12S411c72A/?spm_id_from=333.1007.tianma.3-2-8.click&vd_source=ba5c065b9db579a06dccfed889011b68"
       }
     ],
-    type: 0,
+    type: 2,
     created_at: "2023-02-12 16:03:15",
     updated_at: "2024-05-18 18:30:05",
     rid: "r0000005"
@@ -257,7 +267,7 @@ const getData = async (url, params = {}, name = 'getData') => {
 
 const cardClick = (res) => {
   console.log("cardClick", res)
-  localStorage.setItem(res[prop.keyData], res)
+  localStorage.setItem(res[prop.keyData], JSON.stringify(res))
   emit("clickCard", res.title, `/home/res/resShowView?resId=${res[prop.keyData]}`)
 }
 

@@ -1,42 +1,54 @@
 package com.example.common;
-
+import com.example.entity.FileInfo;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUploadUtil {
 
     private static final String UPLOAD_DIR = "D:\\code\\YuanZhou\\backend\\src\\main\\resources\\static\\files"; // 指定上传目录
 
     /**
-     * 上传图片并保存到本地，同时返回假设的访问URL
+     * 文件传入与转换
      *
-     * @param file 上传的文件
-     * @return 文件的假设访问URL
-     * @throws IOException 如果保存文件时发生错误
+     * @param files 上传文件
+     * @return 文件合集
+     * @throws IOException 1
      */
-    public static String uploadFile(MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("File is empty");
+    public static List<FileInfo> uploadFiles(MultipartFile[] files) throws IOException {
+        List<FileInfo> fileInfos = new ArrayList<>();
+
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("One of the files is empty");
+            }
+
+            String originalFileName = file.getOriginalFilename();
+            String baseName = "附件" + (i + 1);
+            String fileName = baseName + (originalFileName != null && !originalFileName.isEmpty() ? "_" + originalFileName : "");
+            Path targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
+
+            String url = originalFileName; // 默认URL为原始文件名
+
+            if (Files.exists(targetLocation)) {
+                // 如果文件已存在，则修改URL
+                url = fileName + " (existing file, not re-uploaded)";
+            } else {
+                // 文件不存在，保存文件
+                Files.createDirectories(targetLocation.getParent());
+                Files.copy(file.getInputStream(), targetLocation);
+            }
+
+            // 创建FileInfo对象并添加到列表中
+            FileInfo fileInfo = new FileInfo(baseName, url);
+            fileInfos.add(fileInfo);
         }
 
-        // 构建目标文件路径
-        String fileName = file.getOriginalFilename();
-        Path targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
-
-        // 如果文件已存在，则直接返回其URL
-        if (Files.exists(targetLocation)) {
-            // 假设你的应用部署在http://example.com/，并且你有一个服务或静态资源路径来访问这些图片
-            // 注意：这里只是一个示例，实际URL应该根据你的Web服务器和应用配置来设置
-            return "files/" + fileName;
-        }
-        // 确保目标目录存在
-        Files.createDirectories(targetLocation.getParent());
-
-        // 保存文件
-        Files.copy(file.getInputStream(), targetLocation);
-        return "files/" + fileName;
+        return fileInfos;
     }
 }

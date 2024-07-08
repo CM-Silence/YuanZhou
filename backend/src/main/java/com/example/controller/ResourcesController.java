@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.common.FileInfoExtractor;
 import com.example.common.FileUploadUtil;
 import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
@@ -128,12 +129,13 @@ public class ResourcesController {
      * @return 成功信息
      */
     @PostMapping("/add")
-    public Result<String> add (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile files) throws IOException {
+    public Result<String> add (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(resources.toString());
         String uploadImage = ImageUploadUtil.uploadImage(img);
-        String uploadFile = FileUploadUtil.uploadFile(files);
+        String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+        String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
         resources.setImg1(uploadImage);
-        resources.setFiles1(uploadFile);
+        resources.setFiles1(uploadFile1);
 
         resourcesService.save(resources);
         return Result.success2("新增资源成功");

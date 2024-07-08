@@ -23,20 +23,28 @@ public class ImageUploadUtil {
         }
 
         // 构建目标文件路径
-        String fileName = file.getOriginalFilename();
-        Path targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
+        String fileName;
+        fileName = file.getOriginalFilename();
+        Path targetLocation = null;
+        if (fileName != null) {
+            targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
+        }
 
         // 如果文件已存在，则直接返回其URL
-        if (Files.exists(targetLocation)) {
+        if (targetLocation != null && Files.exists(targetLocation)) {
             // 假设你的应用部署在http://example.com/，并且你有一个服务或静态资源路径来访问这些图片
             // 注意：这里只是一个示例，实际URL应该根据你的Web服务器和应用配置来设置
             return "/img/" + fileName;
         }
         // 确保目标目录存在
-        Files.createDirectories(targetLocation.getParent());
+        if (targetLocation != null) {
+            Files.createDirectories(targetLocation.getParent());
+        }
 
         // 保存文件
-        Files.copy(file.getInputStream(), targetLocation);
+        if (targetLocation != null) {
+            Files.copy(file.getInputStream(), targetLocation);
+        }
         return "/img/" + fileName;
     }
 }

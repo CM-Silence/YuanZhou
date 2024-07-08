@@ -18,8 +18,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.info("公共字段自动填充[insert]....");
         log.info(metaObject.toString());
-        metaObject.setValue("createdTime", LocalDateTime.now());
-        metaObject.setValue("updateTime", LocalDateTime.now());
+        metaObject.setValue("create_at", LocalDateTime.now());
+        metaObject.setValue("update_at", LocalDateTime.now());
     }
 
     /**
@@ -31,7 +31,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info("公共字段自动填充[update]....");
         log.info(metaObject.toString());
 
-        metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("loginTime",LocalDateTime.now());
+        metaObject.setValue("update_at", LocalDateTime.now());
+        metaObject.setValue("login_at",LocalDateTime.now());
     }
 }

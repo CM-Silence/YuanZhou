@@ -45,6 +45,6 @@ public class ImageUploadUtil {
         if (targetLocation != null) {
             Files.copy(file.getInputStream(), targetLocation);
         }
-        return "/img/" + fileName;
+        return "img/" + fileName;
     }
 }

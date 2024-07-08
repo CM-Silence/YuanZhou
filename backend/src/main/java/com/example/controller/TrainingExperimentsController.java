@@ -1,0 +1,105 @@
+package com.example.controller;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.common.FileInfoExtractor;
+import com.example.common.FileUploadUtil;
+import com.example.common.ImageUploadUtil;
+import com.example.common.Result;
+import com.example.entity.TrainingExperiments;
+import com.example.service.TrainingExperimentsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+@RestController
+@RequestMapping("/api/training")
+@Slf4j
+public class TrainingExperimentsController {
+    @Autowired
+    TrainingExperimentsService trainingExperimentsService;
+
+    @GetMapping("/list")
+    public Result<Page<TrainingExperiments>> page(String  name,
+                                                  Integer page_size,
+                                                  Integer page,
+                                                  String  type,
+                                                  @RequestParam(required = false) String start_time,
+                                                  @RequestParam(required = false) String end_time) {
+
+        //将string类型的时间转化为LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+
+
+        if (start_time != null && !start_time.isEmpty()) {
+            try {
+                startTime = LocalDateTime.parse(start_time, formatter);
+            } catch (DateTimeParseException e) {
+                //假如转化失败，则报错
+                System.out.println("Failed to parse startTime:" + start_time);
+            }
+        }
+
+        if (end_time != null && !end_time.isEmpty()) {
+            try {
+                endTime = LocalDateTime.parse(end_time, formatter);
+            } catch (DateTimeParseException e) {
+                //假如转化失败，则报错
+                System.out.println("Failed to parse end_time:" + end_time);
+            }
+        }
+
+
+        //构造分页构造器
+        Page<TrainingExperiments> pageInfo = new Page<>(page, page_size);
+
+        //条件构造器
+        LambdaQueryWrapper<TrainingExperiments> queryWrapper = new LambdaQueryWrapper<>();
+
+        //添加过滤条件，使用like关键字
+        queryWrapper.like(name != null, TrainingExperiments::getName, name);
+        queryWrapper.like(type != null, TrainingExperiments::getType, type);
+        queryWrapper.gt(startTime != null, TrainingExperiments::getCreate_at, startTime);
+        queryWrapper.lt(endTime != null, TrainingExperiments::getCreate_at, endTime);
+        //添加排序条件
+        queryWrapper.orderByDesc(TrainingExperiments::getTid);
+
+        //执行分页查询
+        trainingExperimentsService.page(pageInfo, queryWrapper);
+
+        //返回数据
+        return Result.success1(pageInfo, "get message success");
+    }
+
+    @PostMapping("/add")
+    public Result<String> add (TrainingExperiments trainingExperiments, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
+        log.info(trainingExperiments.toString());
+
+        //将img文件转化为url，并将图片存入本地
+        String uploadImage = ImageUploadUtil.uploadImage(img);
+
+        //将附件files转化为url，并将图片存入本地
+        String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+
+        //将url转化为json格式
+        String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+
+        //将url存入数据库
+        trainingExperiments.setImg1(uploadImage);
+        trainingExperiments.setFiles1(uploadFile1);
+
+        //引用IService当中的save方法保存其他数据
+        trainingExperimentsService.save(trainingExperiments);
+        return Result.success2("新增资源成功");
+    }
+}

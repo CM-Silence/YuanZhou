@@ -34,7 +34,7 @@ public class ImageUploadUtil {
         if (targetLocation != null && Files.exists(targetLocation)) {
             // 假设你的应用部署在http://example.com/，并且你有一个服务或静态资源路径来访问这些图片
             // 注意：这里只是一个示例，实际URL应该根据你的Web服务器和应用配置来设置
-            return "/img/" + fileName;
+            return "img/" + fileName;
         }
         // 确保目标目录存在
         if (targetLocation != null) {

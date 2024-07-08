@@ -6,6 +6,7 @@ import com.example.common.FileInfoExtractor;
 import com.example.common.FileUploadUtil;
 import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
+import com.example.entity.Resources;
 import com.example.entity.TrainingExperiments;
 import com.example.service.TrainingExperimentsService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,16 @@ public class TrainingExperimentsController {
     @Autowired
     TrainingExperimentsService trainingExperimentsService;
 
+    /**
+     *
+     * @param name 名称
+     * @param page_size 页面大小
+     * @param page 页面
+     * @param type 类型（实验类型）
+     * @param start_time 开始时间
+     * @param end_time 结束时间
+     * @return 实训实验类
+     */
     @GetMapping("/list")
     public Result<Page<TrainingExperiments>> page(String  name,
                                                   Integer page_size,
@@ -101,5 +112,25 @@ public class TrainingExperimentsController {
         //引用IService当中的save方法保存其他数据
         trainingExperimentsService.save(trainingExperiments);
         return Result.success2("新增资源成功");
+    }
+
+    @DeleteMapping("/delete")
+    public Result<String> delete(String tid){
+        if (tid == null){
+            return Result.error("delete error");
+        } else {
+
+            trainingExperimentsService.removeById(tid);
+        }
+        return Result.success2("delete success");
+
+    }
+
+    @PutMapping("edit")
+    public Result<String> edit(TrainingExperiments trainingExperiments){
+        log.info(trainingExperiments.toString());
+
+        trainingExperimentsService.updateById(trainingExperiments);
+        return Result.success2("修改成功");
     }
 }

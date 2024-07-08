@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Data
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 public class Resources {
 
     @TableField("img")
-    private String img;
+    private String img1;
 
     @TableField("title")
     private String title;
@@ -40,7 +39,7 @@ public class Resources {
     private String content;
 
     @TableField("files")
-    public String files;
+    public String files1;
 
     @TableField("type")
     private Integer type;

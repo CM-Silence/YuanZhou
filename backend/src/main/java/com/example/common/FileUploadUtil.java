@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUploadUtil {
-
-    private static final String UPLOAD_DIR = "D:\\code\\YuanZhou\\backend\\src\\main\\resources\\static\\files"; // 指定上传目录
+    private static final String UPLOAD_DIR =  "backend/src/main/resources/static/files"; // 指定上传目录
 
     /**
      * 文件传入与转换
@@ -30,7 +29,7 @@ public class FileUploadUtil {
 
             String originalFileName = file.getOriginalFilename();
             String baseName = "附件" + (i + 1);
-            String fileName = baseName + (originalFileName != null && !originalFileName.isEmpty() ? "_" + originalFileName : "");
+            String fileName = (originalFileName != null && !originalFileName.isEmpty() ? "_" + originalFileName : "");
             Path targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
 
             String url = originalFileName; // 默认URL为原始文件名

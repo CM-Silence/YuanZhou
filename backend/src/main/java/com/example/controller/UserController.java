@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.common.JWTUtils;
+import com.example.common.Result;
 import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
 import com.example.service.UserService;
@@ -102,6 +103,11 @@ public class UserController {
         }
     }
 
+    @PutMapping("edit")
+    public Result<String> edit(User user){
+        userService.updateById(user);
+        return Result.success2("修改成功");
+    }
 
 }
 

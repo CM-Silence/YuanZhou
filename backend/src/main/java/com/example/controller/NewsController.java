@@ -75,8 +75,8 @@ public class NewsController {
 
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, News::getTitle, name);
-        queryWrapper.gt(startTime != null,News::getCreate_at, startTime);
-        queryWrapper.lt(endTime != null,News::getCreate_at, endTime);
+        queryWrapper.gt(startTime != null,News::getCreated_at, startTime);
+        queryWrapper.lt(endTime != null,News::getCreated_at, endTime);
         //添加对type的筛选条件
         if(type != null)
         { switch (type) {
@@ -115,8 +115,8 @@ public class NewsController {
         String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
 
         //将url存入数据库
-        news.setImg(uploadImage);
-        news.setFiles(uploadFile1);
+        news.setImg1(uploadImage);
+        news.setFiles1(uploadFile1);
 
         //引用IService当中的save方法保存其他数据
         newsService.save(news);
@@ -144,9 +144,28 @@ public class NewsController {
      * @return 成功信息
      */
     @PutMapping("edit")
-    public Result<String> edit(News news){
+    public Result<String> edit (News news, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(news.toString());
+        if(img != null) {
+            //将img文件转化为url，并将图片存入本地
+            String uploadImage = ImageUploadUtil.uploadImage(img);
+            //将url存入数据库
+            news.setImg1(uploadImage);
+        }
 
+        if(files != null) {
+            //将附件files转化为url，并将图片存入本地
+            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+
+            //将files的url转化为json格式
+            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+
+            //将url存入数据库
+            news.setFiles1(uploadFile1);
+
+        }
+
+        //引用IService当中的updateById方法保存其他数据
         newsService.updateById(news);
         return Result.success2("修改成功");
     }

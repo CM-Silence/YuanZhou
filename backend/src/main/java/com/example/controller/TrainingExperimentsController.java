@@ -25,6 +25,16 @@ public class TrainingExperimentsController {
     @Autowired
     TrainingExperimentsService trainingExperimentsService;
 
+    /**
+     *
+     * @param name 名称
+     * @param page_size 页面大小
+     * @param page 页面
+     * @param type 类型（实验类型）
+     * @param start_time 开始时间
+     * @param end_time 结束时间
+     * @return 实训实验类
+     */
     @GetMapping("/list")
     public Result<Page<TrainingExperiments>> page(String  name,
                                                   Integer page_size,
@@ -69,8 +79,8 @@ public class TrainingExperimentsController {
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, TrainingExperiments::getName, name);
         queryWrapper.like(type != null, TrainingExperiments::getType, type);
-        queryWrapper.gt(startTime != null, TrainingExperiments::getCreate_at, startTime);
-        queryWrapper.lt(endTime != null, TrainingExperiments::getCreate_at, endTime);
+        queryWrapper.gt(startTime != null, TrainingExperiments::getCreated_at, startTime);
+        queryWrapper.lt(endTime != null, TrainingExperiments::getCreated_at, endTime);
         //添加排序条件
         queryWrapper.orderByDesc(TrainingExperiments::getTid);
 
@@ -84,22 +94,62 @@ public class TrainingExperimentsController {
     @PostMapping("/add")
     public Result<String> add (TrainingExperiments trainingExperiments, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
         log.info(trainingExperiments.toString());
+        if(img != null) {
+            //将img文件转化为url，并将图片存入本地
+            String uploadImage = ImageUploadUtil.uploadImage(img);
+            //将url存入数据库
+            trainingExperiments.setImg1(uploadImage);
+        }
 
-        //将img文件转化为url，并将图片存入本地
-        String uploadImage = ImageUploadUtil.uploadImage(img);
+        if(files != null) {
+            //将附件files转化为url，并将图片存入本地
+            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
 
-        //将附件files转化为url，并将图片存入本地
-        String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+            //将files的url转化为json格式
+            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
 
-        //将url转化为json格式
-        String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
-
-        //将url存入数据库
-        trainingExperiments.setImg1(uploadImage);
-        trainingExperiments.setFiles1(uploadFile1);
-
+            //将url存入数据库
+            trainingExperiments.setFiles1(uploadFile1);
+        }
         //引用IService当中的save方法保存其他数据
         trainingExperimentsService.save(trainingExperiments);
         return Result.success2("新增资源成功");
+    }
+
+    @DeleteMapping("/delete")
+    public Result<String> delete(String tid){
+        if (tid == null){
+            return Result.error("delete error");
+        } else {
+
+            trainingExperimentsService.removeById(tid);
+        }
+        return Result.success2("delete success");
+
+    }
+
+    @PutMapping("edit")
+    public Result<String> edit (TrainingExperiments trainingExperiments, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
+        log.info(trainingExperiments.toString());
+        if(img != null) {
+            //将img文件转化为url，并将图片存入本地
+            String uploadImage = ImageUploadUtil.uploadImage(img);
+            //将url存入数据库
+            trainingExperiments.setImg1(uploadImage);
+        }
+
+        if(files != null) {
+            //将附件files转化为url，并将图片存入本地
+            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+
+            //将files的url转化为json格式
+            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+
+            //将url存入数据库
+            trainingExperiments.setFiles1(uploadFile1);
+
+        }
+        trainingExperimentsService.updateById(trainingExperiments);
+        return Result.success2("修改成功");
     }
 }

@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class ImageUploadUtil {
 
-    private static final String UPLOAD_DIR = "D:\\code\\YuanZhou\\backend\\src\\main\\resources\\static\\img"; // 指定上传目录
+    private static final String UPLOAD_DIR = "backend/src/main/resources/static/img"; // 指定上传目录
 
     /**
      * 上传图片并保存到本地，同时返回假设的访问URL
@@ -18,9 +18,6 @@ public class ImageUploadUtil {
      * @throws IOException 如果保存文件时发生错误
      */
     public static String uploadImage(MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("File is empty");
-        }
 
         // 构建目标文件路径
         String fileName;
@@ -36,6 +33,7 @@ public class ImageUploadUtil {
             // 注意：这里只是一个示例，实际URL应该根据你的Web服务器和应用配置来设置
             return "img/" + fileName;
         }
+
         // 确保目标目录存在
         if (targetLocation != null) {
             Files.createDirectories(targetLocation.getParent());

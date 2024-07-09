@@ -18,7 +18,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.info("公共字段自动填充[insert]....");
         log.info(metaObject.toString());
-        metaObject.setValue("create_at", LocalDateTime.now());
+        metaObject.setValue("created_at", LocalDateTime.now());
         metaObject.setValue("update_at", LocalDateTime.now());
     }
 

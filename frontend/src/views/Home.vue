@@ -109,12 +109,12 @@ const userHeadMenuItemList = [
 ]
 
 const adminHeadMenuItemList = [
-  {label: '数据预览', path: '/home/homePage'},
-  {label: '综合管理', path: '/home/news'},
-  {label: '系统信息', path: '/home/res'},
-  {label: '资源管理', path: '/home/training'},
-  {label: '实训管理', path: '/home/labs'},
-  {label: '监控管理', path: '/home/shared'},
+  {label: '数据预览', path: '/home/dataPreview/overviewStatistics'},
+  {label: '综合管理', path: '/home/integratedManagement/newsManagement'},
+  {label: '系统信息', path: '/home/systemInfo/userManagement'},
+  {label: '资源管理', path: '/home/resManagement/labsManagement'},
+  {label: '实训管理', path: '/home/trainingManagement/courseManagement'},
+  {label: '监控管理', path: '/home/monitoringManagement/devicesMonitor'},
 ]
 
 const state = reactive({

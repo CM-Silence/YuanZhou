@@ -46,7 +46,7 @@ import PlatformPersonnel from "@/views/back-views/integrated-managment/PlatformP
 import PlatformSetting from "@/views/back-views/integrated-managment/PlatformSetting.vue";
 
 import MonitoringManagement from "@/views/back-views/MonitoringManagement.vue";
-import DeviceMonitor from "@/views/back-views/monitoring-management/DeviceMonitor.vue";
+import DevicesMonitor from "@/views/back-views/monitoring-management/DevicesMonitor.vue";
 import ResMonitor from "@/views/back-views/monitoring-management/ResMonitor.vue";
 import TeachingMonitor from "@/views/back-views/monitoring-management/TeachingMonitor.vue";
 
@@ -123,7 +123,7 @@ const routes = [
           {path: 'platformSetting', name: 'PlatformSetting', component: PlatformSetting},
         ]},
       {path: 'monitoringManagement', name:'MonitoringManagement', component: MonitoringManagement, children: [
-          {path: 'deviceMonitor', name: 'DeviceMonitor', component: DeviceMonitor},
+          {path: 'devicesMonitor', name: 'DevicesMonitor', component: DevicesMonitor},
           {path: 'resMonitor', name: 'ResMonitor', component: ResMonitor},
           {path: 'teachingMonitor', name: 'TeachingMonitor', component: TeachingMonitor},
         ]},

@@ -57,6 +57,7 @@ public class NewsController {
             }
         }
 
+
         if (end_time != null && !end_time.isEmpty()){
             try{
                 endTime = LocalDateTime.parse(end_time,formatter);

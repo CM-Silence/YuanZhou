@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class ImageUploadUtil {
 
-    private static final String UPLOAD_DIR = "backend/src/main/resources/static/img"; // 指定上传目录
+    private static final String UPLOAD_DIR = "yuan_zhou/resources/files"; // 指定上传目录
 
     /**
      * 上传图片并保存到本地，同时返回假设的访问URL

@@ -30,7 +30,7 @@ public class TrainingExperimentsController {
     TrainingExperimentsService trainingExperimentsService;
 
     /**
-     * @param name       名称
+     * @param key_word       名称
      * @param page_size  页面大小
      * @param page       页面
      * @param type       类型（实验类型）
@@ -39,7 +39,7 @@ public class TrainingExperimentsController {
      * @return 实训实验类
      */
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> page(String  name,
+    public ResponseEntity<Map<String, Object>> page(String  key_word,
                                                     Integer page_size,
                                                     Integer page,
                                                     String  type,
@@ -80,7 +80,7 @@ public class TrainingExperimentsController {
         LambdaQueryWrapper<TrainingExperiments> queryWrapper = new LambdaQueryWrapper<>();
 
         //添加过滤条件，使用like关键字
-        queryWrapper.like(name != null, TrainingExperiments::getName, name);
+        queryWrapper.like(key_word != null, TrainingExperiments::getName, key_word);
         queryWrapper.like(type != null, TrainingExperiments::getType, type);
         queryWrapper.gt(startTime != null, TrainingExperiments::getCreated_at, startTime);
         queryWrapper.lt(endTime != null, TrainingExperiments::getCreated_at, endTime);

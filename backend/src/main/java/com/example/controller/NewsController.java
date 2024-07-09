@@ -32,7 +32,7 @@ public class NewsController {
     /**
      * 分页查询
      *
-     * @param name       查询名称
+     * @param key_word       查询名称
      * @param page_size  页面显示数量
      * @param page       当前页面
      * @param type       资源类型
@@ -41,7 +41,7 @@ public class NewsController {
      * @return Resources类
      */
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> page(String name,
+    public ResponseEntity<Map<String, Object>> page(String key_word,
                                                     Integer page_size,
                                                     Integer page,
                                                     Integer type,
@@ -81,7 +81,7 @@ public class NewsController {
         LambdaQueryWrapper<News> queryWrapper = new LambdaQueryWrapper<>();
 
         //添加过滤条件，使用like关键字
-        queryWrapper.like(name != null, News::getTitle, name);
+        queryWrapper.like(key_word != null, News::getTitle, key_word);
         queryWrapper.gt(startTime != null,News::getCreated_at, startTime);
         queryWrapper.lt(endTime != null,News::getCreated_at, endTime);
         //添加对type的筛选条件
@@ -101,7 +101,7 @@ public class NewsController {
         //执行分页查询
         newsService.page(pageInfo, queryWrapper);
 
-        //更改返回格式，与前端对接
+//更改返回格式，与前端对接
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("rows", pageInfo.getRecords()); // 将records更改为rows
         responseData.put("total", pageInfo.getTotal());

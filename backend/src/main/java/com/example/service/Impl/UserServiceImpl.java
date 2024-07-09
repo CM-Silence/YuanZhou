@@ -27,6 +27,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         public User login(User user) {
             // 根据接收用户名密码查询数据库
             User userDB = userMapper.selectUser(user);
+            //更新login_at字段（需要当前时间）
+            LocalDateTime now = LocalDateTime.now();
+            userMapper.updateLoginAt(userDB.getUid(),now);
             if (user!=null){
                 Map<String, String> payload = new HashMap<>();
                 payload.put("id", String.valueOf(userDB.getUid()));
@@ -34,10 +37,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 String token = JWTUtils.getToken(payload);
                 // 更新用户对象中的token字段（如果需要）
                 userDB.setToken(token);
-
-                //更新login_at字段（需要当前时间）
-                LocalDateTime now = LocalDateTime.now();
-                userMapper.updateLoginAt(userDB.getUid(),now);
 
                 // 返回用户对象（注意：这里不直接返回token，但你可以根据需要在响应中返回）
                 return userDB;

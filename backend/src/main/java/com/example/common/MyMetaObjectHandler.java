@@ -32,6 +32,5 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info(metaObject.toString());
 
         metaObject.setValue("update_at", LocalDateTime.now());
-        metaObject.setValue("login_at",LocalDateTime.now());
     }
 }

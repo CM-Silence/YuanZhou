@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.common.JWTUtils;
+import com.example.common.Result;
 import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
 import com.example.service.UserService;
@@ -38,24 +39,17 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
             try {
                 User userDB = userServiceImpl.login(user);
+                Map<String, String> payload = new HashMap<>();
+                //生成jwt令牌
+                String token = JWTUtils.getToken(payload);
 
-                if (userDB != null) {
-                    Map<String, String> payload = new HashMap<>();
-                    //生成jwt令牌
-                    String token = JWTUtils.getToken(payload);
+                payload.put("id", String.valueOf(userDB.getUid()));
+                payload.put("username", userDB.getUsername());
 
-                    payload.put("id", String.valueOf(userDB.getUid()));
-                    payload.put("username", userDB.getUsername());
+                map.put("msg", "login success");
+                map.put("code", 201);
+                map.put("data", userDB);
 
-                    map.put("msg", "login success");
-                    map.put("code", 201);
-                    map.put("data", userDB);
-
-
-            } else {
-                    map.put("code",400);
-                    map.put("msg", "User not found or invalid credentials");
-                }
 
             }catch (Exception e){
                 map.put("code", 500);
@@ -109,6 +103,11 @@ public class UserController {
         }
     }
 
+    @PutMapping("edit")
+    public Result<String> edit(User user){
+        userService.updateById(user);
+        return Result.success2("修改成功");
+    }
 
 }
 

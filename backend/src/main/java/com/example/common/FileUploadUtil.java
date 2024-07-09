@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUploadUtil {
-    private static final String UPLOAD_DIR =  "backend/src/main/resources/static/files"; // 指定上传目录
+    private static final String UPLOAD_DIR =  "yuan_zhou/resources/files"; // 指定上传目录
 
     /**
      * 文件传入与转换

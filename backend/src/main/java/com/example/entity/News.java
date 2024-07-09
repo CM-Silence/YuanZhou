@@ -19,9 +19,6 @@ public class News {
     @TableField("title")
     private String title;
 
-    @TableField(value = "audited_time",fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime audited_time;
-
     @TableField("src")
     private String src;
 

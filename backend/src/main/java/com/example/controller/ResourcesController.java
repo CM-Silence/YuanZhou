@@ -32,7 +32,7 @@ public class ResourcesController {
     /**
      * 分页查询
      *
-     * @param name       查询名称
+     * @param key_word       查询名称
      * @param page_size  页面显示数量
      * @param page       当前页面
      * @param type       资源类型
@@ -41,7 +41,7 @@ public class ResourcesController {
      * @return Resources类
      */
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> page(String name,
+    public ResponseEntity<Map<String, Object>> page(String key_word,
                                                     Integer page_size,
                                                     Integer page,
                                                     Integer type,
@@ -83,7 +83,7 @@ public class ResourcesController {
         LambdaQueryWrapper<Resources> queryWrapper = new LambdaQueryWrapper<>();
 
         //添加过滤条件，使用like关键字
-        queryWrapper.like(name != null, Resources::getTitle, name);
+        queryWrapper.like(key_word != null, Resources::getTitle, key_word);
         queryWrapper.gt(startTime != null,Resources::getCreated_at, startTime);
         queryWrapper.lt(endTime != null,Resources::getCreated_at, endTime);
         //添加对type的筛选条件

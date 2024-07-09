@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component
 @Slf4j
+@Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
     /**
      * 插入操作，自动填充

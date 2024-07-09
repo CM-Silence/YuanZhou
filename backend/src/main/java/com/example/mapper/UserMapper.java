@@ -4,13 +4,14 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
+
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     User selectUser(User user);
 
     User findByUserName(String username);
 
-    int insertUser(User user);
-
+    int updateLoginAt(Integer uid, LocalDateTime update_at);
 }
 

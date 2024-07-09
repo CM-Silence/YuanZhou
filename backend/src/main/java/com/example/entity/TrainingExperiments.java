@@ -64,8 +64,8 @@ public class TrainingExperiments {
     private String description;
 
     //创建时间
-    @TableField("create_at")
-    private LocalDateTime create_at;
+    @TableField("created_at")
+    private LocalDateTime created_at;
 
     //更新时间
     @TableField("update_at")

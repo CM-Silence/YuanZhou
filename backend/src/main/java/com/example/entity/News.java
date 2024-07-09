@@ -40,8 +40,8 @@ public class News {
     @TableField("type")
     private Integer type;
 
-    @TableField(value = "create_at",fill = FieldFill.INSERT)
-    private LocalDateTime create_at;
+    @TableField(value = "created_at",fill = FieldFill.INSERT)
+    private LocalDateTime created_at;
 
     @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;

@@ -10,7 +10,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     User findByUserName(String username);
 
-    int insertUser(User user);
-
 }
 

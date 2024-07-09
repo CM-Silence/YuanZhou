@@ -13,8 +13,6 @@
         select * from user where username = #{username}
     </select>
 
-    <insert id="insertUser" parameterType="com.example.entity.User">
-        insert into user (username, password) value (#{username}, #{password})
-    </insert>
+
 
 </mapper>

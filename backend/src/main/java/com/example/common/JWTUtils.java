@@ -11,7 +11,7 @@ import java.util.Map;
 public class JWTUtils {
 
     /**
-     * 生成token  header.payload.singature
+     * 生成token  header.payload.signature
      */
     private static final String SING = "XIAOSHUANG";
 
@@ -25,12 +25,9 @@ public class JWTUtils {
         JWTCreator.Builder builder = JWT.create();
 
         // payload
-        map.forEach((k, v) -> {
-            builder.withClaim(k, v);
-        });
-        String token = builder.withExpiresAt(instance.getTime())  //指定令牌过期时间
-                .sign(Algorithm.HMAC256(SING));  // sign
-        return token;
+        map.forEach(builder::withClaim);
+        return builder.withExpiresAt(instance.getTime())  //指定令牌过期时间
+                .sign(Algorithm.HMAC256(SING));
     }
 
     /**
@@ -40,12 +37,6 @@ public class JWTUtils {
         return JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
     }
 
-    /**
-     * 获取token信息方法
-     */
-    /*public static DecodedJWT getTokenInfo(String token){
-        DecodedJWT verify = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
-        return verify;
-    }*/
+
 }
 

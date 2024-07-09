@@ -9,8 +9,15 @@
       <el-image
           class="res-card-body"
           fit="fill"
-          :src="`${res.img}`"
+          :src="`${axios.defaults.baseURL}/${res.img1}`"
       >
+        <template #error>
+          <div
+              class="error-image-slot"
+          >
+            <el-icon><Picture /></el-icon>
+          </div>
+        </template>
       </el-image>
       <div class="res-card-img-cover">
         <el-text
@@ -53,7 +60,7 @@
         size="small"
         class="res-date"
     >
-      {{`${res.administrator} · ${res.updated_at}`}}
+      {{`${res.administrator} · ${res.update_at}`}}
     </el-text>
   </div>
 </template>
@@ -97,26 +104,32 @@ const prop = defineProps({
   transform: translate(-50%, -120%);
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(99, 99, 99, 127));
 }
-
 .res-card-img-cover .el-text{
   padding: 5px;
   color: white;
 }
-
 .res-title{
   padding: 5px 0 0 5px;
   color: black;
   align-self: flex-start;
   transition: color 0.2s ease;
 }
-
 .res-title:hover{
   color: cornflowerblue;
 }
-
 .res-date{
   padding: 5px 0 0 5px;
   align-self: flex-start;
   color: #999999;
+}
+.error-image-slot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 150px;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-secondary);
+  font-size: 30px;
 }
 </style>

@@ -76,8 +76,9 @@ const prop = defineProps({
     description: '数据'
   }
 })
-const showMore = () =>{
-  router.push(prop.url)
+const showMore = async () => {
+  await router.push(prop.url)
+  setCurrentPage('/home/news/information')
 }
 
 const clickCard = async (item) => {

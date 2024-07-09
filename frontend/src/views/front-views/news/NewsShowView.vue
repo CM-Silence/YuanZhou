@@ -22,7 +22,7 @@
           <el-text
               class="res-data"
           >
-            {{`发布时间：${res.updated_at}`}}
+            {{`发布时间：${res.update_at}`}}
           </el-text>
           <el-text
               class="res-data"
@@ -58,7 +58,7 @@
             name="1"
         >
           <div
-              v-for="item in res.files"
+              v-for="item in res.files1"
           >
             <el-text
                 class="res-aside-item-text"

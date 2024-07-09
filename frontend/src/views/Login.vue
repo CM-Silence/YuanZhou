@@ -14,7 +14,9 @@
                status-icon
                label-width="auto"
                ref="loginForm"
-               class="login-form">
+               class="login-form"
+               @keydown.enter="submitForm(loginForm)"
+      >
 
         <el-form-item label="账号" prop="username">
           <el-input
@@ -117,6 +119,7 @@ const loginForm = ref(null)
 import {Lock, User} from "@element-plus/icons-vue";
 import {isSame, isPasswordValid} from "@/utils/validator"
 import {axiosPost} from "@/utils/axiosUtil.js";
+import {CURRENT_USER, refreshUser, setUser} from "@/utils/appManager";
 
 onMounted(initialize)
 
@@ -209,6 +212,7 @@ const submitForm = async (form) => {
           // 需要将返回的数据存入Store中
           localStorage.setItem("token", result.data.token)
           localStorage.setItem("user", JSON.stringify(result.data.data))
+          refreshUser()
           // 记住账号密码
           if (state.remember) {
             localStorage.setItem("username", state.ruleForm.username)
@@ -221,10 +225,19 @@ const submitForm = async (form) => {
           }
 
           ElMessage.success("登录成功")
-          await router.push("/home/homePage")
+          if(CURRENT_USER.value.permission < 3){
+            await router.push("/home/homePage")
+          }
+          else{
+            await router.push("/home/dataPreview/overviewStatistics")
+          }
         }
-        else if(result && result.data.code === 202){
+        else if(result && result.data.code === 404){
           ElMessage.error("账号或密码错误！")
+          state.ruleForm.password = ''
+          localStorage.setItem("password", '')
+          localStorage.setItem("token", '');
+          setUser('')
         }
       }
       else {

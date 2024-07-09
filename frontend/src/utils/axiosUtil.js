@@ -176,7 +176,8 @@ const catchSuccess = (message) => {
     else{
         switch (message.data.code){
             case 200:
-            case 201:{
+            case 201:
+            case 404:{
                 return true
             }
             default:{

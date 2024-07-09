@@ -69,6 +69,42 @@ import ProcessResults from "@/views/back-views/training-management/ProcessResult
 import TeachingPlan from "@/views/back-views/training-management/TeachingPlan.vue";
 import TrainingExperiment from "@/views/back-views/training-management/TrainingExperiment.vue";
 
+import {CURRENT_USER, refreshUser} from "@/utils/appManager";
+import {ElMessage} from "element-plus";
+
+
+const permissionLimit = (to, from, next) => {
+    refreshUser()
+    if (!CURRENT_USER.value) {
+        // 如果没有获取到用户信息，重定向到登录页面
+        ElMessage.error("用户信息已过期，请重新登录")
+        next({ name: 'Login' })
+    } else if (CURRENT_USER.value.permission >= 3) {
+        // 如果用户权限大于等于3，允许访问
+        next()
+    } else {
+        ElMessage.error("用户权限不足，无法进入")
+        if(from && from.name){
+            next({ name: from.name })
+        }
+        else{
+            next({name: 'Login'})
+        }
+    }
+}
+
+const loginVerify = (to, from, next) => {
+    refreshUser()
+    if (!CURRENT_USER.value) {
+        // 如果没有获取到用户信息，重定向到登录页面
+        ElMessage.error("未检测到用户信息，请先登录")
+        next({ name: 'Login' })
+    }
+    else {
+        next()
+    }
+}
+
 const routes = [
   {
     path: '/',
@@ -79,6 +115,7 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
+    beforeEnter: loginVerify,
     children:[
       {path: 'homePage', name: 'HomePage', component: HomePage},
       {path: 'labs', name: 'Labs', component: Labs, children: [
@@ -112,35 +149,41 @@ const routes = [
           {path: 'myInfo', name: 'MyInfo', component: MyInfo},
           {path: 'myMsg', name: 'MyMsg', component: MyMsg},
         ]},
-      {path: 'dataPreview', name:'DataPreview', component: DataPreview, children: [
+      {path: 'dataPreview', name:'DataPreview', component: DataPreview, beforeEnter: permissionLimit,
+        children: [
           {path: 'dataExport', name: 'DataExport', component: DataExport},
           {path: 'overviewStatistics', name: 'OverviewStatistics', component: OverviewStatistics},
           {path: 'trainingAnalysis', name: 'TrainingAnalysis', component: TrainingAnalysis},
         ]},
-      {path: 'integratedManagement', name:'IntegratedManagement', component: IntegratedManagement, children: [
+      {path: 'integratedManagement', name:'IntegratedManagement', component: IntegratedManagement, beforeEnter: permissionLimit,
+        children: [
           {path: 'newsManagement', name: 'NewsManagement', component: NewsManagement},
           {path: 'platformPersonnel', name: 'PlatformPersonnel', component: PlatformPersonnel},
           {path: 'platformSetting', name: 'PlatformSetting', component: PlatformSetting},
         ]},
-      {path: 'monitoringManagement', name:'MonitoringManagement', component: MonitoringManagement, children: [
+      {path: 'monitoringManagement', name:'MonitoringManagement', component: MonitoringManagement, beforeEnter: permissionLimit,
+        children: [
           {path: 'devicesMonitor', name: 'DevicesMonitor', component: DevicesMonitor},
           {path: 'resMonitor', name: 'ResMonitor', component: ResMonitor},
           {path: 'teachingMonitor', name: 'TeachingMonitor', component: TeachingMonitor},
         ]},
-      {path: 'resManagement', name:'ResManagement', component: ResManagement, children: [
+      {path: 'resManagement', name:'ResManagement', component: ResManagement, beforeEnter: permissionLimit,
+        children: [
           {path: 'devicesManagement', name: 'DevicesManagement', component: DevicesManagement},
           {path: 'labsApply', name: 'LabsApply', component: LabsApply},
           {path: 'labsManagement', name: 'LabsManagement', component: LabsManagement},
           {path: 'teacherManagement', name: 'TeacherManagement', component: TeacherManagement},
           {path: 'trainingResManagement', name: 'TrainingResManagement', component: TrainingResManagement},
         ]},
-      {path: 'systemInfo', name:'SystemInfo', component: SystemInfo, children: [
+      {path: 'systemInfo', name:'SystemInfo', component: SystemInfo, beforeEnter: permissionLimit,
+        children: [
           {path: 'dataDictionary', name: 'DataDictionary', component: DataDictionary},
           {path: 'systemLog', name: 'SystemLog', component: SystemLog},
           {path: 'systemUser', name: 'SystemUser', component: SystemUser},
           {path: 'userManagement', name: 'UserManagement', component: UserManagement},
         ]},
-      {path: 'trainingManagement', name:'TrainingManagement', component: TrainingManagement, children: [
+      {path: 'trainingManagement', name:'TrainingManagement', component: TrainingManagement, beforeEnter: permissionLimit,
+        children: [
           {path: 'courseManagement', name: 'CourseManagement', component: CourseManagement},
           {path: 'processResults', name: 'ProcessResults', component: ProcessResults},
           {path: 'teachingPlan', name: 'TeachingPlan', component: TeachingPlan},

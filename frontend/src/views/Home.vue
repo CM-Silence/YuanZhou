@@ -30,7 +30,7 @@
             </el-text>
 
             <el-menu-item
-                v-if="state.user?.permission < 3"
+                v-if="user?.permission < 3"
                 v-for="item in userHeadMenuItemList"
                 :index="item.path"
             >
@@ -41,7 +41,7 @@
             </el-menu-item>
 
             <el-menu-item
-                v-if="state.user?.permission >= 3"
+                v-if="user?.permission >= 3"
                 v-for="item in adminHeadMenuItemList"
                 :index="item.path"
             >
@@ -61,7 +61,7 @@
                 <el-icon>
                   <user />
                 </el-icon>
-                {{state.user?.nickname || '用户'}}
+                {{user?.name || '用户'}}
               </template>
               <el-menu-item @click="help">帮助中心</el-menu-item>
               <el-menu-item @click="about">关于</el-menu-item>
@@ -93,7 +93,7 @@ import {h, onMounted, reactive} from 'vue'
 import router from "@/router/index.js";
 import {HomeFilled, User} from "@element-plus/icons-vue";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {CURRENT_PAGE, getUser, refreshCurrentPage, setCurrentPage} from "@/utils/appManager";
+import {CURRENT_PAGE, CURRENT_USER, getUser, refreshCurrentPage, setCurrentPage, setUser} from "@/utils/appManager";
 //import {axiosGet} from "@/utils/axiosUtil.js";
 
 onMounted(initialize)
@@ -117,10 +117,11 @@ const adminHeadMenuItemList = [
   {label: '监控管理', path: '/home/monitoringManagement/devicesMonitor'},
 ]
 
+const user = CURRENT_USER //当前用户
+
 const state = reactive({
   nowMenuActive: '',  //当前首部栏界面
   headMenuOffset: 0,  //首部菜单锚点偏移量
-  user: null,  //用户
 })
 
 const defaultPage = CURRENT_PAGE  //当前路由界面
@@ -146,7 +147,8 @@ async function about(){
 }
 
 function logout(){
-  localStorage.setItem("token", "");
+  localStorage.setItem("token", "")
+  setUser('')
   router.push("/")
 }
 

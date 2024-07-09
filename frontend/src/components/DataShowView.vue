@@ -13,7 +13,7 @@
     class="res-card-list"
   >
     <res-card
-      v-for="item in resList"
+      v-for="item in state.currentDataArray"
       :res="item"
       @card-click="cardClick"
     />
@@ -49,6 +49,7 @@ const state = reactive({
   isLoading: false,
   current_page: 1,
   pageCount: 1,
+  currentDataArray: [],
   searchCondition: {
     keyWord: '',
     start_time: '',
@@ -266,9 +267,21 @@ async function update(currentPage) {
 
 const getData = async (url, params = {}, name = 'getData') => {
   const result = await axiosGet({url: url, params: params, name: name})
-  if (result && result.data && result.data.rows) {
-    state.pageCount = Math.max(result.data['total_pages'], 1)
-    return result.data.rows
+  if (result && result.rows) {
+    state.pageCount = Math.max(result['total_pages'], 1)
+    for(const i in result.rows){
+      if ('created_at' in result.rows[i]){
+        result.rows[i].created_at = result.rows[i].created_at.replace('T', ' ')
+      }
+      if ('update_at' in result.rows[i]){
+        result.rows[i].update_at = result.rows[i].update_at.replace('T', ' ')
+      }
+      if ('files1' in result.rows[i]){
+        result.rows[i].files1 = JSON.parse(result.rows[i].files1)
+      }
+    }
+    console.log("233re", result.rows)
+    return result.rows
   }
   else{
     return undefined
@@ -281,8 +294,9 @@ const cardClick = (res) => {
   emit("clickCard", res.title, `${prop.dataShowViewUrl}?${prop.dataShowViewParams}=${res[prop.keyData]}`)
 }
 
-onMounted(() => {
-
+onMounted(async () => {
+  state.current_page = 1
+  await update(1)
 })
 
 </script>

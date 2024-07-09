@@ -181,7 +181,7 @@ const dataCol = [
   {property: "occupational_type", label: "职业类型"},
   {property: "unit_type", label: "单位类型"},
   {property: "unit", label: "单位名"},
-  {property: "updated_at", label: "最近登录", isDate: true},
+  {property: "update_at", label: "最近登录", isDate: true},
 ]
 
 //状态

@@ -46,7 +46,7 @@
         <el-text
             class="res-data"
         >
-          {{res.updated_at}}
+          {{res.update_at}}
         </el-text>
       </div>
       <div v-if="res.type === 1">
@@ -103,7 +103,7 @@
           name="1"
       >
         <div
-          v-for="item in res.files"
+          v-for="item in res.files1"
         >
           <el-text
               class="res-aside-item-text"
@@ -148,7 +148,7 @@ const update = (resId) => {
   const result = localStorage.getItem(`${resId}`) || ''
   if(result){
     res.value = JSON.parse(result)
-    activeFile.value = res.value.files.length > 0 ? res.value.files[0] : null
+    activeFile.value = res.value.files1.length > 0 ? res.value.files1[0] : null
   }
   else{
     state.getDataFail = true

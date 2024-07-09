@@ -79,8 +79,8 @@ public class TrainingExperimentsController {
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, TrainingExperiments::getName, name);
         queryWrapper.like(type != null, TrainingExperiments::getType, type);
-        queryWrapper.gt(startTime != null, TrainingExperiments::getCreate_at, startTime);
-        queryWrapper.lt(endTime != null, TrainingExperiments::getCreate_at, endTime);
+        queryWrapper.gt(startTime != null, TrainingExperiments::getCreated_at, startTime);
+        queryWrapper.lt(endTime != null, TrainingExperiments::getCreated_at, endTime);
         //添加排序条件
         queryWrapper.orderByDesc(TrainingExperiments::getTid);
 

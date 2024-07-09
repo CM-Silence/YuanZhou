@@ -75,8 +75,8 @@ public class NewsController {
 
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, News::getTitle, name);
-        queryWrapper.gt(startTime != null,News::getCreate_at, startTime);
-        queryWrapper.lt(endTime != null,News::getCreate_at, endTime);
+        queryWrapper.gt(startTime != null,News::getCreated_at, startTime);
+        queryWrapper.lt(endTime != null,News::getCreated_at, endTime);
         //添加对type的筛选条件
         if(type != null)
         { switch (type) {

@@ -79,8 +79,8 @@ public class ResourcesController {
 
         //添加过滤条件，使用like关键字
         queryWrapper.like(name != null, Resources::getTitle, name);
-        queryWrapper.gt(startTime != null,Resources::getCreate_at, startTime);
-        queryWrapper.lt(endTime != null,Resources::getCreate_at, endTime);
+        queryWrapper.gt(startTime != null,Resources::getCreated_at, startTime);
+        queryWrapper.lt(endTime != null,Resources::getCreated_at, endTime);
         //添加对type的筛选条件
         if(type != null)
             { switch (type) {

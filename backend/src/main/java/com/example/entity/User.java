@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Data
 @TableName("user")
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class User {
 
     //uid(学校编号、或者个人编号)
@@ -57,8 +60,8 @@ public class User {
     private LocalDateTime created_at;
 
     //最后登录时间
-    @TableField(value = "login_at",fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime login_at;
+    @TableField(value = "update_at",fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime update_at;
 
     //token
     @TableField("token")

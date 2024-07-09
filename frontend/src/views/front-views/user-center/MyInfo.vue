@@ -427,6 +427,7 @@ const sendVerificationCode = async (form) => {
   width: 100%;
   height: 100%;
   background-size: cover;
+
 }
 .profile-title-card{
   margin: 30px 0 0 0;

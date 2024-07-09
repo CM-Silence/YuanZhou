@@ -59,5 +59,6 @@ function handleSelect(menu){
 <style scoped>
 .main-container{
   padding: 5px;
+  overflow-y: hidden;
 }
 </style>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserMapper userMapper;
+
+
 
         @Override
         @Transactional(propagation = Propagation.SUPPORTS)
@@ -29,9 +32,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 payload.put("id", String.valueOf(userDB.getUid()));
                 payload.put("username", userDB.getUsername());
                 String token = JWTUtils.getToken(payload);
-
                 // 更新用户对象中的token字段（如果需要）
                 userDB.setToken(token);
+
+                //更新login_at字段（需要当前时间）
+                LocalDateTime now = LocalDateTime.now();
+                userMapper.updateLoginAt(userDB.getUid(),now);
 
                 // 返回用户对象（注意：这里不直接返回token，但你可以根据需要在响应中返回）
                 return userDB;
@@ -51,7 +57,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        user.setPermission(0);
+        user.setName(user.getUsername());
+        user.setPermission(1);
 
         //调用Mapper的insertUser方法插入用户
         int rowsAffected = userMapper.insert(user);

@@ -10,6 +10,7 @@ import com.example.entity.News;
 import com.example.service.NewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,30 +18,35 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/news")
 @Slf4j
+@CrossOrigin
 public class NewsController {
     @Autowired
     private NewsService newsService;
 
     /**
      * 分页查询
-     * @param name 查询名称
-     * @param page_size 页面显示数量
-     * @param page 当前页面
-     * @param type 资源类型
+     *
+     * @param name       查询名称
+     * @param page_size  页面显示数量
+     * @param page       当前页面
+     * @param type       资源类型
      * @param start_time 资源出版开始时间
-     * @param end_time 资源出版结束时间
+     * @param end_time   资源出版结束时间
      * @return Resources类
      */
     @GetMapping("/list")
-    public Result<Page<News>> page(String name,
-                                   Integer page_size,
-                                   Integer page,
-                                   Integer type,
-                                   @RequestParam(required = false) String start_time,
-                                   @RequestParam(required = false) String end_time){
+    public ResponseEntity<Map<String, Object>> page(String name,
+                                                    Integer page_size,
+                                                    Integer page,
+                                                    Integer type,
+                                                    @RequestParam(required = false) String start_time,
+                                                    @RequestParam(required = false) String end_time){
 
         //将string类型的时间转化为LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -95,7 +101,16 @@ public class NewsController {
         //执行分页查询
         newsService.page(pageInfo, queryWrapper);
 
-        return Result.success1(pageInfo, "get message success");
+        //更改返回格式，与前端对接
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("rows", pageInfo.getRecords()); // 将records更改为rows
+        responseData.put("total", pageInfo.getTotal());
+        responseData.put("size", pageInfo.getSize());
+        responseData.put("current", pageInfo.getCurrent());
+        responseData.put("pages", pageInfo.getPages());
+
+        //返回数据
+        return ResponseEntity.ok(responseData);
     }
 
     /**

@@ -38,18 +38,22 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
             try {
                 User userDB = userServiceImpl.login(user);
-                if (userDB != null){ Map<String, String> payload = new HashMap<>();
-                    payload.put("id", String.valueOf(userDB.getUid()));
-                    payload.put("username", userDB.getUsername());
+
+                if (userDB != null) {
+                    Map<String, String> payload = new HashMap<>();
                     //生成jwt令牌
                     String token = JWTUtils.getToken(payload);
+
+                    payload.put("id", String.valueOf(userDB.getUid()));
+                    payload.put("username", userDB.getUsername());
+
                     map.put("msg", "login success");
                     map.put("code", 201);
-                    map.put("data", userDB);//响应token}
-                    map.put("token", token);
+                    map.put("data", userDB);
+
 
             } else {
-                    map.put("code",404);
+                    map.put("code",400);
                     map.put("msg", "User not found or invalid credentials");
                 }
 
@@ -57,7 +61,6 @@ public class UserController {
                 map.put("code", 500);
                 map.put("msg", e.getMessage());
             }
-
             return map;
     }
 

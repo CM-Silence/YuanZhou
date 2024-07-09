@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -61,9 +62,11 @@ public class User implements Serializable {
     @TableField(value = "created_at",fill = FieldFill.INSERT)
     private LocalDateTime created_at;
 
-    //最后登录时间
-    @TableField(value = "update_at",fill = FieldFill.INSERT_UPDATE)
+    //更新时间
+    @TableField("update_at")
     private LocalDateTime update_at;
+
+
 
     //token
     @TableField("token")

@@ -66,8 +66,6 @@ public class User implements Serializable {
     @TableField("update_at")
     private LocalDateTime update_at;
 
-
-
     //token
     @TableField("token")
     private String token;

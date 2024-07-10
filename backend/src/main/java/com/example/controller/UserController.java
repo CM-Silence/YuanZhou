@@ -41,7 +41,7 @@ public class UserController {
             User userDB = userServiceImpl.login(user);
             Map<String, String> payload = new HashMap<>();
             //生成jwt令牌
-            String token = JWTUtils.getToken(payload);
+            //String token = JWTUtils.getToken(payload);
 
             payload.put("id", String.valueOf(userDB.getUid()));
             payload.put("username", userDB.getUsername());
@@ -89,10 +89,16 @@ public class UserController {
      * @return 注册信息
      */
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestParam String username, @RequestParam String password) {
+    public Map<String, Object> register(@RequestParam String username,
+                                        @RequestParam String password,
+                                        @RequestParam Integer permission,
+                                        @RequestParam String phone,
+                                        @RequestParam String email,
+                                        @RequestParam String class_name,
+                                        @RequestParam String occupational_type) {
         User user = userService.findByUserName(username);
         if (user == null) {
-            userService.register(username, password);
+            userService.register(username, password, permission, phone, email, class_name, occupational_type);
             Map<String, Object> successResponse = new HashMap<>();
             successResponse.put("msg", "register success");
             successResponse.put("code", 201);
@@ -108,8 +114,18 @@ public class UserController {
     @PutMapping("/edit")
     public Result<String> edit(User user) {
         userService.updateById(user);
-        return Result.success2("修改成功");
+        return Result.success2("edit success");
     }
 
+    @DeleteMapping("/delete")
+    public Result<String> delete(String uid) {
+        if (uid == null) {
+            return Result.error("delete error,please give uid!");
+        } else {
+
+            userService.removeById(uid);
+        }
+        return Result.success2("delete success");
+    }
 }
 

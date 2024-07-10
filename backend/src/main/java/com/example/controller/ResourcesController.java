@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -143,27 +142,8 @@ public class ResourcesController {
      * @return 成功信息
      */
     @PostMapping("/add")
-    public Result<String> add (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
+    public Result<String> add (Resources resources)  {
         log.info(resources.toString());
-
-        if(img != null) {
-            //将img文件转化为url，并将图片存入本地
-            String uploadImage = ImageUploadUtil.uploadImage(img);
-            //将url存入数据库
-            resources.setImg1(uploadImage);
-        }
-
-        if(files != null) {
-            //将附件files转化为url，并将图片存入本地
-            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
-
-            //将files的url转化为json格式
-            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
-
-            //将url存入数据库
-            resources.setFiles1(uploadFile1);
-
-        }
 
         //引用IService当中的save方法保存其他数据
         resourcesService.save(resources);
@@ -176,7 +156,7 @@ public class ResourcesController {
      * @return 成功信息
      */
     @PutMapping("edit")
-    public Result<String> edit (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
+    public Result<String> edit (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files)  {
         log.info(resources.toString());
 
         if(img != null) {

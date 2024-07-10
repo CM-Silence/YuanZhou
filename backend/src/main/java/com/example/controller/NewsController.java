@@ -7,14 +7,13 @@ import com.example.common.FileUploadUtil;
 import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
 import com.example.entity.News;
+import com.example.mapper.NewsMapper;
 import com.example.service.NewsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,6 +28,8 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private NewsMapper newsMapper;
     /**
      * 分页查询
      *
@@ -119,20 +120,8 @@ public class NewsController {
      * @return 成功信息
      */
     @PostMapping("/add")
-    public Result<String> add (News news, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
+    public Result<String> add (News news)  {
         log.info(news.toString());
-        //将img文件转化为url，并将图片存入本地
-        String uploadImage = ImageUploadUtil.uploadImage(img);
-
-        //将附件files转化为url，并将图片存入本地
-        String uploadFile = FileUploadUtil.uploadFiles(files).toString();
-
-        //将url转化为json格式
-        String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
-
-        //将url存入数据库
-        news.setImg1(uploadImage);
-        news.setFiles1(uploadFile1);
 
         //引用IService当中的save方法保存其他数据
         newsService.save(news);
@@ -141,15 +130,15 @@ public class NewsController {
 
     /**
      * 资源删除
-     * @param id 新闻id
+     * @param mid 新闻id
      * @return 结果类
      */
     @DeleteMapping("/delete")
-    public Result<String> delete(String id) {
-        if (id == null){
+    public Result<String> delete(String mid) {
+        if (mid == null){
             return Result.error("delete error");
         } else {
-            newsService.removeById(id);
+            newsService.removeById(mid);
         }
         return Result.success2("delete success");
     }
@@ -160,7 +149,7 @@ public class NewsController {
      * @return 成功信息
      */
     @PutMapping("edit")
-    public Result<String> edit (News news, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) throws IOException {
+    public Result<String> edit (News news, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) {
         log.info(news.toString());
         if(img != null) {
             //将img文件转化为url，并将图片存入本地
@@ -187,13 +176,9 @@ public class NewsController {
     }
 
     @PostMapping("/upload_files")
-    public Result<String> uploadFiles(Integer mid, MultipartFile[] files) throws IOException {
-        // 根据id查询News实体
-        News news = newsService.getById(mid);
-
-        log.info(String.valueOf(news));
-        // 调用service层的方法保存或更新News实体
-        newsService.saveOrUpdate(news);
+    public Result<String> uploadFiles(Integer mid, MultipartFile[] files) {
+        News news = newsMapper.getAllById(mid);
+        log.info(news.toString());
         return Result.success2("ok");
 }
 }

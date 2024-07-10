@@ -27,6 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         public User login(User user) {
             // 根据接收用户名密码查询数据库
             User userDB = userMapper.selectUser(user);
+
             //更新login_at字段（需要当前时间）
             LocalDateTime now = LocalDateTime.now();
             userMapper.updateLoginAt(userDB.getUid(),now);
@@ -50,14 +51,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public void register(String username, String password) {
+    public void register(String username, String password, Integer permission, String phone, String email, String class_name, String occupational_type) {
 
         //创建用户对象并设置属性
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+        user.setPermission(permission);
         user.setName(user.getUsername());
-        user.setPermission(1);
+        user.setPhone(phone);
+        user.setClass_name(class_name);
+        user.setOccupational_type(occupational_type);
 
         //调用Mapper的insertUser方法插入用户
         int rowsAffected = userMapper.insert(user);

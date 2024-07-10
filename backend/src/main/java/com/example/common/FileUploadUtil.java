@@ -1,6 +1,5 @@
 package com.example.common;
 import com.example.entity.FileInfo;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,9 +10,8 @@ import java.util.List;
 
 @Component
 public class FileUploadUtil {
-    @Value("${backend.path}")
-    private String basePath; // 指定上传目录
-    private String filePath = "files\\";
+    private final String BASE_URL = System.getProperty("user.dir"); // 指定上传目录
+    private final String FILE_URL = "/static/files/";
 
     /**
      * 文件传入与转换
@@ -34,10 +32,10 @@ public class FileUploadUtil {
             String baseName = "附件" + (i + 1);
             String fileName = (originalFileName != null && !originalFileName.isEmpty() ? originalFileName : "");
 
-            StringBuilder url = new StringBuilder(basePath + filePath + originalFileName); // 默认URL为原始文件名
+            StringBuilder url = new StringBuilder(FILE_URL + originalFileName); // 默认URL为原始文件名
 
             //创建一个目录对象
-            File dir = new File(basePath + filePath);
+            File dir = new File(BASE_URL + FILE_URL);
 
             //判断当前目录是否存在
             if (!dir.exists()) {
@@ -47,7 +45,7 @@ public class FileUploadUtil {
 
             try {
                 //将临时文件转存到指定位置
-                file.transferTo(new File(basePath + filePath + fileName));
+                file.transferTo(new File(BASE_URL + FILE_URL + fileName));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -60,5 +58,3 @@ public class FileUploadUtil {
         return fileInfos;
     }
 }
-
-

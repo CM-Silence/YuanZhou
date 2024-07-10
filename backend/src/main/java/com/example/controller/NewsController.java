@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -167,10 +168,10 @@ public class NewsController {
 
         if(files != null) {
             //将附件files转化为url，并将图片存入本地
-            String uploadFile = FileUploadUtil.uploadFiles(files).toString();
+            List<String> uploadFile = FileUploadUtil.uploadFiles(files);
 
             //将files的url转化为json格式
-            String uploadFile1 = String.valueOf(FileInfoExtractor.extractFileInfosToJson(uploadFile));
+            String uploadFile1 = FileInfoExtractor.extractFileInfosToJson(uploadFile);
 
             //将url存入数据库
             news.setFiles1(uploadFile1);

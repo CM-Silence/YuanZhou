@@ -3,13 +3,13 @@ package com.example.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.Result;
-import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
 import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
+    /**
+     * 用户分页查询
+     * @param key_word 用户名
+     * @param page_size 分页大小
+     * @param page 当前页面
+     * @return 用户列表及分页信息
+     */
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> page(String key_word,
                                                     Integer page_size,
@@ -44,7 +50,7 @@ public class UserController {
         //执行分页查询
         userService.page(pageInfo, queryWrapper);
 
-//更改返回格式，与前端对接
+        //更改返回格式，与前端对接
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("rows", pageInfo.getRecords()); // 将records更改为rows
         responseData.put("total", pageInfo.getTotal());
@@ -120,12 +126,22 @@ public class UserController {
         }
     }
 
+    /**
+     * 用户信息编辑
+     * @param user 用户类
+     * @return 编辑之后的成功信息
+     */
     @PutMapping("/edit")
     public Result<String> edit(User user) {
         userService.updateById(user);
         return Result.success2("edit success");
     }
 
+    /**
+     * 用户删除
+     * @param uid 用户id
+     * @return 删除之后的信息
+     */
     @DeleteMapping("/delete")
     public Result<String> delete(String uid) {
         if (uid == null) {
@@ -136,5 +152,6 @@ public class UserController {
         }
         return Result.success2("delete success");
     }
+
 }
 

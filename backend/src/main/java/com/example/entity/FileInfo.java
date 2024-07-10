@@ -13,7 +13,7 @@ public class FileInfo {
 
     @Override
     public String toString(){
-        return "name";
+        return "name: " + this.name + " ,url: " + this.url;
     }
 
 }

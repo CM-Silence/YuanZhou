@@ -1,38 +1,41 @@
 package com.example.common;
 
+import com.google.gson.Gson;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FileInfoExtractor {
 
-    // 正则表达式匹配 name=... 和紧跟着的 url=...
-    private static final Pattern pattern = Pattern.compile("name=(\\S+).*?url=(\\S+)");
+
 
     /**
      * 从给定的字符串中提取多个name和url对，并生成JSON数组
      *
-     * @param input 包含多个name和url对的字符串
+     * @param inputList 包含多个name和url对的字符串列表
      * @return 包含所有提取信息的JSON数组，如果未找到匹配项则返回空的JSON数组
      */
-    public static JSONArray extractFileInfosToJson(String input) {
-        JSONArray jsonArray = new JSONArray();
-        Matcher matcher = pattern.matcher(input);
+    public static String extractFileInfosToJson(List<String> inputList) {
+        // 转换后的列表
+        List<Map<String, String>> resultList = new ArrayList<>();
 
-        while (matcher.find()) {
-            String name = matcher.group(1).replaceAll(",$", "");
-            String url = matcher.group(2);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", name);
-            jsonObject.put("url", url);
-
-            jsonArray.put(jsonObject);
+        // 解析并转换
+        for (String input : inputList) {
+            Map<String, String> map = new HashMap<>();
+            // 使用trim()来去除多余的空格
+            String[] parts = input.trim().split(",\\s*"); // 分割逗号，并去除逗号后的空格
+            for (String part : parts) {
+                String[] keyValue = part.trim().split(":\\s*"); // 分割键和值，并去除冒号后的空格
+                map.put(keyValue[0], keyValue[1]);
+            }
+            resultList.add(map);
         }
 
-        return jsonArray;
+        // 转换为JSON
+        Gson gson = new Gson();
+
+        return gson.toJson(resultList);
     }
 }

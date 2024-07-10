@@ -14,6 +14,13 @@ import lombok.NoArgsConstructor;
 public class Employee {
     @TableId("sid")
     private Integer sid;
+
     @TableField("name")
     private String name;
+
+    @TableField("phone")
+    private String phone;
+
+    @TableField("department")
+    private String department;
 }

@@ -134,7 +134,7 @@ public class NewsController {
 
         //引用IService当中的save方法保存其他数据
         newsService.save(news);
-        return Result.success2("新增资源成功");
+        return Result.success2("save success");
     }
 
     /**
@@ -183,6 +183,6 @@ public class NewsController {
 
         //引用IService当中的updateById方法保存其他数据
         newsService.updateById(news);
-        return Result.success2("修改成功");
+        return Result.success2("edit success");
     }
 }

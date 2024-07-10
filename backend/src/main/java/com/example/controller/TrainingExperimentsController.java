@@ -113,7 +113,7 @@ public class TrainingExperimentsController {
 
         //引用IService当中的save方法保存其他数据
         trainingExperimentsService.save(trainingExperiments);
-        return Result.success2("新增资源成功");
+        return Result.success2("save success");
     }
 
     @DeleteMapping("/delete")
@@ -152,6 +152,6 @@ public class TrainingExperimentsController {
 
         }
         trainingExperimentsService.updateById(trainingExperiments);
-        return Result.success2("修改成功");
+        return Result.success2("edit success");
     }
 }

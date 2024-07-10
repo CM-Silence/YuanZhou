@@ -51,17 +51,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public void register(String username, String password, Integer permission, String phone, String email, String class_name, String occupational_type) {
+    public void register(String username, String password, Integer permission, String name,  String phone, String email, String class_name, String occupational_type) {
 
         //创建用户对象并设置属性
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         user.setPermission(permission);
-        user.setName(user.getUsername());
         user.setPhone(phone);
+        user.setEmail(email);
         user.setClass_name(class_name);
         user.setOccupational_type(occupational_type);
+        //用户名为空，则设置默认值
+        if (name != null){
+            user.setName(name);
+        } else {
+            user.setName(user.getUsername());
+        }
 
         //调用Mapper的insertUser方法插入用户
         int rowsAffected = userMapper.insert(user);

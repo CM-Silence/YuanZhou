@@ -122,7 +122,9 @@ public class TrainingExperimentsController {
     }
 
     @PutMapping("edit")
-    public Result<String> edit (TrainingExperiments trainingExperiments, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) {
+    public Result<String> edit (TrainingExperiments trainingExperiments,
+                                @RequestParam(value = "img", required = false) MultipartFile img,
+                                @RequestParam(value = "files", required = false) MultipartFile[] files) {
         log.info(trainingExperiments.toString());
         if(img != null) {
             //将img文件转化为url，并将图片存入本地

@@ -1,10 +1,167 @@
+<template>
+  <table-view
+      key-data="uid"
+      :table-col-list="tableColList"
+      :add-form="addForm"
+      :edit-form="editForm"
+      :urls="urls"
+      large
+      delete
+      download
+  />
+</template>
+
 <script setup>
+import {isPasswordValid} from "@/utils/validator.js";
+import TableView from "@/components/TableView.vue";
+
+/**
+ * 表头属性列表
+ * */
+const tableColList = [
+  {property: "username", label: "账号", sortable: false, width: 180},
+  {property: "name", label: "昵称", sortable: false, width: 120},
+  {property: "permission", label: "权限", sortable: true, width: 120, isMapping: true, mappingList:[
+      {label: '社会人员', value: 0},
+      {label: '学生', value: 1},
+      {label: '教师', value: 2},
+      {label: '管理员', value: 3},
+      {label: '超级管理员', value: 4},
+    ]},
+  {property: "class_name", label: "班级", sortable: false, width: 120},
+  {property: "occupational_type", label: "职业", sortable: false, width: 120},
+  {property: "phone", label: "手机号码", sortable: false, width: 120},
+  {property: "email", label: "邮箱", sortable: false, width: 180},
+  {property: "create_at", label: "注册时间", sortable: true, isDateFormat: true, width: 240},
+]
+
+/**
+ * 编辑用户时所用到的表单对象
+ * */
+const editForm = {
+  data :{
+    uid:'',
+    new_password:'',
+    permission:0,
+    name:'',
+    phone:'',
+    email:'',
+    class_name:'',
+    occupational_type: ''
+  },
+  dataType:{
+    uid:'String',
+    new_password:'String',
+    permission:'Int',
+    name:'String',
+    phone:'String',
+    email:'String',
+    class_name:'String',
+    occupational_type: 'String'
+  },
+  dataNum: 8,
+  rules: {
+    new_password: [
+      { min: 6, max: 16, message: '密码长度需要在6-16之间', trigger: 'blur' },
+      { validator: isPasswordValid, trigger: 'blur' },
+    ],
+    permission:[
+      { required: 'true', message: '请选择用户权限', trigger: 'blur' }
+    ],
+    name:[
+      { required: 'true', message: '请输入用户昵称', trigger: 'blur' },
+      { min: 1, max: 8, message: '昵称长度需要在1-8个字符之间', trigger: 'blur' },
+    ]
+  },
+  item:[
+    {label: '昵称', prop: 'name', dataName: 'name', isInput: true,},
+    {label: '权限', prop: 'permission', dataName: 'permission', isSelect: true,
+      selectOptions: [
+        {label: '社会人员', value: 0},
+        {label: '学生', value: 1},
+        {label: '教师', value: 2},
+        {label: '管理员', value: 3},
+      ]},
+    {label: '电话', prop: 'phone', dataName: 'phone', isInput: true, type: 'number'},
+    {label: '邮箱', prop: 'email', dataName: 'email', isInput: true,},
+    {label: '班级', prop: 'class_name', dataName: 'class_name', isInput: true,},
+    {label: '职业', prop: 'occupational_type', dataName: 'occupational_type', isInput: true,},
+    {label: '新密码', prop: 'new_password', dataName: 'new_password', isInput: true, type: 'password'},
+  ],
+}
+
+/**
+ * 注册用户时所用到的对象
+ * */
+const addForm = {
+  data :{
+    username:'',
+    password:'',
+    permission:'',
+    name:'',
+    phone:'',
+    email:'',
+    class_name:'',
+    occupational_type: '',
+  },
+  dataType:{
+    username:'String',
+    password:'String',
+    permission:'Int',
+    name:'String',
+    phone:'String',
+    email:'String',
+    class_name:'String',
+    occupational_type: 'String'
+  },
+  dataNum: 8,
+  rules: {
+    username: [
+      { required: 'true', message: '用户名不能为空', trigger: 'blur' },
+      { min: 6, max: 16, message: '用户名长度需要在6-16之间', trigger: 'blur' },
+    ],
+    password: [
+      { required: 'true', message: '密码不能为空', trigger: 'blur' },
+      { min: 6, max: 16, message: '密码长度需要在6-16之间', trigger: 'blur' },
+      { validator: isPasswordValid, trigger: 'blur' },
+    ],
+    permission:[
+      { required: 'true', message: '请选择用户权限', trigger: 'blur' }
+    ],
+    name:[
+      { required: 'true', message: '请输入用户昵称', trigger: 'blur' },
+      { min: 1, max: 8, message: '昵称长度需要在1-8个字符之间', trigger: 'blur' },
+    ]
+  },
+  item:[
+    {label: '账号', prop: 'username', dataName: 'username', isInput: true, type: 'text'},
+    {label: '密码', prop: 'password', dataName: 'password', isInput: true, type: 'password'},
+    {label: '昵称', prop: 'name', dataName: 'name', isInput: true},
+    {label: '权限', prop: 'permission', dataName: 'permission', isSelect: true,
+      selectOptions: [
+        {label: '社会人员', value: 0},
+        {label: '学生', value: 1},
+        {label: '教师', value: 2},
+        {label: '管理员', value: 3},
+      ]},
+    {label: '电话', prop: 'phone', dataName: 'phone', isInput: true, type: 'number'},
+    {label: '邮箱', prop: 'email', dataName: 'email', isInput: true,},
+    {label: '班级', prop: 'class_name', dataName: 'class_name', isInput: true,},
+    {label: '职业', prop: 'occupational_type', dataName: 'occupational_type', isInput: true,},
+  ],
+}
+
+/**
+ * 网络请求url
+ * */
+const urls = {
+  getData: "/user/list",
+  deleteData: "/user/delete",
+  addData: "/user/register",
+  updateData: "/user/update",
+}
 
 </script>
-
-<template>
-  $END$
-</template>
 
 <style scoped>
 

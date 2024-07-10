@@ -35,14 +35,14 @@ onMounted(init)
 
 //侧边菜单内容
 const sideMenu = [
-  {name: 'UserManagement', label: "个人中心", path: "/home/systemInfo/userManagement", icon: "User"},
-  {name: 'SystemUser', label: "系统用户", path: "/home/systemInfo/systemUser", icon: "Avatar"},
-  {name: 'DataDictionary', label: "数据字典", path: "/home/systemInfo/dataDictionary", icon: "Grid"},
-  {name: 'SystemLog', label: "系统日志", path: "/home/systemInfo/systemLog", icon: "Memo"},
+  {name: 'UserManagement', label: "用户管理", path: "/home/systemInfo/userManagement", icon: "User"},
+  //{name: 'SystemUser', label: "系统用户", path: "/home/systemInfo/systemUser", icon: "Avatar"},
+  //{name: 'DataDictionary', label: "数据字典", path: "/home/systemInfo/dataDictionary", icon: "Grid"},
+  //{name: 'SystemLog', label: "系统日志", path: "/home/systemInfo/systemLog", icon: "Memo"},
 ];
 
 //初始tab内容
-const defaultTab = {name: 'UserManagement', label: "个人中心", path: "/home/systemInfo/userManagement"}
+const defaultTab = {name: 'UserManagement', label: "用户管理", path: "/home/systemInfo/userManagement"}
 
 let myTab = ref(null);
 

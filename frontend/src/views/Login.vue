@@ -229,7 +229,8 @@ const submitForm = async (form) => {
             await router.push("/home/homePage")
           }
           else{
-            await router.push("/home/dataPreview/overviewStatistics")
+            //await router.push("/home/dataPreview/overviewStatistics")
+            await router.push("/home/integratedManagement/newsManagement")
           }
         }
         else if(result && result.data.code === 404){

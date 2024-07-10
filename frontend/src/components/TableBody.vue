@@ -43,7 +43,6 @@
         v-for="item in tableColList"
         align="center"
         header-align="center"
-        :type="item.isExpand ? 'expand' : 'default'"
         :property="item.property"
         :label="item.label"
         :width="item.width"
@@ -60,10 +59,10 @@
         <div style="display: flex; align-items: center; justify-content: center">
           <el-image
               class="table-col-img"
-              v-if="isArrNotEmpty(scope.row, item)"
-              :src="`${axios.defaults.baseURL}/${getArrData(scope.row, item)[0].path}`"
+              v-if="scope.row[item.property]"
+              :src="`${axios.defaults.baseURL}/${scope.row[item.property]}`"
               fit="cover"
-              :preview-src-list="getArrData(scope.row, item).map(imgObj => axios.defaults.baseURL + '/' + imgObj.path)"
+              :preview-src-list="[`${axios.defaults.baseURL}/${scope.row[item.property]}`]"
               preview-teleported
           >
             <template #error>
@@ -84,7 +83,7 @@
           </div>
 
           <el-button
-              v-if="isArrNotEmpty(scope.row, item) && operations.uploadImg"
+              v-if="scope.row[item.property] && operations.uploadImg"
               type="success"
               icon="Edit"
               @click="uploadImg(getObjKeyData(scope.row, keyData))"
@@ -132,52 +131,11 @@
         </div>
       </template>
 
-      <template #default="scope" v-if="item.isExpand">
-        <div class="child_table_div">
-          <el-table
-              :data="scope.row[item.property]"
-              :stripe="true"
-              max-height="30vh"
-          >
-            <el-table-column
-                v-for="child_item in item.children"
-                align="center"
-                header-align="center"
-                :label="child_item.label"
-                :prop="child_item.property"
-                :width="child_item.width"
-                :sortable="child_item.sortable"
-                :formatter="(row) => itemMapping(row, child_item.property, child_item)"
-                :fixed="child_item.isFixed"
-            >
-              <template #default="prop" v-if="child_item.isImage">
-                <div style="display: flex; align-items: center; justify-content: center">
-                  <el-image
-                      class="table-col-img"
-                      v-if="isArrNotEmpty(prop.row, child_item)"
-                      :src="`${axios.defaults.baseURL}/${getArrData(prop.row,child_item)[0].path}`"
-                      fit="cover"
-                      :preview-src-list="getArrData(prop.row, child_item).map(imgObj => axios.defaults.baseURL + '/' + imgObj.path)"
-                      preview-teleported
-                  >
-                    <template #error>
-                      <div
-                          class="error-image-slot"
-                      >
-                        <el-icon><Picture /></el-icon>
-                      </div>
-                    </template>
-                  </el-image>
-                  <div
-                      v-else
-                      class="error-image-slot"
-                  >
-                    <el-icon><Picture /></el-icon>
-                  </div>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
+      <template #default="scope" v-if="item.isTextArea">
+        <div style="display: flex; align-items: center">
+          <el-text truncated>
+            {{scope.row[item.property]}}
+          </el-text>
         </div>
       </template>
     </el-table-column>

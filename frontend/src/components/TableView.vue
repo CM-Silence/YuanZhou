@@ -334,13 +334,8 @@ async function uploadImg(id, fileList) {
 
   // 创建一个新的FormData对象
   const formData = new FormData();
-  formData.append('goods', id);
-
-  // 遍历文件列表并添加到FormData中
-  fileList.forEach((file, _) => {
-    formData.append('image', file);
-  });
-
+  formData.append(prop.keyData, id);
+  formData.append('img', fileList[0]);
 
   // 调用uploadFiles函数并传入formData
   await uploadFiles(prop.urls['uploadImage'], formData);
@@ -351,11 +346,11 @@ async function uploadFile(id, fileList) {
 
   // 创建一个新的FormData对象
   const formData = new FormData();
-  formData.append('goods', id);
+  formData.append(prop.keyData, id);
 
   // 遍历文件列表并添加到FormData中
   fileList.forEach((file, _) => {
-    formData.append('file', file);
+    formData.append('files', file);
   });
 
 

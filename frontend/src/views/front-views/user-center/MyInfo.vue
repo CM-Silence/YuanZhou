@@ -179,8 +179,6 @@ const dataCol = [
   {property: "email", label: "邮箱", isBind: true},
   {property: "class_name", label: "班级名"},
   {property: "occupational_type", label: "职业类型"},
-  {property: "unit_type", label: "单位类型"},
-  {property: "unit", label: "单位名"},
   {property: "update_at", label: "最近登录", isDate: true},
 ]
 

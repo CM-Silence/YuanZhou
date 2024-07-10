@@ -37,7 +37,7 @@ onMounted(init)
 const sideMenu = [
   {name: 'NewsManagement', label: "新闻公告", path: "/home/integratedManagement/newsManagement", icon: "Bell"},
   {name: 'PlatformPersonnel', label: "平台人员", path: "/home/integratedManagement/platformPersonnel", icon: "User"},
-  {name: 'PlatformSetting', label: "平台设置", path: "/home/integratedManagement/platformSetting", icon: "Setting"},
+  //{name: 'PlatformSetting', label: "平台设置", path: "/home/integratedManagement/platformSetting", icon: "Setting"},
 ];
 
 //初始tab内容

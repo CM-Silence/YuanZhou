@@ -59,8 +59,9 @@
       v-if="!hasSubmitPage && operations.edit"
       v-model="editFormVisible"
       title="编辑"
-      width="500"
+      width="600"
       center
+      draggable
   >
 
     <el-form :model="editForm.data" :rules="editForm.rules" ref="myEditForm" label-position="top" :class="editDialogClass" status-icon>
@@ -76,6 +77,16 @@
             :type="item.type"
             :show-password="item.type === 'password'"
             autocomplete="off"
+        />
+
+        <el-input
+            v-if="item.isTextArea"
+            v-model.trim="editForm.data[item.dataName]"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            :maxlength="item.maxLength"
+            autocomplete="off"
+            show-word-limit
         />
 
         <el-select
@@ -120,8 +131,9 @@
       v-if="!hasSubmitPage && operations.add"
       v-model="addFormVisible"
       title="添加"
-      width="500"
+      width="600"
       center
+      draggable
   >
 
     <el-form :model="addForm.data" :rules="addForm.rules" ref="myAddForm" label-position="top" :class="addDialogClass" status-icon>
@@ -136,6 +148,16 @@
             :type="item.type"
             :show-password="item.type === 'password'"
             autocomplete="off"
+        />
+
+        <el-input
+            v-if="item.isTextArea"
+            v-model.trim="addForm.data[item.dataName]"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            :maxlength="item.maxLength"
+            autocomplete="off"
+            show-word-limit
         />
 
         <el-select
@@ -230,7 +252,7 @@
         accept="image/jpeg, image/png, image/gif, image/bmp, image/x-bmp, image/webp, image/tiff, image/x-tiff, image/svg+xml"
         list-type="picture-card"
         :auto-upload="false"
-        :limit="5"
+        :limit="1"
         :on-preview="handlePictureCardPreview"
         :on-change="handleImgChange"
         :on-remove="(file) => handleRemove(file, imgList)"
@@ -240,7 +262,7 @@
       <template #tip>
         <div class="el-upload__tip">
           <el-text type="info">支持jpg、png、svg、webp等图片类型文件，</el-text>
-          <el-text type="warning">最多上传五张图片。</el-text>
+          <el-text type="warning">最多上传一张图片。</el-text>
         </div>
       </template>
     </el-upload>

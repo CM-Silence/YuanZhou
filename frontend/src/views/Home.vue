@@ -104,17 +104,17 @@ const userHeadMenuItemList = [
   {label: '资源中心', path: '/home/res/audio'},
   {label: '实训中心', path: '/home/training/trainingCenter'},
   {label: '实验室', path: '/home/labs/allLabs'},
-  {label: '共享开发', path: '/home/shared/sharedLab'},
+  //{label: '共享开发', path: '/home/shared/sharedLab'},
   {label: '用户中心', path: '/home/userCenter/myInfo'},
 ]
 
 const adminHeadMenuItemList = [
-  {label: '数据预览', path: '/home/dataPreview/overviewStatistics'},
+  //{label: '数据预览', path: '/home/dataPreview/overviewStatistics'},
   {label: '综合管理', path: '/home/integratedManagement/newsManagement'},
-  {label: '系统信息', path: '/home/systemInfo/userManagement'},
+  {label: '系统管理', path: '/home/systemInfo/userManagement'},
   {label: '资源管理', path: '/home/resManagement/labsManagement'},
-  {label: '实训管理', path: '/home/trainingManagement/courseManagement'},
-  {label: '监控管理', path: '/home/monitoringManagement/devicesMonitor'},
+  //{label: '实训管理', path: '/home/trainingManagement/courseManagement'},
+  //{label: '监控管理', path: '/home/monitoringManagement/devicesMonitor'},
 ]
 
 const user = CURRENT_USER //当前用户

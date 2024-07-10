@@ -75,7 +75,9 @@
       </div>
 
       <div v-if="res.type === 4">
-
+        <el-text>
+          点击附件以查看文档
+        </el-text>
       </div>
 
       <div>
@@ -113,13 +115,13 @@
             {{item.name}}
           </el-text>
 
-          <el-text
-              v-if="res.type === 2 || res.type === 3"
-              class="res-aside-item-time"
-              truncated
-          >
-            15:12
-          </el-text>
+<!--          <el-text-->
+<!--              v-if="res.type === 2 || res.type === 3"-->
+<!--              class="res-aside-item-time"-->
+<!--              truncated-->
+<!--          >-->
+<!--            15:12-->
+<!--          </el-text>-->
         </div>
       </el-collapse-item>
     </el-collapse>

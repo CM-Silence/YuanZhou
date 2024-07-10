@@ -13,10 +13,11 @@
         class="res-card-list"
     >
       <div v-for="item in state.currentDataArray" class="item-body" @click="itemClick(item)">
-        <div class="item-img">
+        <el-card class="item-img">
           <el-image
+              class="item-img"
               :src="`${axios.defaults.baseURL}/${item.img1}`"
-              fit="cover"
+              fit="fill"
           >
             <template #error>
               <div
@@ -26,7 +27,7 @@
               </div>
             </template>
           </el-image>
-        </div>
+        </el-card>
         <div class="item-content">
           <el-text class="title">
             {{item.title}}
@@ -279,10 +280,11 @@ onMounted(async () => {
   margin: 15px 0 15px 0;
 }
 .item-img{
-  flex: 0 0 auto;
-  width: 200px;
+  align-content: center;
+  width: 150px;
   height: 100px;
   margin-right: 20px;
+  --el-card-padding: 0;
 }
 .item-content{}
 .title{
@@ -298,7 +300,7 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 150px;
   height: 100px;
   background: var(--el-fill-color-light);
   color: var(--el-text-color-secondary);

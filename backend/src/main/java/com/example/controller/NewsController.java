@@ -102,7 +102,7 @@ public class NewsController {
         //执行分页查询
         newsService.page(pageInfo, queryWrapper);
 
-//更改返回格式，与前端对接
+        //更改返回格式，与前端对接
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("rows", pageInfo.getRecords()); // 将records更改为rows
         responseData.put("total", pageInfo.getTotal());
@@ -149,7 +149,9 @@ public class NewsController {
      * @return 成功信息
      */
     @PutMapping("edit")
-    public Result<String> edit (News news, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files) {
+    public Result<String> edit (News news,
+                                @RequestParam(value = "img", required = false) MultipartFile img,
+                                @RequestParam(value = "files", required = false) MultipartFile[] files) {
         log.info(news.toString());
         if(img != null) {
             //将img文件转化为url，并将图片存入本地
@@ -174,11 +176,4 @@ public class NewsController {
         newsService.updateById(news);
         return Result.success2("修改成功");
     }
-
-    @PostMapping("/upload_files")
-    public Result<String> uploadFiles(Integer mid, MultipartFile[] files) {
-        News news = newsMapper.getAllById(mid);
-        log.info(news.toString());
-        return Result.success2("ok");
-}
 }

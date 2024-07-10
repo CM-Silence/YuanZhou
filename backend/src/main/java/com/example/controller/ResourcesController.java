@@ -156,7 +156,9 @@ public class ResourcesController {
      * @return 成功信息
      */
     @PutMapping("edit")
-    public Result<String> edit (Resources resources, @RequestParam MultipartFile img, @RequestParam MultipartFile[] files)  {
+    public Result<String> edit (Resources resources,
+                                @RequestParam(value = "img", required = false) MultipartFile img,
+                                @RequestParam(value = "files", required = false) MultipartFile[] files)  {
         log.info(resources.toString());
 
         if(img != null) {

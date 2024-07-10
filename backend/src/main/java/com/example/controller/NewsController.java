@@ -105,9 +105,9 @@ public class NewsController {
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("rows", pageInfo.getRecords()); // 将records更改为rows
         responseData.put("total", pageInfo.getTotal());
-        responseData.put("size", pageInfo.getSize());
+        responseData.put("total_pages", (int) Math.ceil((double) pageInfo.getTotal() / pageInfo.getSize()));
         responseData.put("current", pageInfo.getCurrent());
-        responseData.put("pages", pageInfo.getPages());
+        responseData.put("page", pageInfo.getPages());
 
         //返回数据
         return ResponseEntity.ok(responseData);
@@ -185,4 +185,15 @@ public class NewsController {
         newsService.updateById(news);
         return Result.success2("修改成功");
     }
+
+    @PostMapping("/upload_files")
+    public Result<String> uploadFiles(Integer mid, MultipartFile[] files) throws IOException {
+        // 根据id查询News实体
+        News news = newsService.getById(mid);
+
+        log.info(String.valueOf(news));
+        // 调用service层的方法保存或更新News实体
+        newsService.saveOrUpdate(news);
+        return Result.success2("ok");
+}
 }

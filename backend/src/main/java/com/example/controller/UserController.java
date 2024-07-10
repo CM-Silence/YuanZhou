@@ -25,47 +25,48 @@ public class UserController {
     private UserService userService;
 
 
-
     /**
      * 用户登录
+     *
      * @param user 用户
      * @return token
      */
     @PostMapping("/login")
-    public Map<String, Object> login(@ModelAttribute User user){
+    public Map<String, Object> login(@ModelAttribute User user) {
         log.info("用户名：[{}]", user.getUsername());
         log.info("密码：[{}]", user.getPassword());
 
         Map<String, Object> map = new HashMap<>();
-            try {
-                User userDB = userServiceImpl.login(user);
-                Map<String, String> payload = new HashMap<>();
-                //生成jwt令牌
-                String token = JWTUtils.getToken(payload);
+        try {
+            User userDB = userServiceImpl.login(user);
+            Map<String, String> payload = new HashMap<>();
+            //生成jwt令牌
+            String token = JWTUtils.getToken(payload);
 
-                payload.put("id", String.valueOf(userDB.getUid()));
-                payload.put("username", userDB.getUsername());
+            payload.put("id", String.valueOf(userDB.getUid()));
+            payload.put("username", userDB.getUsername());
 
-                map.put("msg", "login success");
-                map.put("code", 201);
-                map.put("data", userDB);
+            map.put("msg", "login success");
+            map.put("code", 201);
+            map.put("data", userDB);
 
 
-            }catch (Exception e){
-                map.put("code", 500);
-                map.put("msg", e.getMessage());
-            }
-            return map;
+        } catch (Exception e) {
+            map.put("code", 500);
+            map.put("msg", e.getMessage());
+        }
+        return map;
     }
 
     /**
      * JWT令牌测试
+     *
      * @param request 1
      * @return 1
      */
     @PostMapping("/test")
-    public Map<String,Object> test(HttpServletRequest request){
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> test(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
 
         /*
          * 验证令牌交给拦截器
@@ -82,12 +83,13 @@ public class UserController {
 
     /**
      * 注册
+     *
      * @param username 用户账号
      * @param password 用户密码
      * @return 注册信息
      */
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestParam String username,@RequestParam String password) {
+    public Map<String, Object> register(@RequestParam String username, @RequestParam String password) {
         User user = userService.findByUserName(username);
         if (user == null) {
             userService.register(username, password);
@@ -103,8 +105,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("edit")
-    public Result<String> edit(User user){
+    @PutMapping("/edit")
+    public Result<String> edit(User user) {
         userService.updateById(user);
         return Result.success2("修改成功");
     }

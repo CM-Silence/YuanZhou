@@ -16,8 +16,8 @@ public class FileUploadUtil {
      * @param files 上传文件
      * @return 文件合集
      */
-    public static List<FileInfo> uploadFiles(MultipartFile[] files) {
-        List<FileInfo> fileInfos = new ArrayList<>();
+    public static List<String> uploadFiles(MultipartFile[] files) {
+        List<String> fileInfos = new ArrayList<>();
 
         for (int i = 0; i < files.length; i++) {
             MultipartFile file = files[i];
@@ -39,7 +39,7 @@ public class FileUploadUtil {
 
                 // 创建FileInfo对象并添加到列表中
                 FileInfo fileInfo = new FileInfo(baseName, url);
-                fileInfos.add(fileInfo);
+                fileInfos.add(fileInfo.toString());
             }
 
             return fileInfos;

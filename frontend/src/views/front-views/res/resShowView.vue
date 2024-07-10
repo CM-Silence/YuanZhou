@@ -55,13 +55,15 @@
         >
           资源地址：
         </el-text>
-        <a :href="activeFile?.url" target="_blank"> {{activeFile?.url}}</a>
+        <a :href="`${axios.defaults.baseURL}${activeFile?.url}`" target="_blank">
+          {{`${axios.defaults.baseURL}${activeFile?.url}`}}
+        </a>
 
       </div>
 
       <div v-if="res.type === 2">
         <my-player
-          :url="activeFile?.url"
+          :url="`${axios.defaults.baseURL}${activeFile?.url}`"
           res-type="video"
         />
       </div>
@@ -69,7 +71,7 @@
 
       <div v-if="res.type === 3">
         <my-player
-            :url="activeFile?.url"
+            :url="`${axios.defaults.baseURL}${activeFile?.url}`"
             res-type="audio"
         />
       </div>
@@ -134,6 +136,7 @@ import {onMounted, reactive, ref} from "vue";
 import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import {Collection, Star, View} from "@element-plus/icons-vue";
 import MyPlayer from "@/components/myPlayer.vue";
+import axios from "axios";
 
 const activeNames = ref(['1'])
 const route = useRoute();

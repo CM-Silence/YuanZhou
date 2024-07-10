@@ -316,9 +316,6 @@
   >
     <el-upload
         ref="myUploadFileForm"
-        accept="text/plain, text/markdown, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/pdf,
-        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.openxmlformats-officedocument.presentationml.presentation,
-        application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         :auto-upload="false"
         :limit="5"
         :on-change="handleFileChange"
@@ -332,7 +329,6 @@
       </div>
       <template #tip>
         <div class="el-upload__tip">
-          <el-text type="info">支持txt、doc、xls、ppt、pdf等类型文件，</el-text>
           <el-text type="warning">最多上传五个文件。</el-text>
         </div>
       </template>
@@ -798,7 +794,7 @@ function uploadDialogClosed(){
 }
 
 function previewFile(_, val){
-  const path = `${axios.defaults.baseURL}/${val}`
+  const path = `${axios.defaults.baseURL}${val}`
   window.open(path, '_blank');
 }
 
@@ -813,12 +809,6 @@ const handleImgChange = (uploadFile) => {
 }
 
 const handleFileChange = (uploadFile) => {
-  if (!/\.(txt|doc|dot|docx|xls|xlsx|ppt|pptx|pdf|md)$/.test(uploadFile.name.toLowerCase())) {
-    // 格式根据自己需求定义
-    ElMessage.error('上传格式不正确，请上传支持的文件格式')
-    myUploadFileForm.value.handleRemove(uploadFile)
-    return false
-  }
   fileList.value.push(uploadFile.raw)
 }
 

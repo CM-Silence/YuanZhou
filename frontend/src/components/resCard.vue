@@ -9,7 +9,7 @@
       <el-image
           class="res-card-body"
           fit="fill"
-          :src="`${axios.defaults.baseURL}/${res.img1}`"
+          :src="`${axios.defaults.baseURL}${res.img1}`"
       >
         <template #error>
           <div

@@ -60,9 +60,9 @@
           <el-image
               class="table-col-img"
               v-if="scope.row[item.property]"
-              :src="`${axios.defaults.baseURL}/${scope.row[item.property]}`"
+              :src="`${axios.defaults.baseURL}${scope.row[item.property]}`"
               fit="cover"
-              :preview-src-list="[`${axios.defaults.baseURL}/${scope.row[item.property]}`]"
+              :preview-src-list="[`${axios.defaults.baseURL}${scope.row[item.property]}`]"
               preview-teleported
           >
             <template #error>

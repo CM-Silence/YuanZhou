@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface NewsMapper extends BaseMapper<News> {
-    News getAllById (Integer id);
+
 }

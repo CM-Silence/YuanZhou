@@ -31,6 +31,9 @@ public class TrainingExperimentsController {
     @Autowired
     private ImageUploadUtil imageUploadUtil;
 
+    @Autowired
+    private FileUploadUtil fileUploadUtil;
+
     /**
      * @param key_word       名称
      * @param page_size  页面大小
@@ -139,7 +142,7 @@ public class TrainingExperimentsController {
 
         if(files != null) {
             //将附件files转化为url，并将图片存入本地
-            List<String> uploadFile = FileUploadUtil.uploadFiles(files);
+            List<String> uploadFile = fileUploadUtil.uploadFiles(files);
 
             //将files的url转化为json格式
             String uploadFile1 = FileInfoExtractor.extractFileInfosToJson(uploadFile);

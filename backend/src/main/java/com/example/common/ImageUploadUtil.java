@@ -1,13 +1,15 @@
 package com.example.common;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+@Component
 public class ImageUploadUtil {
-
-    private static final String UPLOAD_DIR = "yuan_zhou/resources/files"; // 指定上传目录
+    @Value("${backend.path}")
+    private String basePath; // 指定上传目录
 
     /**
      * 上传图片并保存到本地，同时返回假设的访问URL
@@ -15,14 +17,14 @@ public class ImageUploadUtil {
      * @param file 上传的图片文件
      * @return 图片的假设访问URL
      */
-    public static String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file) {
 
         // 构建目标文件路径
         String fileName;
         fileName = file.getOriginalFilename();
         Path targetLocation = null;
         if (fileName != null) {
-            targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
+            targetLocation = Paths.get(basePath).resolve(fileName).toAbsolutePath().normalize();
         }
 
         // 如果文件已存在，则直接返回其URL

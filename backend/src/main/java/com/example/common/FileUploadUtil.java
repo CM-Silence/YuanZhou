@@ -1,7 +1,6 @@
 package com.example.common;
 import com.example.entity.FileInfo;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,16 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUploadUtil {
-    private static final String UPLOAD_DIR =  "yuan_zhou/resources/files"; // 指定上传目录
+    private static final String UPLOAD_DIR = "yuan_zhou/resources/files"; // 指定上传目录
 
     /**
      * 文件传入与转换
      *
      * @param files 上传文件
      * @return 文件合集
-     * @throws IOException 1
      */
-    public static List<FileInfo> uploadFiles(MultipartFile[] files) throws IOException {
+    public static List<FileInfo> uploadFiles(MultipartFile[] files) {
         List<FileInfo> fileInfos = new ArrayList<>();
 
         for (int i = 0; i < files.length; i++) {
@@ -37,17 +35,14 @@ public class FileUploadUtil {
             if (Files.exists(targetLocation)) {
                 // 如果文件已存在，则修改URL
                 url = fileName + " (existing file, not re-uploaded)";
-            } else {
-                // 文件不存在，保存文件
-                Files.createDirectories(targetLocation.getParent());
-                Files.copy(file.getInputStream(), targetLocation);
             }
 
-            // 创建FileInfo对象并添加到列表中
-            FileInfo fileInfo = new FileInfo(baseName, url);
-            fileInfos.add(fileInfo);
-        }
+                // 创建FileInfo对象并添加到列表中
+                FileInfo fileInfo = new FileInfo(baseName, url);
+                fileInfos.add(fileInfo);
+            }
 
-        return fileInfos;
+            return fileInfos;
+        }
     }
-}
+

@@ -1,7 +1,6 @@
 package com.example.common;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,9 +14,8 @@ public class ImageUploadUtil {
      *
      * @param file 上传的图片文件
      * @return 图片的假设访问URL
-     * @throws IOException 如果保存文件时发生错误
      */
-    public static String uploadImage(MultipartFile file) throws IOException {
+    public static String uploadImage(MultipartFile file) {
 
         // 构建目标文件路径
         String fileName;
@@ -28,21 +26,12 @@ public class ImageUploadUtil {
         }
 
         // 如果文件已存在，则直接返回其URL
-        if (targetLocation != null && Files.exists(targetLocation)) {
-            // 假设你的应用部署在http://example.com/，并且你有一个服务或静态资源路径来访问这些图片
-            // 注意：这里只是一个示例，实际URL应该根据你的Web服务器和应用配置来设置
-            return "img/" + fileName;
+        // 假设你的应用部署在http://example.com/，并且你有一个服务或静态资源路径来访问这些图片
+        // 注意：这里只是一个示例，实际URL应该根据你的Web服务器和应用配置来设置
+        if (targetLocation != null) {
+            Files.exists(targetLocation);
         }
 
-        // 确保目标目录存在
-        if (targetLocation != null) {
-            Files.createDirectories(targetLocation.getParent());
-        }
-
-        // 保存文件
-        if (targetLocation != null) {
-            Files.copy(file.getInputStream(), targetLocation);
-        }
         return "img/" + fileName;
     }
 }

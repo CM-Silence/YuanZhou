@@ -6,7 +6,4 @@
 <!--namespace命名空间: 要和mapper持久层层的接口全限定名相同-->
 <mapper namespace="com.example.mapper.NewsMapper">
 
-    <select id="getAllById" resultType="com.example.entity.News">
-        select * from news
-    </select>
 </mapper>

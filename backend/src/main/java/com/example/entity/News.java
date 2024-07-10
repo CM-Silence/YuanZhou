@@ -43,10 +43,10 @@ public class News {
     @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableField("id")
     private Integer id;
 
-    @TableField("mid")
+    @TableId("mid")
     private Integer mid;
 
 }

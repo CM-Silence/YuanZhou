@@ -1,14 +1,19 @@
 package com.example.common;
 import com.example.entity.FileInfo;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class FileUploadUtil {
-    private static final String UPLOAD_DIR = "D/yuan_zhou/data/files"; // 指定上传目录
+    @Value("${backend.path}")
+    private String basePath; // 指定上传目录
+    private String filePath = "files\\";
 
     /**
      * 文件传入与转换
@@ -16,7 +21,7 @@ public class FileUploadUtil {
      * @param files 上传文件
      * @return 文件合集
      */
-    public static List<String> uploadFiles(MultipartFile[] files) {
+    public List<String> uploadFiles(MultipartFile[] files) {
         List<String> fileInfos = new ArrayList<>();
 
         for (int i = 0; i < files.length; i++) {
@@ -27,22 +32,33 @@ public class FileUploadUtil {
 
             String originalFileName = file.getOriginalFilename();
             String baseName = "附件" + (i + 1);
-            String fileName = (originalFileName != null && !originalFileName.isEmpty() ? "_" + originalFileName : "");
-            Path targetLocation = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
+            String fileName = (originalFileName != null && !originalFileName.isEmpty() ? originalFileName : "");
 
-            String url = originalFileName; // 默认URL为原始文件名
+            StringBuilder url = new StringBuilder(basePath + filePath + originalFileName); // 默认URL为原始文件名
 
-            if (Files.exists(targetLocation)) {
-                // 如果文件已存在，则修改URL
-                url = fileName + " (existing file, not re-uploaded)";
+            //创建一个目录对象
+            File dir = new File(basePath + filePath);
+
+            //判断当前目录是否存在
+            if (!dir.exists()) {
+                //目录不存在，则创建一个目录
+                dir.mkdirs();
             }
 
-                // 创建FileInfo对象并添加到列表中
-                FileInfo fileInfo = new FileInfo(baseName, url);
-                fileInfos.add(fileInfo.toString());
+            try {
+                //将临时文件转存到指定位置
+                file.transferTo(new File(basePath + filePath + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            return fileInfos;
+            // 创建FileInfo对象并添加到列表中
+            FileInfo fileInfo = new FileInfo(baseName, url.toString());
+            fileInfos.add(fileInfo.toString());
         }
+
+        return fileInfos;
     }
+}
+
 

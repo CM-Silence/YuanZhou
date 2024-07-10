@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +26,15 @@ public class ImageUploadUtil {
         Path targetLocation = null;
         if (fileName != null) {
             targetLocation = Paths.get(basePath).resolve(fileName).toAbsolutePath().normalize();
+        }
+
+        //创建一个目录对象
+        File dir = new File(basePath);
+
+        //判断当前目录是否存在
+        if(!dir.exists()) {
+            //目录不存在，则创建一个目录
+            dir.mkdirs();
         }
 
         // 如果文件已存在，则直接返回其URL

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileInfoExtractor {
 
@@ -21,14 +23,17 @@ public class FileInfoExtractor {
         // 转换后的列表
         List<Map<String, String>> resultList = new ArrayList<>();
 
+        // 正则表达式，匹配 "key: value" 格式的字符串，其中 value 可以包含冒号但不应以冒号开头
+        Pattern pattern = Pattern.compile("(\\w+):\\s*([^,\\s]+(?:\\s+[^,\\s:]+)*)");
+
         // 解析并转换
         for (String input : inputList) {
             Map<String, String> map = new HashMap<>();
-            // 使用trim()来去除多余的空格
-            String[] parts = input.trim().split(",\\s*"); // 分割逗号，并去除逗号后的空格
-            for (String part : parts) {
-                String[] keyValue = part.trim().split(":\\s*"); // 分割键和值，并去除冒号后的空格
-                map.put(keyValue[0], keyValue[1]);
+            Matcher matcher = pattern.matcher(input.trim());
+            while (matcher.find()) {
+                String key = matcher.group(1);
+                String value = matcher.group(2).trim(); // 去除可能存在的尾随空格
+                map.put(key, value);
             }
             resultList.add(map);
         }

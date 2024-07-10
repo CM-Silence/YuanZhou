@@ -1,14 +1,14 @@
 package com.example.controller;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.common.JWTUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.Result;
 import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
 import com.example.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +24,37 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    @GetMapping("/list")
+    public ResponseEntity<Map<String, Object>> page(String key_word,
+                                                    Integer page_size,
+                                                    Integer page){
+        //构造分页构造器
+        Page<User> pageInfo = new Page<>(page, page_size);
+
+        //条件构造器
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+
+        //添加过滤条件，使用like关键字
+        queryWrapper.like(key_word != null, User::getName , key_word);
+
+        //添加排序条件
+        queryWrapper.orderByDesc(User::getUid);
+
+        //执行分页查询
+        userService.page(pageInfo, queryWrapper);
+
+//更改返回格式，与前端对接
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("rows", pageInfo.getRecords()); // 将records更改为rows
+        responseData.put("total", pageInfo.getTotal());
+        responseData.put("total_pages", (int) Math.ceil((double) pageInfo.getTotal() / pageInfo.getSize()));
+        responseData.put("current", pageInfo.getCurrent());
+        responseData.put("page", pageInfo.getPages());
+
+        //返回数据
+        return ResponseEntity.ok(responseData);
+    }
 
     /**
      * 用户登录
@@ -59,29 +90,6 @@ public class UserController {
     }
 
     /**
-     * JWT令牌测试
-     *
-     * @param request 1
-     * @return 1
-     */
-    @PostMapping("/test")
-    public Map<String, Object> test(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
-
-        /*
-         * 验证令牌交给拦截器
-         * 这里只需要处理自己的业务逻辑
-         */
-        String token = request.getHeader("token");
-        DecodedJWT verify = JWTUtils.verify(token);
-        log.info("用户uid：【{}】", verify.getClaim("uid").asString());
-        log.info("用户姓名：【{}】", verify.getClaim("name").asString());
-        map.put("state", true);
-        map.put("msg", "请求成功");
-        return map;
-    }
-
-    /**
      * 注册
      *
      * @param username 用户账号
@@ -92,13 +100,14 @@ public class UserController {
     public Map<String, Object> register(@RequestParam String username,
                                         @RequestParam String password,
                                         @RequestParam Integer permission,
+                                        @RequestParam String name,
                                         @RequestParam String phone,
                                         @RequestParam String email,
                                         @RequestParam String class_name,
                                         @RequestParam String occupational_type) {
         User user = userService.findByUserName(username);
         if (user == null) {
-            userService.register(username, password, permission, phone, email, class_name, occupational_type);
+            userService.register(username, password, permission, name, phone, email, class_name, occupational_type);
             Map<String, Object> successResponse = new HashMap<>();
             successResponse.put("msg", "register success");
             successResponse.put("code", 201);

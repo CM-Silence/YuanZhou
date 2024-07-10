@@ -10,6 +10,6 @@ public interface UserService extends IService<User> {
 
     User findByUserName(String username);
 
-    void register(String username, String password, Integer permission,  String phone, String email, String class_name, String occupational_type);
+    void register(String username, String password, Integer permission, String name, String phone, String email, String class_name, String occupational_type);
 }
 

@@ -97,7 +97,7 @@ public class NewsController {
         }
         }
         //添加排序条件
-        queryWrapper.orderByDesc(News::getId);
+        queryWrapper.orderByDesc(News::getMid);
 
         //执行分页查询
         newsService.page(pageInfo, queryWrapper);

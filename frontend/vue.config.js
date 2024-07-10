@@ -1,9 +1,10 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   lintOnSave: false,
+  outputDir:'yz-f',
   devServer:{
     host: '0.0.0.0',
-    port:3000,
+    port:7775,
     client: {
       webSocketURL: 'ws://0.0.0.0:3000/ws',
     },

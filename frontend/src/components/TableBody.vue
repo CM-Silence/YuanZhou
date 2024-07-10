@@ -361,8 +361,6 @@ const viewFiles = (data, id) =>{
   height: 50px;
   width: 50px;
   font-size: 25px;
-  background: var(--el-fill-color-light);
-  color: var(--el-text-color-secondary);
   cursor: pointer;
 }
 

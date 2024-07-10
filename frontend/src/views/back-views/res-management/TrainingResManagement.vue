@@ -137,7 +137,7 @@ const urls = {
   getData: "/res/list",
   deleteData: "/res/delete",
   addData: "/res/add",
-  updateData: "/res/update",
+  updateData: "/res/edit",
 }
 
 </script>

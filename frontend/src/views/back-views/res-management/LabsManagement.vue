@@ -170,7 +170,7 @@ const urls = {
   getData: "/labs/list",
   deleteData: "/labs/delete",
   addData: "/labs/add",
-  updateData: "/labs/update",
+  updateData: "/labs/edit",
 }
 
 </script>

@@ -49,7 +49,7 @@ const prop = defineProps({
   },
   large:{
     type: Boolean,
-    default: () => false,
+    default: () => true,
     description: '是否启用大数据表格(由后端分页的数据)'
   },
   tableColList:{
@@ -139,7 +139,6 @@ const state =  reactive({
   currentPage: 1, //当前页数
   searchWord: '',  //后端查询关键词
   isLoading: true,  //数据是否正在加载
-  allDataArray: [],  //所有表格展示数据列表
   currentDataArray: [], //当前表格展示数据列表
   addFKMap: new Map(),  //添加窗口外键
   editFKMap: new Map(),  //编辑窗口外键
@@ -174,9 +173,6 @@ defineExpose({
 async function initialize(){
   state.isLoading = true
   await getAllFKList()
-  if(!prop.large) {
-    state.allDataArray = await getData(prop.urls['getData'], undefined, 'init-getData')
-  }
   await update(state.currentPage)
   state.isLoading = false
 }
@@ -252,40 +248,19 @@ async function getAllFKList() {
 //页数更新时更新数据
 async function update(currentPage) {
   permission.value = getUserPermission()
-  if (!prop.large) {  //前端分页
-    //获取数据总数
-    const dataSize = state.allDataArray.length
-
-    // 计算总页数
-    state.pageCount = Math.max(Math.ceil(dataSize / PAGE_SIZE), 1);
-
-    //判断数据更新后当前页数是否大于总页数
-    if (currentPage > state.pageCount) {
-      currentPage = state.pageCount
-    }
-    state.currentPage = currentPage
-
-    // 计算当前页的第一个元素和最后一个元素在 allDataArray 中的索引
-    const startIndex = (currentPage - 1) * PAGE_SIZE;
-    const endIndex = Math.min(startIndex + PAGE_SIZE, dataSize);
-
-    // 使用这些索引来获取对应的元素
-    state.currentDataArray = state.allDataArray.slice(startIndex, endIndex);
-  } else {  //后端分页
-    state.isLoading = true
-    const defaultParams = {
-      page: currentPage,
-      page_size: PAGE_SIZE,
-      keyword: state.searchWord
-    }
-    state.currentDataArray = await getData(prop.urls['getData'], {...defaultParams, ...prop.extraParams}, `getData-page${currentPage}`)
-    //判断数据更新后当前页数是否大于总页数
-    if (currentPage > state.pageCount) {
-      currentPage = state.pageCount
-    }
-    state.currentPage = currentPage
-    state.isLoading = false
+  state.isLoading = true
+  const defaultParams = {
+    page: currentPage,
+    page_size: PAGE_SIZE,
+    keyword: state.searchWord
   }
+  state.currentDataArray = await getData(prop.urls['getData'], {...defaultParams, ...prop.extraParams}, `getData-page${currentPage}`)
+  //判断数据更新后当前页数是否大于总页数
+  if (currentPage > state.pageCount) {
+    currentPage = state.pageCount
+  }
+  state.currentPage = currentPage
+  state.isLoading = false
 }
 
 //后端分页时点击查询按钮回调此函数
@@ -338,7 +313,7 @@ async function uploadImg(id, fileList) {
   formData.append('img', fileList[0]);
 
   // 调用uploadFiles函数并传入formData
-  await uploadFiles(prop.urls['uploadImage'], formData);
+  await uploadFiles(prop.urls['updateData'], formData);
 }
 
 //上传附件
@@ -355,7 +330,7 @@ async function uploadFile(id, fileList) {
 
 
   // 调用uploadFiles函数并传入formData
-  await uploadFiles(prop.urls['uploadFile'],formData);
+  await uploadFiles(prop.urls['updateData'],formData);
 }
 
 //点击子组件的编辑按钮, 子组件处理完返回的可提交表单
@@ -374,6 +349,17 @@ const getData = async (url, params = {}, name = 'getData') => {
     if(prop.large){
       state.pageCount = Math.max(result['total_pages'], 1)
     }
+    for(const i in result.rows){
+      if ('created_at' in result.rows[i]){
+        result.rows[i].created_at = result.rows[i].created_at.replace('T', ' ')
+      }
+      if ('update_at' in result.rows[i]){
+        result.rows[i].update_at = result.rows[i].update_at.replace('T', ' ')
+      }
+      if ('files1' in result.rows[i]){
+        result.rows[i].files1 = JSON.parse(result.rows[i].files1)
+      }
+    }
     return result.rows
   }
   else{
@@ -390,7 +376,6 @@ const deleteData=async (data) => {
   const result = await axiosDelete({url: prop.urls['deleteData'], data: data, name: 'deleteData'})
   if(result){
     ElMessage.success("数据已被删除！")
-    state.allDataArray = await getData(prop.urls['getData'], undefined, 'del-getData')
     await update(state.currentPage)
   }
   state.isLoading = false
@@ -405,7 +390,6 @@ const addData=async (data) => {
   const result = await axiosPost({url: prop.urls['addData'], data: data, name: 'addData'})
   if(result){
     ElMessage.success("数据添加成功！")
-    state.allDataArray = await getData(prop.urls['getData'], undefined, 'add-getData')
     await update(state.currentPage)
   }
   state.isLoading = false
@@ -420,7 +404,6 @@ const updateData=async (data) => {
   const result = await axiosPut({url: prop.urls['updateData'], data: data, name: 'updateData'})
   if(result){
     ElMessage.success("数据修改成功！")
-    state.allDataArray = await getData(prop.urls['getData'], undefined, 'update-getData')
     await update(state.currentPage)
   }
   state.isLoading = false
@@ -456,7 +439,6 @@ const uploadData=async (list) => {
         }
       }
     }
-    state.allDataArray = await getData(prop.urls['getData'], undefined, 'upload-getData')
     await update(state.currentPage)
   }
   state.isLoading = false
@@ -471,10 +453,15 @@ const uploadFiles=async (url, data) => {
   const headers = {
     'Content-Type': 'multipart/form-data'
   }
-  const result = await axiosPost({url: url, data: data, headers: headers, name: 'uploadFiles'})
+  const result = await axiosPut({
+    url: url,
+    data: data,
+    headers: headers,
+    name: 'uploadFiles',
+    isFormData: false
+  })
   if(result){
     ElMessage.success("文件上传成功！")
-    state.allDataArray = await getData(prop.urls['getData'], undefined, 'uploadFile-getData')
     await update(state.currentPage)
   }
   state.isLoading = false

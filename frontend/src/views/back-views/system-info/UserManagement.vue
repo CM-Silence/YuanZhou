@@ -69,7 +69,6 @@ const editForm = {
       { required: 'true', message: '请选择用户权限', trigger: 'blur' }
     ],
     name:[
-      { required: 'true', message: '请输入用户昵称', trigger: 'blur' },
       { min: 1, max: 8, message: '昵称长度需要在1-8个字符之间', trigger: 'blur' },
     ]
   },
@@ -129,7 +128,6 @@ const addForm = {
       { required: 'true', message: '请选择用户权限', trigger: 'blur' }
     ],
     name:[
-      { required: 'true', message: '请输入用户昵称', trigger: 'blur' },
       { min: 1, max: 8, message: '昵称长度需要在1-8个字符之间', trigger: 'blur' },
     ]
   },
@@ -158,7 +156,7 @@ const urls = {
   getData: "/user/list",
   deleteData: "/user/delete",
   addData: "/user/register",
-  updateData: "/user/update",
+  updateData: "/user/edit",
 }
 
 </script>

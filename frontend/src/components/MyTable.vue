@@ -296,7 +296,7 @@
     </div>
     <table-body
       :table-col-list="[
-          {property: 'path', label: '文件名', sortable: false, operable: true, operationEvent: previewFile},
+          {property: 'url', label: '文件名', sortable: false, operable: true, operationEvent: previewFile},
       ]"
       :default-data="viewFileList"
       :operations="{

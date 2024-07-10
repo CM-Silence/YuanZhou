@@ -164,7 +164,7 @@ const urls = {
   getData: "/devices/list",
   deleteData: "/devices/delete",
   addData: "/devices/add",
-  updateData: "/devices/update",
+  updateData: "/devices/edit",
 }
 
 </script>

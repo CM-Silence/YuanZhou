@@ -95,8 +95,7 @@ const urls = {
   getData: "/staff/list",
   deleteData: "/staff/delete",
   addData: "/staff/add",
-  updateData: "/staff/update",
-  uploadData: "/staff/upload",
+  updateData: "/staff/edit",
 }
 
 

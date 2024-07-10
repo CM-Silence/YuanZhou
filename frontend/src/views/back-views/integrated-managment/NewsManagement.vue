@@ -26,8 +26,8 @@ const tableColList = [
   {property: "src", label: "来源", sortable: false, width: 100},
   {property: "editor", label: "编辑", sortable: false, width: 100},
   {property: "type", label: "类型", sortable: false, width: 100, isMapping: true, mappingList:[
-      {label: "新闻资讯", value: 0},
-      {label: "公告通知", value: 1},
+      {label: "新闻资讯", value: 1},
+      {label: "公告通知", value: 2},
     ]},
   {property: "view_amount", label: "浏览量", sortable: false, width: 120},
   {property: "content", label: "内容", sortable: false, width: 240, isTextArea: true},
@@ -78,8 +78,8 @@ const editForm = {
     {label: '编辑', prop: 'editor', dataName: 'editor', isInput: true},
     {label: '类型', prop: 'type', dataName: 'type', isSelect: true,
       selectOptions: [
-        {label: '新闻资讯', value: 0},
-        {label: '公告通知', value: 1},
+        {label: '新闻资讯', value: 1},
+        {label: '公告通知', value: 2},
       ]},
     {label: '内容', prop: 'content', dataName: 'content', isTextArea: true, maxLength: 2000},
   ],
@@ -127,8 +127,8 @@ const addForm = {
     {label: '编辑', prop: 'editor', dataName: 'editor', isInput: true},
     {label: '类型', prop: 'type', dataName: 'type', isSelect: true,
       selectOptions: [
-        {label: '新闻资讯', value: 0},
-        {label: '公告通知', value: 1},
+        {label: '新闻资讯', value: 1},
+        {label: '公告通知', value: 2},
       ]},
     {label: '内容', prop: 'content', dataName: 'content', isTextArea: true, maxLength: 2000},
   ],
@@ -141,7 +141,7 @@ const urls = {
   getData: "/news/list",
   deleteData: "/news/delete",
   addData: "/news/add",
-  updateData: "/news/update",
+  updateData: "/news/edit",
 }
 
 </script>

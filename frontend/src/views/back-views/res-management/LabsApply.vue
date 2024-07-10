@@ -171,7 +171,7 @@ const urls = {
   getData: "/apply/list",
   deleteData: "/apply/delete",
   addData: "/apply/add",
-  updateData: "/apply/update",
+  updateData: "/apply/edit",
 }
 
 </script>

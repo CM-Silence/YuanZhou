@@ -5,18 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @TableName("user")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class User {
 
     //uid(学校编号、或者个人编号)
     @TableId("uid")

@@ -11,4 +11,9 @@ public class FileInfo {
     private String name;
     private String url;
 
+    @Override
+    public String toString(){
+        return "name";
+    }
+
 }

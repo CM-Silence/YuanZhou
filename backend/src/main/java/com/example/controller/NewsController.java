@@ -25,11 +25,16 @@ import java.util.Map;
 @Slf4j
 @CrossOrigin
 public class NewsController {
+
+
     @Autowired
     private NewsService newsService;
 
     @Autowired
     private NewsMapper newsMapper;
+
+    @Autowired
+    private ImageUploadUtil imageUploadUtil;
     /**
      * 分页查询
      *
@@ -155,7 +160,7 @@ public class NewsController {
         log.info(news.toString());
         if(img != null) {
             //将img文件转化为url，并将图片存入本地
-            String uploadImage = ImageUploadUtil.uploadImage(img);
+            String uploadImage = imageUploadUtil.uploadImage(img);
             //将url存入数据库
             news.setImg1(uploadImage);
         }

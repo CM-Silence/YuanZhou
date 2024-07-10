@@ -27,6 +27,9 @@ public class TrainingExperimentsController {
     @Autowired
     TrainingExperimentsService trainingExperimentsService;
 
+    @Autowired
+    private ImageUploadUtil imageUploadUtil;
+
     /**
      * @param key_word       名称
      * @param page_size  页面大小
@@ -128,7 +131,7 @@ public class TrainingExperimentsController {
         log.info(trainingExperiments.toString());
         if(img != null) {
             //将img文件转化为url，并将图片存入本地
-            String uploadImage = ImageUploadUtil.uploadImage(img);
+            String uploadImage = imageUploadUtil.uploadImage(img);
             //将url存入数据库
             trainingExperiments.setImg1(uploadImage);
         }

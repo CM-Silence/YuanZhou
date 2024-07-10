@@ -2,8 +2,6 @@
 server:
   port: 8217
 #配置数据源
-
-
 spring:
   servlet:
     multipart:
@@ -24,4 +22,8 @@ mybatis-plus:
     auto-mapping-behavior: full # 自动映射任何复杂结果
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:/mapper/*.xml
+
+backend:
+   path: D:\yuan_zhouData\
+
 

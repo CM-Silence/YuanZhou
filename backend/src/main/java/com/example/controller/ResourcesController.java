@@ -28,6 +28,10 @@ public class ResourcesController {
     @Autowired
     private ResourcesService resourcesService;
 
+    @Autowired
+    private ImageUploadUtil imageUploadUtil;
+
+
     /**
      * 分页查询
      *
@@ -163,7 +167,7 @@ public class ResourcesController {
 
         if(img != null) {
             //将img文件转化为url，并将图片存入本地
-            String uploadImage = ImageUploadUtil.uploadImage(img);
+            String uploadImage = imageUploadUtil.uploadImage(img);
             //将url存入数据库
             resources.setImg1(uploadImage);
         }

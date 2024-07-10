@@ -1,10 +1,9 @@
 <template>
   <el-menu
       :collapse="state.isCollapse"
-      active-text-color="#ffffff"
-      background-color="#545c64"
       class="side-menu"
-      text-color="#fff"
+      text-color="#000"
+      active-text-color="#000"
       @select="handleSideMenu"
   >
     <!--第一个为折叠按钮-->

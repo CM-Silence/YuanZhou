@@ -5,7 +5,7 @@
         <img class="logo" src="@/assets/logo.png"  alt="圆舟，启动！"/>
         <div class="name">
           <div class="title">CirArk</div>
-          <div class="tips">圆舟在线教育平台</div>
+          <div class="tips">虚拟仿真教育平台</div>
         </div>
       </div>
       <el-form label-position="top"
@@ -40,7 +40,7 @@
           <br>
           <el-checkbox v-model="state.remember" @change="!state.remember">记住密码</el-checkbox>
           <el-button type="primary" text style="margin-left: 130px" @click="state.settingFormVisible = true">一键注册</el-button>
-          <el-button color="#d9c98b" style="width: 100%; margin-top: 20px" type="primary" @click="submitForm(loginForm)" :loading="state.loading" round>
+          <el-button style="width: 100%; margin-top: 20px" type="primary" @click="submitForm(loginForm)" :loading="state.loading" round>
             <el-text style="color: white">登录</el-text>
           </el-button>
         </el-form-item>
@@ -192,6 +192,7 @@ const submitForm = async (form) => {
   console.log(form)
   form.validate(async (valid) => {
     if (valid) {
+      state.loading = true
       const data = {
         username: state.ruleForm.username,
         password: state.ruleForm.password
@@ -206,8 +207,8 @@ const submitForm = async (form) => {
         })
         if(result && result.data.code === 201){
           // 需要将返回的数据存入Store中
-          localStorage.setItem("token", result.data.data.token)
-          localStorage.setItem("user", JSON.stringify(result.data.data.user))
+          localStorage.setItem("token", result.data.token)
+          localStorage.setItem("user", JSON.stringify(result.data.data))
           // 记住账号密码
           if (state.remember) {
             localStorage.setItem("username", state.ruleForm.username)
@@ -266,7 +267,7 @@ const submitForm = async (form) => {
 }
 .head .title {
   font-size: 28px;
-  color: #d9c98b;
+  color: #409eff;
   font-weight: bold;
 }
 .head .tips {

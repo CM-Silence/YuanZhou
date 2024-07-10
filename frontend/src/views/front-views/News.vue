@@ -5,7 +5,6 @@
         width="collapse"
     >
       <SideBar
-          class="side-menu"
           :menu-list="sideMenu"
           @selectMenu="handleSelect"
       >
@@ -31,26 +30,31 @@
 import {onMounted, ref} from "vue";
 import SideBar from "@/components/SideBar.vue";
 import MyTab from "@/components/MyTab.vue";
-
+import {useRoute} from "vue-router";
+const route = useRoute();
 onMounted(init)
 
 //侧边菜单内容
 const sideMenu = [
-  {name: 'Information', label: "新闻资讯", path: "/home/news/information", icon: "User"},
-  {name: 'Notices', label: "公告通知", path: "/home/news/notices", icon: "OfficeBuilding"},
+  {name: 'Information', label: "新闻资讯", path: "/home/news/information", icon: "Tickets"},
+  {name: 'Notices', label: "公告通知", path: "/home/news/notices", icon: "Bell"},
 ];
 
 //初始tab内容
-const defaultTab = {
-  name: 'UserManagement',
-  label: '用户管理',
-  path: '/home/setting/userManagement',
-}
+const defaultTab = {name: 'Information', label: "新闻资讯", path: "/home/news/information"}
 
 let myTab = ref(null);
 
 //初始化函数
-function init() {}
+function init() {
+  if(route.query.newsId){
+    const result = localStorage.getItem(route.query.newsId) || ''
+    if(result){
+      const res = JSON.parse(result)
+      myTab.value.addTab('NewsShowView', res.title, `${route.path}?newsId=${route.query.newsId}`)
+    }
+  }
+}
 
 //点击侧边栏菜单
 function handleSelect(menu){
@@ -59,10 +63,6 @@ function handleSelect(menu){
 </script>
 
 <style scoped>
-.side-menu {
-  height: 100%;
-  border: 0 !important;
-}
 .main-container{
   padding: 5px;
 }

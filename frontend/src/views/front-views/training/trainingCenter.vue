@@ -1,10 +1,9 @@
 <template>
   <data-show-view
-      :extra-params="extraParams"
       :urls="urls"
-      data-show-view-url="/home/res/resShowView"
-      data-show-view-params="resId"
-      key-data="rid"
+      data-show-view-url="/home/training/trainingShowView"
+      data-show-view-params="trainingId"
+      key-data="tid"
       @click-card="addTab"
   />
 </template>
@@ -18,12 +17,8 @@ const addTab = (title, url) => {
   emit("addTab", title, title, url)
 }
 
-const extraParams = {
-  type: 4,
-}
-
 const urls = {
-  getData: '/res/list'
+  getData: '/training/list'
 }
 
 </script>

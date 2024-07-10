@@ -1,13 +1,15 @@
 <template>
-  <data-show-list
-      :extra-params="extraParams"
+  <data-show-view
       :urls="urls"
-      key-data="mid"
-      @click-item="addTab"/>
+      data-show-view-url="/home/labs/labsShowView"
+      data-show-view-params="labId"
+      key-data="lid"
+      @click-card="addTab"
+  />
 </template>
 
 <script setup>
-import DataShowList from "@/components/DataShowList.vue";
+import DataShowView from "@/components/DataShowView.vue";
 
 //对外事件列表
 const emit = defineEmits(["addTab"]);
@@ -15,13 +17,10 @@ const addTab = (title, url) => {
   emit("addTab", title, title, url)
 }
 
-const extraParams = {
-  type: 0,
+const urls = {
+  getData: '/labs/list'
 }
 
-const urls = {
-  getData: '/news/list'
-}
 </script>
 
 <style scoped>

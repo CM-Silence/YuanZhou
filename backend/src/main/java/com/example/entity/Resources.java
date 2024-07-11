@@ -50,7 +50,7 @@ public class Resources {
     @TableField(value = "update_at",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;
 
-    @TableId(value = "rid", type = IdType.AUTO)
-    private Integer rid;
+    @TableId(value = "rid", type = IdType.ASSIGN_ID)
+    private Long rid;
 
 }

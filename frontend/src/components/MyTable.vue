@@ -686,9 +686,9 @@ async function submitEditForm(form){
       //提交窗口数据给父组件
       emit("edit", editForm.value.data);
       //清空原窗口
-      for(const item in editForm.value.item){
-        editForm.value.data[editForm.value.item[item].dataName] = ''
-      }
+      // for(const item in editForm.value.item){
+      //   editForm.value.data[editForm.value.item[item].dataName] = ''
+      // }
       //关闭窗口
       editFormVisible.value = false
     }

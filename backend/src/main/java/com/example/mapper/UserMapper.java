@@ -12,6 +12,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     User findByUserName(String username);
 
-    int updateLoginAt(Integer uid, LocalDateTime update_at);
+    int updateLoginAt(Long uid, LocalDateTime update_at);
 }
 

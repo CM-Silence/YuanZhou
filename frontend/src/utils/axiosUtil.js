@@ -129,6 +129,7 @@ export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost', is
  * */
 export const axiosPut = async ({url, data, headers = {}, name = 'axiosPut', isFormData = true}) => {
     getToken()
+    console.log("put", data)
     if(isFormData){
         data = jsonToFormData(data)
     }

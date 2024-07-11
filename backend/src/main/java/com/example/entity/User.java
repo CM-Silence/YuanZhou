@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class User {
 
     //uid(学校编号、或者个人编号)
-    @TableId("uid")
-    private Integer uid;
+    @TableId(value = "uid", type = IdType.ASSIGN_ID)
+    private Long uid;
 
     //学生姓名/教师姓名/社会人士姓名
     @TableField("name")
@@ -58,7 +58,7 @@ public class User {
     private LocalDateTime created_at;
 
     //更新时间
-    @TableField("update_at")
+    @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;
 
     //token

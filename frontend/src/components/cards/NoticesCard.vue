@@ -24,6 +24,7 @@
       </el-text>
     </div>
     <div
+        v-if="itemList.length > 0"
         v-for="item in itemList"
         @click="clickCard(item)"
     >
@@ -40,6 +41,9 @@
           {{item.title}}
         </el-text>
       </div>
+    </div>
+    <div v-else>
+      <el-empty/>
     </div>
   </div>
 </template>
@@ -60,8 +64,9 @@ const prop = defineProps({
     description: '数据'
   }
 })
-const showMore = () =>{
-  router.push(prop.url)
+const showMore = async () => {
+  await router.push(prop.url)
+  setCurrentPage('/home/news/information')
 }
 
 const clickCard = async (item) => {

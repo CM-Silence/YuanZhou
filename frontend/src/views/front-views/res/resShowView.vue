@@ -46,7 +46,7 @@
         <el-text
             class="res-data"
         >
-          {{res.updated_at}}
+          {{res.update_at}}
         </el-text>
       </div>
       <div v-if="res.type === 1">
@@ -55,13 +55,15 @@
         >
           资源地址：
         </el-text>
-        <a :href="activeFile?.url" target="_blank"> {{activeFile?.url}}</a>
+        <a :href="`${axios.defaults.baseURL}${activeFile?.url}`" target="_blank">
+          {{`${axios.defaults.baseURL}${activeFile?.url}`}}
+        </a>
 
       </div>
 
       <div v-if="res.type === 2">
         <my-player
-          :url="activeFile?.url"
+          :url="`${axios.defaults.baseURL}${activeFile?.url}`"
           res-type="video"
         />
       </div>
@@ -69,13 +71,15 @@
 
       <div v-if="res.type === 3">
         <my-player
-            :url="activeFile?.url"
+            :url="`${axios.defaults.baseURL}${activeFile?.url}`"
             res-type="audio"
         />
       </div>
 
       <div v-if="res.type === 4">
-
+        <el-text>
+          点击附件以查看文档
+        </el-text>
       </div>
 
       <div>
@@ -103,7 +107,7 @@
           name="1"
       >
         <div
-          v-for="item in res.files"
+          v-for="item in res.files1"
         >
           <el-text
               class="res-aside-item-text"
@@ -113,13 +117,13 @@
             {{item.name}}
           </el-text>
 
-          <el-text
-              v-if="res.type === 2 || res.type === 3"
-              class="res-aside-item-time"
-              truncated
-          >
-            15:12
-          </el-text>
+<!--          <el-text-->
+<!--              v-if="res.type === 2 || res.type === 3"-->
+<!--              class="res-aside-item-time"-->
+<!--              truncated-->
+<!--          >-->
+<!--            15:12-->
+<!--          </el-text>-->
         </div>
       </el-collapse-item>
     </el-collapse>
@@ -132,6 +136,7 @@ import {onMounted, reactive, ref} from "vue";
 import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import {Collection, Star, View} from "@element-plus/icons-vue";
 import MyPlayer from "@/components/myPlayer.vue";
+import axios from "axios";
 
 const activeNames = ref(['1'])
 const route = useRoute();
@@ -148,7 +153,7 @@ const update = (resId) => {
   const result = localStorage.getItem(`${resId}`) || ''
   if(result){
     res.value = JSON.parse(result)
-    activeFile.value = res.value.files.length > 0 ? res.value.files[0] : null
+    activeFile.value = res.value.files1.length > 0 ? res.value.files1[0] : null
   }
   else{
     state.getDataFail = true

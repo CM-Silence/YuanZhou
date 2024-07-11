@@ -1,9 +1,6 @@
 package com.example.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("employee")
 public class Employee {
-    @TableId("sid")
-    private Integer sid;
+    @TableId(value = "sid", type = IdType.ASSIGN_ID)
+    private Long sid;
 
     @TableField("name")
     private String name;

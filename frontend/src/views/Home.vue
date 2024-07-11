@@ -30,7 +30,7 @@
             </el-text>
 
             <el-menu-item
-                v-if="state.user?.permission < 3"
+                v-if="user?.permission < 3"
                 v-for="item in userHeadMenuItemList"
                 :index="item.path"
             >
@@ -41,7 +41,7 @@
             </el-menu-item>
 
             <el-menu-item
-                v-if="state.user?.permission >= 3"
+                v-if="user?.permission >= 3"
                 v-for="item in adminHeadMenuItemList"
                 :index="item.path"
             >
@@ -61,7 +61,7 @@
                 <el-icon>
                   <user />
                 </el-icon>
-                {{state.user?.nickname || '用户'}}
+                {{user?.name || '用户'}}
               </template>
               <el-menu-item @click="help">帮助中心</el-menu-item>
               <el-menu-item @click="about">关于</el-menu-item>
@@ -93,7 +93,7 @@ import {h, onMounted, reactive} from 'vue'
 import router from "@/router/index.js";
 import {HomeFilled, User} from "@element-plus/icons-vue";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {CURRENT_PAGE, getUser, refreshCurrentPage, setCurrentPage} from "@/utils/appManager";
+import {CURRENT_PAGE, CURRENT_USER, getUser, refreshCurrentPage, setCurrentPage, setUser} from "@/utils/appManager";
 //import {axiosGet} from "@/utils/axiosUtil.js";
 
 onMounted(initialize)
@@ -104,23 +104,24 @@ const userHeadMenuItemList = [
   {label: '资源中心', path: '/home/res/audio'},
   {label: '实训中心', path: '/home/training/trainingCenter'},
   {label: '实验室', path: '/home/labs/allLabs'},
-  {label: '共享开发', path: '/home/shared/sharedLab'},
+  //{label: '共享开发', path: '/home/shared/sharedLab'},
   {label: '用户中心', path: '/home/userCenter/myInfo'},
 ]
 
 const adminHeadMenuItemList = [
-  {label: '数据预览', path: '/home/homePage'},
-  {label: '综合管理', path: '/home/news'},
-  {label: '系统信息', path: '/home/res'},
-  {label: '资源管理', path: '/home/training'},
-  {label: '实训管理', path: '/home/labs'},
-  {label: '监控管理', path: '/home/shared'},
+  //{label: '数据预览', path: '/home/dataPreview/overviewStatistics'},
+  {label: '综合管理', path: '/home/integratedManagement/newsManagement'},
+  {label: '系统管理', path: '/home/systemInfo/userManagement'},
+  {label: '资源管理', path: '/home/resManagement/labsManagement'},
+  //{label: '实训管理', path: '/home/trainingManagement/courseManagement'},
+  //{label: '监控管理', path: '/home/monitoringManagement/devicesMonitor'},
 ]
+
+const user = CURRENT_USER //当前用户
 
 const state = reactive({
   nowMenuActive: '',  //当前首部栏界面
   headMenuOffset: 0,  //首部菜单锚点偏移量
-  user: null,  //用户
 })
 
 const defaultPage = CURRENT_PAGE  //当前路由界面
@@ -146,7 +147,8 @@ async function about(){
 }
 
 function logout(){
-  localStorage.setItem("token", "");
+  localStorage.setItem("token", "")
+  setUser('')
   router.push("/")
 }
 

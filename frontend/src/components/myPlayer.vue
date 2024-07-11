@@ -1,23 +1,18 @@
 <template>
 <div>
-  <audio v-if="resType === 'audio'" ref="myAudio" preload="metadata" controls>
-    <source :src="url">
+  <audio v-if="resType === 'audio'" ref="myAudio" preload="metadata" :key="resKey" controls>
+    <source :src="resUrl">
   </audio>
 
-  <video v-if="resType === 'video'" ref="myVideo" preload="metadata" controls>
-    <source :src="url">
+  <video v-if="resType === 'video'" ref="myVideo" preload="metadata" :key="resKey" controls>
+    <source :src="resUrl">
   </video>
 </div>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import Video from "@/views/front-views/res/Video.vue";
-
-const myAudio = ref(null)
-const myVideo = ref(null)
-
-let durationStr = ''
 
 const prop = defineProps({
   url: {
@@ -34,6 +29,20 @@ const prop = defineProps({
     }
   }
 })
+
+const myAudio = ref(null)
+const myVideo = ref(null)
+
+const resUrl = ref(prop.url)
+const resKey = ref('res')
+
+//监听数据变化并实时更新播放器
+watch(() => prop.url, (newValue) => {
+  resUrl.value = newValue;
+  resKey.value = `res-${newValue}`
+});
+
+let durationStr = ''
 
 onMounted(() => {
   let T

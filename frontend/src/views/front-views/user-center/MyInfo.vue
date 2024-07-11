@@ -10,7 +10,7 @@
         </el-aside>
         <el-main class="title-main">
           <div class="title-nickname">
-            <b>{{user.nickname}}</b>
+            <b>{{user.name}}</b>
             <el-tag
                 size="small"
                 :type="getTagType(user.permission)"
@@ -176,12 +176,10 @@ const dataCol = [
   {property: "name", label: "昵称"},
   {property: "username", label: "账号"},
   {property: "phone", label: "手机号"},
-  {property: "email", label: "邮箱", isBind: true},
+  {property: "email", label: "邮箱"},
   {property: "class_name", label: "班级名"},
   {property: "occupational_type", label: "职业类型"},
-  {property: "unit_type", label: "单位类型"},
-  {property: "unit", label: "单位名"},
-  {property: "updated_at", label: "最近登录", isDate: true},
+  {property: "update_at", label: "最近登录", isDate: true},
 ]
 
 //状态
@@ -427,6 +425,7 @@ const sendVerificationCode = async (form) => {
   width: 100%;
   height: 100%;
   background-size: cover;
+
 }
 .profile-title-card{
   margin: 30px 0 0 0;

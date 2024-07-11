@@ -16,7 +16,7 @@ const addTab = (title, url) => {
 }
 
 const extraParams = {
-  type: 0,
+  type: 1,
 }
 
 const urls = {

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -14,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("training_experiments")
 public class TrainingExperiments {
-    @TableId("tid")
-    private Integer tid;
+    @TableId(value = "tid", type = IdType.ASSIGN_ID)
+    private Long tid;
 
     @TableField("img")
     private String img1;

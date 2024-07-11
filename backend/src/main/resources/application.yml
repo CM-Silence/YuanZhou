@@ -16,8 +16,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/yuan_zhou?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    password: Zzt030208
+    url: jdbc:mysql://localhost:8326/yuan_zhou?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
 mybatis-plus:
   global-config:
     db-config:

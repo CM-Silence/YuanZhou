@@ -15,8 +15,8 @@ import java.util.Date;
 @TableName("lab_application")
 public class LabApplication {
 
-    @TableId("aid")
-    private Integer aid;
+    @TableId(value = "aid", type = IdType.ASSIGN_ID)
+    private Long aid;
 
     @TableField("audited_type")
     private Integer audited_type;

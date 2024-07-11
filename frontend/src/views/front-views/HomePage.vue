@@ -22,7 +22,7 @@
         />
         <notices-card
             url="/home/news/notices"
-            :item-list="infoList"
+            :item-list="noticeList"
         />
       </div>
 
@@ -31,9 +31,10 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import InfosCard from "@/components/cards/InfosCard.vue";
 import NoticesCard from "@/components/cards/NoticesCard.vue";
+import {axiosGet} from "@/utils/axiosUtil";
 
 const imgList = ref([
   {url: 'http://whcm.hwadee.cn/group1/M00/00/00/wKgIB2QLRh6AaADeAAlq3wfJc18298.jpg', target: ''},
@@ -138,9 +139,7 @@ const infoList = ref([
   },
 ])
 
-const noticeList = ref([
-
-])
+const noticeList = ref([])
 
 const resList = ref([
 
@@ -149,6 +148,34 @@ const resList = ref([
 const labList = ref([
 
 ])
+
+onMounted( async () => {
+  const infoObject = await getData('/news/list',{
+    type: 1,
+    page: 1,
+    page_size: 3
+  }, 'getInfo')
+  const noticeObject = await getData('/news/list',{
+    type: 2,
+    page: 1,
+    page_size: 4
+  }, 'getNotice')
+  const resObject = await getData('/res/list',{
+    page: 1,
+    page_size: 3
+  }, 'getRes')
+  const labObject = await getData('/labs/list',{
+    page: 1,
+    page_size: 3
+  }, 'getLab')
+
+  infoList.value = infoObject.rows
+  noticeList.value = noticeObject.rows
+})
+
+const getData = async (url, params = {}, name = 'getData') => {
+  return await axiosGet({url: url, params: params, name: name})
+}
 </script>
 
 <style scoped>

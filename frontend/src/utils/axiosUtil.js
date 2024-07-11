@@ -64,7 +64,7 @@ export const axiosGet = async ({url, params = {}, headers = {}, name = 'axios_ge
  * @description 发送delete请求的函数
  * @return result 请求是否成功
  * */
-export const axiosDelete = async ({url, data, headers = {}, name = 'axiosDelete', isFormData = false}) => {
+export const axiosDelete = async ({url, data, headers = {}, name = 'axiosDelete', isFormData = true}) => {
     getToken()
     if(isFormData){
         data = jsonToFormData(data)
@@ -96,7 +96,7 @@ export const axiosDelete = async ({url, data, headers = {}, name = 'axiosDelete'
  * @description 发送post请求的函数
  * @return result 请求是否成功
  * */
-export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost', isFormData = false}) => {
+export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost', isFormData = true}) => {
     getToken()
     if(isFormData){
         data = jsonToFormData(data)
@@ -127,8 +127,9 @@ export const axiosPost = async ({url, data, headers = {}, name = 'axiosPost', is
  * @description 发送put请求的函数
  * @return result 请求是否成功
  * */
-export const axiosPut = async ({url, data, headers = {}, name = 'axiosPut', isFormData = false}) => {
+export const axiosPut = async ({url, data, headers = {}, name = 'axiosPut', isFormData = true}) => {
     getToken()
+    console.log("put", data)
     if(isFormData){
         data = jsonToFormData(data)
     }
@@ -176,7 +177,8 @@ const catchSuccess = (message) => {
     else{
         switch (message.data.code){
             case 200:
-            case 201:{
+            case 201:
+            case 404:{
                 return true
             }
             default:{

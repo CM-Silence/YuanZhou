@@ -51,9 +51,9 @@ public class NewsController {
      */
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page,
-                                                    Integer type,
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                    @RequestParam(required = false)Integer type,
                                                     @RequestParam(required = false) String start_time,
                                                     @RequestParam(required = false) String end_time){
 
@@ -156,7 +156,7 @@ public class NewsController {
      * @param news 新闻类
      * @return 成功信息
      */
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (News news,
                                 @RequestParam(value = "img", required = false) MultipartFile img,
                                 @RequestParam(value = "files", required = false) MultipartFile[] files) {

@@ -49,6 +49,9 @@ public class Devices {
     @TableField(value = "created_at",fill = FieldFill.INSERT)
     private LocalDateTime created_at;
 
-    @TableField(value = "update_at",fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;
+
+    @TableField(value = "audited_time")
+    private LocalDateTime audited_time;
 }

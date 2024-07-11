@@ -31,8 +31,8 @@ public class LabApplicationController {
      */
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page){
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page){
         //构造分页构造器
         Page<LabApplication> pageInfo = new Page<>(page, page_size);
 
@@ -94,11 +94,12 @@ public class LabApplicationController {
      * @param labApplication 传入申请表类
      * @return 编辑成功信息
      */
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (LabApplication labApplication)  {
         log.info(labApplication.toString());
 
         labApplicationService.updateById(labApplication);
         return Result.success2("edit success");
     }
+
 }

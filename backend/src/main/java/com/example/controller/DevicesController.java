@@ -38,8 +38,8 @@ public class DevicesController {
      */
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page){
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page){
 
         //构造分页构造器
         Page<Devices> pageInfo = new Page<>(page, page_size);
@@ -102,7 +102,7 @@ public class DevicesController {
      * @param devices Devices类
      * @return 成功信息
      */
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (Devices devices,
                                 @RequestParam(value = "img", required = false) MultipartFile img) {
         log.info(devices.toString());

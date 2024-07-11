@@ -31,8 +31,8 @@ public class EmployeeController {
      */
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page){
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page){
         //构造分页构造器
         Page<Employee> pageInfo = new Page<>(page, page_size);
 
@@ -94,7 +94,7 @@ public class EmployeeController {
      * @param employee 传入员工类
      * @return 编辑成功信息
      */
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (Employee employee)  {
         log.info(employee.toString());
 

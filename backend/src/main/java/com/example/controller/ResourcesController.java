@@ -48,14 +48,16 @@ public class ResourcesController {
      * @return Resources类
      */
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page,
-                                                    Integer type,
+    public ResponseEntity<Map<String, Object>> page(@RequestParam(required = false)String key_word,
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                    @RequestParam(required = false)Integer type,
                                                     @RequestParam(required = false) String start_time,
                                                     @RequestParam(required = false) String end_time){
 
-
+        if(type == null){
+            type = 0;
+        }
         //将string类型的时间转化为LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -94,8 +96,7 @@ public class ResourcesController {
         queryWrapper.gt(startTime != null,Resources::getCreated_at, startTime);
         queryWrapper.lt(endTime != null,Resources::getCreated_at, endTime);
         //添加对type的筛选条件
-        if(type != null)
-            { switch (type) {
+        switch (type) {
             case 0:
                 queryWrapper.eq(true,Resources::getType, type);
             case 1:
@@ -109,7 +110,7 @@ public class ResourcesController {
             default:
                 queryWrapper.eq(true,Resources::getType, type);
         }
-            }
+
         //添加排序条件
         queryWrapper.orderByDesc(Resources::getRid);
 
@@ -163,7 +164,7 @@ public class ResourcesController {
      * @param resources 资源类
      * @return 成功信息
      */
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (Resources resources,
                                 @RequestParam(value = "img", required = false) MultipartFile img,
                                 @RequestParam(value = "files", required = false) MultipartFile[] files)  {

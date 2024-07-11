@@ -1,14 +1,13 @@
 package com.example.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -28,13 +27,21 @@ public class LabApplication {
     @TableField("applicant")
     private String applicant;
 
+    @TableField("start_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime start_time;
+
+    @TableField("end_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime end_time;
+
     @TableField(value = "created_at",fill = FieldFill.INSERT)
     private LocalDateTime created_at;
 
     @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;
 
-    @TableField("audited_time")
+    @TableField(value="audited_time", updateStrategy = FieldStrategy.IGNORED)
     private LocalDateTime audited_time;
 
     @TableField("comment")

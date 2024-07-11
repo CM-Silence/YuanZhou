@@ -47,6 +47,6 @@ public class News {
     private Integer id;
 
     @TableId(value = "mid", type = IdType.ASSIGN_ID)
-    private Long mid;
+    private String mid;
 
 }

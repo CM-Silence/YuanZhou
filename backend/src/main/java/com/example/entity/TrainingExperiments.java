@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @TableName("training_experiments")
 public class TrainingExperiments {
     @TableId(value = "tid", type = IdType.ASSIGN_ID)
-    private Long tid;
+    private String tid;
 
     @TableField("img")
     private String img1;

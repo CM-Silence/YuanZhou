@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @TableName("employee")
 public class Employee {
     @TableId(value = "sid", type = IdType.ASSIGN_ID)
-    private Long sid;
+    private String sid;
 
     @TableField("name")
     private String name;

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Devices {
 
     @TableId(value = "did", type = IdType.ASSIGN_ID)
-    private Long did;
+    private String did;
 
     @TableField("name")
     private String name;

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Labs {
 
     @TableId(value = "lid", type = IdType.ASSIGN_ID)
-    private Long lid;
+    private String lid;
 
     @TableField("img1")
     private String img1;

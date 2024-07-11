@@ -51,6 +51,6 @@ public class Resources {
     private LocalDateTime update_at;
 
     @TableId(value = "rid", type = IdType.ASSIGN_ID)
-    private Long rid;
+    private String rid;
 
 }

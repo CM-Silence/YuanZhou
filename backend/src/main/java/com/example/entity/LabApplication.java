@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +15,7 @@ import java.util.Date;
 public class LabApplication {
 
     @TableId(value = "aid", type = IdType.ASSIGN_ID)
-    private Long aid;
+    private String aid;
 
     @TableField("audited_type")
     private Integer audited_type;

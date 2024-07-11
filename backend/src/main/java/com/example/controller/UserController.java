@@ -76,13 +76,7 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         try {
             User userDB = userServiceImpl.login(user);
-            Map<String, String> payload = new HashMap<>();
             //生成jwt令牌
-            //String token = JWTUtils.getToken(payload);
-
-            payload.put("id", String.valueOf(userDB.getUid()));
-            payload.put("username", userDB.getUsername());
-
             map.put("msg", "login success");
             map.put("code", 201);
             map.put("data", userDB);
@@ -105,12 +99,15 @@ public class UserController {
     @PostMapping("/register")
     public Map<String, Object> register(@RequestParam String username,
                                         @RequestParam String password,
-                                        @RequestParam Integer permission,
-                                        @RequestParam String name,
-                                        @RequestParam String phone,
-                                        @RequestParam String email,
-                                        @RequestParam String class_name,
-                                        @RequestParam String occupational_type) {
+                                        @RequestParam(required = false) Integer permission,
+                                        @RequestParam(required = false) String name,
+                                        @RequestParam(required = false) String phone,
+                                        @RequestParam(required = false) String email,
+                                        @RequestParam(required = false) String class_name,
+                                        @RequestParam(required = false) String occupational_type) {
+        if (permission == null){
+            permission = 0;
+        }
         User user = userService.findByUserName(username);
         if (user == null) {
             userService.register(username, password, permission, name, phone, email, class_name, occupational_type);

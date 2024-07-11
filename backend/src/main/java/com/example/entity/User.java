@@ -15,7 +15,7 @@ public class User {
 
     //uid(学校编号、或者个人编号)
     @TableId(value = "uid", type = IdType.ASSIGN_ID)
-    private Long uid;
+    private String uid;
 
     //学生姓名/教师姓名/社会人士姓名
     @TableField("name")

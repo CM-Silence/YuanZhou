@@ -23,9 +23,9 @@ import TableView from "@/components/TableView.vue";
 const tableColList = [
   {property: "img1", label: "缩略图", sortable: false, isImage: true, width: 120},
   {property: "files1", label: "附件", sortable: false, isFile: true, width: 80},
-  {property: "title", label: "标题", sortable: false, width: 120},
-  {property: "src", label: "来源", sortable: false, width: 100},
-  {property: "editor", label: "编辑", sortable: false, width: 100},
+  {property: "title", label: "标题", sortable: false, width: 240, isTextArea: true},
+  {property: "src", label: "来源", sortable: false, width: 120},
+  {property: "editor", label: "编辑", sortable: false, width: 120},
   {property: "type", label: "类型", sortable: false, width: 100, isMapping: true, mappingList:[
       {label: "新闻资讯", value: 1},
       {label: "公告通知", value: 2},

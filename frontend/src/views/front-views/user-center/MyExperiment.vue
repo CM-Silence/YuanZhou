@@ -35,6 +35,8 @@ const tableColList = [
       label: "name"
     }},
   {property: "created_at", label: "申请时间", isDateFormat: true, sortable: false, width: 240},
+  {property: "start_time", label: "开始时间", isDateFormat: true, sortable: false, width: 240},
+  {property: "end_time", label: "结束时间", isDateFormat: true, sortable: false, width: 240},
   {property: "audited_time", label: "审批时间", isDateFormat: true, sortable: false, width: 240},
   {property: "comment", label: "审批人备注", sortable: false, width: 300, isTextArea: true},
 ]

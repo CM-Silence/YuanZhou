@@ -8,7 +8,6 @@
       :urls="urls"
       has-refresh-event-bus
       large
-      delete
       download
   />
 </template>
@@ -65,14 +64,15 @@ const audit = (aid, isAudit) =>{
         EventBus.emit("refresh", 1)
       }
     })
+    .catch(() => {})
   }
   else{
     ElMessageBox.confirm(
         `你确定要撤销${aid}的审核吗？`,
         '注意',
         {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning',
         }
     )
@@ -92,6 +92,7 @@ const audit = (aid, isAudit) =>{
         EventBus.emit("refresh", 1)
       }
     })
+    .catch(() => {})
   }
 }
 
@@ -123,6 +124,8 @@ const tableColList = [
       label: "phone"
     }},
   {property: "created_at", label: "申请时间", isDateFormat: true, sortable: false, width: 240},
+  {property: "start_time", label: "开始时间", isDateFormat: true, sortable: false, width: 240},
+  {property: "end_time", label: "结束时间", isDateFormat: true, sortable: false, width: 240},
   {property: "audited_time", label: "审批时间", isDateFormat: true, sortable: false, width: 240},
   {property: "comment", label: "审批人备注", sortable: false, width: 300, isTextArea: true},
 ]
@@ -142,43 +145,6 @@ const editForm = {
     applicant: 'String',
   },
   dataNum: 3,
-  rules: {
-    lab: [
-      { required: 'true', message: '请选择实验室', trigger: 'blur' },
-    ],
-    applicant: [
-      { required: 'true', message: '请选择申请人', trigger: 'blur' },
-    ]
-  },
-  item:[
-    {label: '实验室', prop: 'lab', dataName: 'lab', isFK: true,
-      FKData:{
-        url: "/labs/list",
-        property: "lid",
-        label: "name"
-      }},
-    {label: '申请人', prop: 'applicant', dataName: 'applicant', isFK: true,
-      FKData:{
-        url: "/user/list",
-        property: "uid",
-        label: "name"
-      }},
-  ],
-}
-
-/**
- * 添加部门时所用到的对象
- * */
-const addForm = {
-  data :{
-    lab: '',
-    applicant: '',
-  },
-  dataType:{
-    lab: 'String',
-    applicant: 'String',
-  },
-  dataNum: 2,
   rules: {
     lab: [
       { required: 'true', message: '请选择实验室', trigger: 'blur' },

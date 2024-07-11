@@ -31,10 +31,10 @@
       <div class="item-body">
         <div class="item-date">
           <div class="date-day">
-            17
+            {{getDate(item.update_at)}}
           </div>
           <div class="date-year-mouth">
-            2024-06
+            {{getYearMonth(item.update_at)}}
           </div>
         </div>
         <el-text class="title" truncated>
@@ -64,6 +64,22 @@ const prop = defineProps({
     description: '数据'
   }
 })
+
+const getYearMonth = (date) => {
+  if(!date){
+    return ''
+  }
+  const dateParts = date.split(/-| /)
+  return `${dateParts[0]}-${dateParts[1]}`
+}
+
+const getDate = (date) => {
+  if(!date){
+    return ''
+  }
+  const dateParts = date.split(/-| /)
+  return dateParts[2]
+}
 const showMore = async () => {
   await router.push(prop.url)
   setCurrentPage('/home/news/information')

@@ -1,7 +1,7 @@
 <template>
   <table-view
       key-data="rid"
-      search-data="name"
+      search-data="title"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"
@@ -23,7 +23,7 @@ import TableView from "@/components/TableView.vue";
 const tableColList = [
   {property: "img1", label: "缩略图", sortable: false, isImage: true, width: 120},
   {property: "files1", label: "附件", sortable: false, isFile: true, width: 80},
-  {property: "title", label: "标题", sortable: false, width: 120},
+  {property: "title", label: "标题", sortable: false, width: 240, isTextArea: true},
   {property: "major", label: "专业", sortable: false, width: 100},
   {property: "administrator", label: "管理员", sortable: false, width: 100, isFK: true,
     FKData: {

@@ -54,7 +54,7 @@
           </el-text>
           <br>
           <el-text class="content">
-            {{item.audited_time}}
+            {{getYearMonthDate(item.update_at)}}
           </el-text>
         </div>
       </div>
@@ -64,7 +64,7 @@
           {{item.title}}
         </el-text>
         <el-text class="content">
-          {{item.audited_time}}
+          {{getMonthDate(item.update_at)}}
         </el-text>
       </div>
     </div>
@@ -91,6 +91,23 @@ const prop = defineProps({
     description: '数据'
   }
 })
+
+const getYearMonthDate = (date) => {
+  if(!date){
+    return ''
+  }
+  const dateParts = date.split(/-| /)
+  return `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`
+}
+
+const getMonthDate = (date) => {
+  if(!date){
+    return ''
+  }
+  const dateParts = date.split(/-| /)
+  return `${dateParts[1]}-${dateParts[2]}`
+}
+
 const showMore = async () => {
   await router.push(prop.url)
   setCurrentPage('/home/news/information')

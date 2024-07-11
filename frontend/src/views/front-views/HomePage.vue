@@ -169,12 +169,29 @@ onMounted( async () => {
     page_size: 3
   }, 'getLab')
 
-  infoList.value = infoObject.rows
-  noticeList.value = noticeObject.rows
+  infoList.value = infoObject
+  noticeList.value = noticeObject
 })
 
 const getData = async (url, params = {}, name = 'getData') => {
-  return await axiosGet({url: url, params: params, name: name})
+  const result = await axiosGet({url: url, params: params, name: name})
+  if (result && result.rows) {
+    for(const i in result.rows){
+      if ('created_at' in result.rows[i]){
+        result.rows[i].created_at = result.rows[i].created_at.replace('T', ' ')
+      }
+      if ('update_at' in result.rows[i]){
+        result.rows[i].update_at = result.rows[i].update_at.replace('T', ' ')
+      }
+      if ('files1' in result.rows[i]){
+        result.rows[i].files1 = JSON.parse(result.rows[i].files1)
+      }
+    }
+    return result.rows
+  }
+  else{
+    return undefined
+  }
 }
 </script>
 

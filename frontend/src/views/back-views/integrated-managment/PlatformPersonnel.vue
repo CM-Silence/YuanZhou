@@ -1,6 +1,7 @@
 <template>
   <table-view
-      key-data="mid"
+      key-data="sid"
+      search-data="name"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"
@@ -23,7 +24,7 @@ const tableColList = [
   {property: "name", label: "员工名", sortable: false, width: 120},
   {property: "phone", label: "手机号码", sortable: false, width: 120},
   {property: "department", label: "所属部门", sortable: false, width: 180},
-  {property: "create_at", label: "注册时间", isDateFormat: true, sortable: true, width: 240},
+  {property: "created_at", label: "注册时间", isDateFormat: true, sortable: true, width: 240},
 ]
 
 /**

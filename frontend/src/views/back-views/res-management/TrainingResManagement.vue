@@ -1,6 +1,7 @@
 <template>
   <table-view
       key-data="rid"
+      search-data="name"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"
@@ -24,7 +25,12 @@ const tableColList = [
   {property: "files1", label: "附件", sortable: false, isFile: true, width: 80},
   {property: "title", label: "标题", sortable: false, width: 120},
   {property: "major", label: "专业", sortable: false, width: 100},
-  {property: "administrator", label: "管理员", sortable: false, width: 100},
+  {property: "administrator", label: "管理员", sortable: false, width: 100, isFK: true,
+    FKData: {
+      url: "/staff/list",
+      property: "sid",
+      label: "name"
+    }},
   {property: "type", label: "类型", sortable: true, width: 100, isMapping: true, mappingList:[
       {label: "虚拟资源", value: 1},
       {label: "视频资源", value: 2},
@@ -64,7 +70,7 @@ const editForm = {
       { required: 'true', message: '标题不能为空', trigger: 'blur' },
     ],
     administrator: [
-      { required: 'true', message: '管理员不能为空', trigger: 'blur' },
+      { required: 'true', message: '请选择管理员', trigger: 'blur' },
     ],
     type: [
       { required: 'true', message: '请选择资源类型', trigger: 'blur' },
@@ -72,7 +78,12 @@ const editForm = {
   },
   item:[
     {label: '标题', prop: 'title', dataName: 'title', isInput: true},
-    {label: '管理员', prop: 'administrator', dataName: 'administrator', isInput: true},
+    {label: '管理员', prop: 'administrator', dataName: 'administrator', isFK: true,
+      FKData:{
+        url: "/staff/list",
+        property: "sid",
+        label: "name"
+      }},
     {label: '类型', prop: 'type', dataName: 'type', isSelect: true,
       selectOptions: [
         {label: "虚拟资源", value: 1},
@@ -109,7 +120,7 @@ const addForm = {
       { required: 'true', message: '标题不能为空', trigger: 'blur' },
     ],
     administrator: [
-      { required: 'true', message: '管理员不能为空', trigger: 'blur' },
+      { required: 'true', message: '请选择管理员', trigger: 'blur' },
     ],
     type: [
       { required: 'true', message: '请选择资源类型', trigger: 'blur' },
@@ -117,7 +128,12 @@ const addForm = {
   },
   item:[
     {label: '标题', prop: 'title', dataName: 'title', isInput: true},
-    {label: '管理员', prop: 'administrator', dataName: 'administrator', isInput: true},
+    {label: '管理员', prop: 'administrator', dataName: 'administrator', isFK: true,
+      FKData:{
+        url: "/staff/list",
+        property: "sid",
+        label: "name"
+      }},
     {label: '类型', prop: 'type', dataName: 'type', isSelect: true,
       selectOptions: [
         {label: "虚拟资源", value: 1},

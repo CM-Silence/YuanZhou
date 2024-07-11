@@ -15,6 +15,7 @@
     <res-card
       v-for="item in state.currentDataArray"
       :res="item"
+      :title-data="titleData"
       @card-click="cardClick"
     />
 
@@ -215,6 +216,11 @@ const prop = defineProps({
     default: () => '',
     description: '数据详情界面参数'
   },
+  titleData: {
+    type: String,
+    default: () => 'title',
+    description: '标题参数名'
+  },
 })
 
 //对外事件列表
@@ -290,7 +296,7 @@ const getData = async (url, params = {}, name = 'getData') => {
 const cardClick = (res) => {
   console.log("cardClick", res)
   localStorage.setItem(res[prop.keyData], JSON.stringify(res))
-  emit("clickCard", res.title, `${prop.dataShowViewUrl}?${prop.dataShowViewParams}=${res[prop.keyData]}`)
+  emit("clickCard", res[prop.titleData], `${prop.dataShowViewUrl}?${prop.dataShowViewParams}=${res[prop.keyData]}`)
 }
 
 onMounted(async () => {

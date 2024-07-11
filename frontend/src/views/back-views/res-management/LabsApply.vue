@@ -1,6 +1,7 @@
 <template>
   <table-view
       key-data="aid"
+      search-data="name"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"
@@ -54,7 +55,7 @@ const audit = (aid, isAudit) =>{
         url: '/application/audit',
         data: {
           aid: aid,
-          audited_type: passed.value,
+          audited_type: passed.value ? 1 : 0,
           comment: comment.value
         },
         name: 'audit'
@@ -103,7 +104,12 @@ const tableColList = [
       {label: '通过', value: 1},
       {label: '未通过', value: 0},
     ]},
-  {property: "lab", label: "实验室", sortable: false, width: 120},
+  {property: "lab", label: "实验室", sortable: false, width: 120, isFK: true,
+    FKData:{
+      url: "/labs/list",
+      property: "lid",
+      label: "name"
+    }},
   {property: "applicant", label: "申请人", sortable: false, width: 100, isFK: true,
     FKData:{
       url: "/user/list",
@@ -116,7 +122,7 @@ const tableColList = [
       property: "uid",
       label: "phone"
     }},
-  {property: "created_time", label: "申请时间", isDateFormat: true, sortable: false, width: 240},
+  {property: "created_at", label: "申请时间", isDateFormat: true, sortable: false, width: 240},
   {property: "audited_time", label: "审批时间", isDateFormat: true, sortable: false, width: 240},
   {property: "comment", label: "审批人备注", sortable: false, width: 300, isTextArea: true},
 ]
@@ -145,8 +151,18 @@ const editForm = {
     ]
   },
   item:[
-    {label: '实验室', prop: 'lab', dataName: 'lab', isInput: true},
-    {label: '申请人', prop: 'applicant', dataName: 'applicant', isInput: true},
+    {label: '实验室', prop: 'lab', dataName: 'lab', isFK: true,
+      FKData:{
+        url: "/labs/list",
+        property: "lid",
+        label: "name"
+      }},
+    {label: '申请人', prop: 'applicant', dataName: 'applicant', isFK: true,
+      FKData:{
+        url: "/user/list",
+        property: "uid",
+        label: "name"
+      }},
   ],
 }
 
@@ -172,8 +188,18 @@ const addForm = {
     ]
   },
   item:[
-    {label: '实验室', prop: 'lab', dataName: 'lab', isInput: true},
-    {label: '申请人', prop: 'applicant', dataName: 'applicant', isInput: true},
+    {label: '实验室', prop: 'lab', dataName: 'lab', isFK: true,
+      FKData:{
+        url: "/labs/list",
+        property: "lid",
+        label: "name"
+      }},
+    {label: '申请人', prop: 'applicant', dataName: 'applicant', isFK: true,
+      FKData:{
+        url: "/user/list",
+        property: "uid",
+        label: "name"
+      }},
   ],
 }
 
@@ -181,10 +207,10 @@ const addForm = {
  * 网络请求url
  * */
 const urls = {
-  getData: "/apply/list",
-  deleteData: "/apply/delete",
-  addData: "/apply/add",
-  updateData: "/apply/edit",
+  getData: "/application/list",
+  deleteData: "/application/delete",
+  addData: "/application/add",
+  updateData: "/application/edit",
 }
 
 </script>

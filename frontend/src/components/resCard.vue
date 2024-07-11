@@ -52,7 +52,7 @@
         line-clamp="2"
         class="res-title"
     >
-      {{res.title}}
+      {{res[titleData]}}
     </el-text>
 
     <el-text
@@ -77,6 +77,11 @@ const prop = defineProps({
     type: Object,
     default: () => null,
     description: '资源内容'
+  },
+  titleData: {
+    type: String,
+    default: () => 'title',
+    description: '标题参数名'
   },
 })
 </script>

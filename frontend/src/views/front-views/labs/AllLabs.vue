@@ -1,8 +1,9 @@
 <template>
   <data-show-view
       :urls="urls"
+      title-data="name"
       data-show-view-url="/home/labs/labsShowView"
-      data-show-view-params="labId"
+      data-show-view-params="labsId"
       key-data="lid"
       @click-card="addTab"
   />

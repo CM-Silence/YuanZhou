@@ -7,6 +7,7 @@ import com.example.common.FileUploadUtil;
 import com.example.common.ImageUploadUtil;
 import com.example.common.Result;
 import com.example.entity.News;
+import com.example.entity.Resources;
 import com.example.mapper.NewsMapper;
 import com.example.service.NewsService;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,9 @@ public class NewsController {
                                                     @RequestParam(required = false)Integer type,
                                                     @RequestParam(required = false) String start_time,
                                                     @RequestParam(required = false) String end_time){
+        if(type == null){
+            type = 0;
+        }
 
         //将string类型的时间转化为LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -94,15 +98,8 @@ public class NewsController {
         queryWrapper.gt(startTime != null,News::getCreated_at, startTime);
         queryWrapper.lt(endTime != null,News::getCreated_at, endTime);
         //添加对type的筛选条件
-        if(type != null)
-        { switch (type) {
-            case 0:
-                queryWrapper.eq(true,News::getType, type);
-            case 1:
-                queryWrapper.eq(type == 1,News::getType, type);
-            default:
-                queryWrapper.eq(true,News::getType, type);
-        }
+        if (type != 0) {
+            queryWrapper.eq(News::getType, type);
         }
         //添加排序条件
         queryWrapper.orderByDesc(News::getMid);

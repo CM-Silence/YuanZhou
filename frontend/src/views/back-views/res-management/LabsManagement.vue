@@ -1,6 +1,7 @@
 <template>
   <table-view
       key-data="lid"
+      search-data="name"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"
@@ -33,7 +34,7 @@ const tableColList = [
       property: "sid",
       label: "name"
     }},
-  {property: "phone", label: "联系电话", sortable: false, width: 120, isFK: true,
+  {property: "administrator", label: "联系电话", sortable: false, width: 120, isFK: true,
     FKData:{
       url: "/staff/list",
       property: "sid",

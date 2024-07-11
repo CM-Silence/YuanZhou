@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("device")
+@TableName("devices")
 public class Devices {
 
     @TableId(value = "did", type = IdType.ASSIGN_ID)
@@ -34,21 +34,18 @@ public class Devices {
     @TableField("supplier")
     private String supplier;
 
-    @TableField("usage")
-    private String usage;
+    @TableField("device_usage")
+    private String device_usage;
 
     @TableField("lab")
-    private Integer lab;
+    private String lab;
 
     @TableField("status")
-    private String status;
+    private Integer status;
 
     @TableField(value = "created_at",fill = FieldFill.INSERT)
     private LocalDateTime created_at;
 
     @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime update_at;
-
-    @TableField(value = "audited_time")
-    private LocalDateTime audited_time;
 }

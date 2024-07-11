@@ -1,6 +1,7 @@
 <template>
   <table-view
       key-data="uid"
+      search-data="name"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"

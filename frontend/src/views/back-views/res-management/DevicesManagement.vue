@@ -1,6 +1,7 @@
 <template>
   <table-view
       key-data="did"
+      search-data="name"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"
@@ -26,7 +27,7 @@ const tableColList = [
   {property: "software_system", label: "软件系统", sortable: false, width: 100},
   {property: "version", label: "版本号", sortable: false, width: 120},
   {property: "supplier", label: "供应商", sortable: false, width: 120},
-  {property: "usage", label: "用途", sortable: false, width: 100},
+  {property: "device_usage", label: "用途", sortable: false, width: 100},
   {property: "lab", label: "所在实验室", sortable: false, width: 100, isFK: true,
     FKData:{
       url: "/labs/list",
@@ -52,7 +53,7 @@ const editForm = {
     software_system: '',
     version: '',
     supplier: '',
-    usage: '',
+    device_usage: '',
     lab: '',
     status: 0,
   },
@@ -63,7 +64,7 @@ const editForm = {
     software_system: 'String',
     version: 'String',
     supplier: 'String',
-    usage: 'String',
+    device_usage: 'String',
     lab: 'String',
     status: 'Int',
   },
@@ -83,7 +84,7 @@ const editForm = {
     {label: '名称', prop: 'name', dataName: 'name', isInput: true},
     {label: '所在实验室', prop: 'lab', dataName: 'lab', isFK: true,
       FKData:{
-        url: "/lab/list",
+        url: "/labs/list",
         property: "lid",
         label: "name"
       }},
@@ -96,7 +97,7 @@ const editForm = {
     {label: '软件系统', prop: 'software_system', dataName: 'software_system', isInput: true},
     {label: '版本号', prop: 'version', dataName: 'version', isInput: true},
     {label: '供应商', prop: 'supplier', dataName: 'supplier', isInput: true},
-    {label: '用途', prop: 'usage', dataName: 'usage', isInput: true},
+    {label: '用途', prop: 'device_usage', dataName: 'device_usage', isInput: true},
   ],
 }
 
@@ -110,7 +111,7 @@ const addForm = {
     software_system: '',
     version: '',
     supplier: '',
-    usage: '',
+    device_usage: '',
     lab: '',
     status: 0,
   },
@@ -120,7 +121,7 @@ const addForm = {
     software_system: 'String',
     version: 'String',
     supplier: 'String',
-    usage: 'String',
+    device_usage: 'String',
     lab: 'String',
     status: 'Int',
   },
@@ -140,7 +141,7 @@ const addForm = {
     {label: '名称', prop: 'name', dataName: 'name', isInput: true},
     {label: '所在实验室', prop: 'lab', dataName: 'lab', isFK: true,
       FKData:{
-        url: "/lab/list",
+        url: "/labs/list",
         property: "lid",
         label: "name"
       }},
@@ -153,7 +154,7 @@ const addForm = {
     {label: '软件系统', prop: 'software_system', dataName: 'software_system', isInput: true},
     {label: '版本号', prop: 'version', dataName: 'version', isInput: true},
     {label: '供应商', prop: 'supplier', dataName: 'supplier', isInput: true},
-    {label: '用途', prop: 'usage', dataName: 'usage', isInput: true},
+    {label: '用途', prop: 'device_usage', dataName: 'device_usage', isInput: true},
   ],
 }
 

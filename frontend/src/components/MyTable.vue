@@ -725,6 +725,7 @@ function confirmDel(row){
   .then(() => {
     del(row)
   })
+  .catch(() => {})
 }
 function del(row){
   emit("del", row);

@@ -55,8 +55,8 @@
         >
           资源地址：
         </el-text>
-        <a :href="`${axios.defaults.baseURL}${activeFile?.url}`" target="_blank">
-          {{`${axios.defaults.baseURL}${activeFile?.url}`}}
+        <a :href="`${res.content}`" target="_blank">
+          {{`${res.content}`}}
         </a>
 
       </div>
@@ -153,7 +153,9 @@ const update = (resId) => {
   const result = localStorage.getItem(`${resId}`) || ''
   if(result){
     res.value = JSON.parse(result)
-    activeFile.value = res.value.files1.length > 0 ? res.value.files1[0] : null
+    if(res.value.type !== 1){
+      activeFile.value = res.value.files1.length > 0 ? res.value.files1[0] : null
+    }
   }
   else{
     state.getDataFail = true
@@ -162,7 +164,9 @@ const update = (resId) => {
 
 const fileClick = (file) => {
   activeFile.value = file
-  console.log("f", activeFile.value)
+  if(res.value.type === 3 || res.value.type === 4){
+    window.open(`${axios.defaults.baseURL}${file.url}`, "_blank")
+  }
 }
 
 const showMoreContent = () =>{

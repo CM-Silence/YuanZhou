@@ -51,7 +51,7 @@ public class ResourcesController {
     public ResponseEntity<Map<String, Object>> page(@RequestParam(required = false)String key_word,
                                                     @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
                                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                    @RequestParam(required = false)Integer type,
+                                                    @RequestParam(required = false) Integer type,
                                                     @RequestParam(required = false) String start_time,
                                                     @RequestParam(required = false) String end_time){
 
@@ -96,19 +96,8 @@ public class ResourcesController {
         queryWrapper.gt(startTime != null,Resources::getCreated_at, startTime);
         queryWrapper.lt(endTime != null,Resources::getCreated_at, endTime);
         //添加对type的筛选条件
-        switch (type) {
-            case 0:
-                queryWrapper.eq(true,Resources::getType, type);
-            case 1:
-                queryWrapper.eq(type == 1,Resources::getType, type);
-            case 2:
-                queryWrapper.eq(type == 2,Resources::getType, type);
-            case 3:
-                queryWrapper.eq(type == 3,Resources::getType, type);
-            case 4:
-                queryWrapper.eq(type == 4,Resources::getType, type);
-            default:
-                queryWrapper.eq(true,Resources::getType, type);
+        if (type != 0) {
+            queryWrapper.eq(Resources::getType, type);
         }
 
         //添加排序条件

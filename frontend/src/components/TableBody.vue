@@ -145,7 +145,7 @@
         :label="keyData"
         align="center"
         header-align="center"
-        width="120"
+        width="200"
     ></el-table-column>
   </el-table>
 </template>
@@ -256,6 +256,9 @@ const filterTableData = computed(() => {
 
 // 数据显示转换(映射)
 function itemMapping(row, property, item){
+  if(row[property] === null){
+    return ''
+  }
   let currentRow = row
   let currentItem = item
   let currentProp = property

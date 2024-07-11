@@ -16,7 +16,7 @@
         <el-card class="item-img">
           <el-image
               class="item-img"
-              :src="`${axios.defaults.baseURL}/${item.img1}`"
+              :src="`${axios.defaults.baseURL}${item.img1}`"
               fit="fill"
           >
             <template #error>

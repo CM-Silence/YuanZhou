@@ -29,7 +29,6 @@ public class FileUploadUtil {
             }
 
             String originalFileName = file.getOriginalFilename();
-            String baseName = "附件" + (i + 1);
             String fileName = (originalFileName != null && !originalFileName.isEmpty() ? originalFileName : "");
 
             StringBuilder url = new StringBuilder(FILE_URL + originalFileName); // 默认URL为原始文件名
@@ -51,7 +50,7 @@ public class FileUploadUtil {
             }
 
             // 创建FileInfo对象并添加到列表中
-            FileInfo fileInfo = new FileInfo(baseName, url.toString());
+            FileInfo fileInfo = new FileInfo(fileName, url.toString());
             fileInfos.add(fileInfo.toString());
         }
 

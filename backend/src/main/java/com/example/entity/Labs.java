@@ -38,10 +38,7 @@ public class Labs {
     private String devices_amount;
 
     @TableField("administrator")
-    private Integer administrator;
-
-    @TableField("phone")
-    private String phone;
+    private String administrator;
 
     @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime created_at;

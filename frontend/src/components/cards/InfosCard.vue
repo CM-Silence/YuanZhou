@@ -33,7 +33,7 @@
           <el-image
               fit="fill"
               class="first-item-img"
-              :src="item.img"
+              :src="`${axios.defaults.baseURL}${item.img1}`"
           >
             <template #error>
               <div

@@ -271,7 +271,7 @@ async function startSearch(s) {
   const defaultParams = {
     page: state.currentPage,
     page_size: PAGE_SIZE,
-    keyword: state.searchWord
+    key_word: state.searchWord
   }
   state.currentDataArray = await getData(prop.urls['getData'], {...defaultParams, ...prop.extraParams}, 'search-getData')
   state.isLoading = false
@@ -301,6 +301,7 @@ function del(row){
   else{
     deleteDataBody = editObjKeyData(deleteDataBody, getObjKeyData(row, prop.keyData), prop.keyData)
   }
+  console.log("del", deleteDataBody)
   deleteData(deleteDataBody)
 }
 

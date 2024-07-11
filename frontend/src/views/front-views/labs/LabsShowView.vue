@@ -17,128 +17,83 @@
               class="res-title"
               truncated
           >
-            {{`${res.title}${activeFile? ` [${activeFile.name}]` : ''}`}}
+            {{`${res.name}`}}
           </el-text>
           <el-text
               class="res-data"
           >
-            <el-icon>
-              <View/>
-            </el-icon>
-            {{res.view_amount}}
+            创建时间：{{res.created_at}}
           </el-text>
           <el-text
               class="res-data"
           >
-            <el-icon>
-              <Star/>
-            </el-icon>
-            {{res.like_amount}}
+            工位数：{{res.workstation_amount}}
           </el-text>
           <el-text
               class="res-data"
           >
-            <el-icon>
-              <Collection/>
-            </el-icon>
-            {{res.collect_amount}}
+            占地面积：{{res.area}}m²
           </el-text>
           <el-text
               class="res-data"
           >
-            {{res.updated_at}}
+            关联设备数：{{res.devices_amount}}
           </el-text>
-        </div>
-        <div v-if="res.type === 1">
           <el-text
-              style="color: black"
+              class="res-data"
           >
-            资源地址：
+            设备总值：{{res.facility_value}}万
           </el-text>
-          <a :href="activeFile?.url" target="_blank"> {{activeFile?.url}}</a>
-
+          <el-text
+              class="res-data"
+          >
+            地址：{{res.address}}
+          </el-text>
         </div>
 
-        <div v-if="res.type === 2">
-          <my-player
-              :url="activeFile?.url"
-              res-type="video"
-          />
-        </div>
-
-
-        <div v-if="res.type === 3">
-          <my-player
-              :url="activeFile?.url"
-              res-type="audio"
-          />
-        </div>
-
-        <div v-if="res.type === 4">
-
-        </div>
+        <el-card class="first-item-img">
+          <el-image
+              fit="fill"
+              class="first-item-img"
+              :src="`${axios.defaults.baseURL}${res.img1}`"
+          >
+            <template #error>
+              <div
+                  class="error-image-slot"
+              >
+                <el-icon><Picture /></el-icon>
+              </div>
+            </template>
+          </el-image>
+        </el-card>
 
         <div>
-          <el-text
-              :line-clamp="showLimit"
-              style="white-space: pre-wrap;"
-          >
-            {{res.content}}
-
-          </el-text>
           <el-button
-              type="primary"
-              @click="showMoreContent"
-              text
+            type="primary"
+            @click="apply"
           >
-            {{showMoreBtnText}}
+            申请使用
           </el-button>
         </div>
+
       </div>
     </el-main>
-    <el-aside>
-      <el-collapse v-model="activeNames" class="res-aside-collapse">
-        <el-collapse-item
-            title="附件列表"
-            name="1"
-        >
-          <div
-              v-for="item in res.files"
-          >
-            <el-text
-                class="res-aside-item-text"
-                truncated
-                @click="fileClick(item)"
-            >
-              {{item.name}}
-            </el-text>
-
-            <el-text
-                v-if="res.type === 2 || res.type === 3"
-                class="res-aside-item-time"
-                truncated
-            >
-              15:12
-            </el-text>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-    </el-aside>
   </el-container>
 </template>
 
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {markRaw, onMounted, reactive, ref} from "vue";
 import {onBeforeRouteUpdate, useRoute} from "vue-router";
-import {Collection, Star, View} from "@element-plus/icons-vue";
+import {Collection, Delete, Star, View} from "@element-plus/icons-vue";
 import MyPlayer from "@/components/myPlayer.vue";
+import axios from "axios";
+import {axiosPost} from "@/utils/axiosUtil";
+import {CURRENT_USER, refreshUser} from "@/utils/appManager";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 const activeNames = ref(['1'])
 const route = useRoute();
 const res = ref('')
-const activeFile = ref(null)
-const showLimit = ref(1)
-const showMoreBtnText = ref("显示更多")
 
 const state = reactive({
   getDataFail: false
@@ -148,26 +103,9 @@ const update = (labsId) => {
   const result = localStorage.getItem(`${labsId}`) || ''
   if(result){
     res.value = JSON.parse(result)
-    activeFile.value = res.value.files.length > 0 ? res.value.files[0] : null
   }
   else{
     state.getDataFail = true
-  }
-}
-
-const fileClick = (file) => {
-  activeFile.value = file
-  console.log("f", activeFile.value)
-}
-
-const showMoreContent = () =>{
-  if(showLimit.value === 1){
-    showLimit.value = 65535
-    showMoreBtnText.value = "隐藏"
-  }
-  else{
-    showLimit.value = 1
-    showMoreBtnText.value = "显示更多"
   }
 }
 
@@ -182,6 +120,37 @@ onBeforeRouteUpdate((to, from, next) => {
 onMounted(() =>{
   update(route.query.labsId)
 })
+
+const apply = async () => {
+  ElMessageBox.confirm(
+      '你确定要申请' + res.value.name + '吗？',
+      '注意',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+  .then(async () => {
+    await confirmApply()
+  })
+  .catch(() => {})
+}
+
+const confirmApply = async () => {
+  refreshUser()
+  const result = await axiosPost({
+    url: '/application/add',
+    data: {
+      lab: res.value.lid,
+      applicant: CURRENT_USER.value.uid
+    },
+    name: 'applyLabs'
+  })
+  if(result){
+    ElMessage.success("申请发送成功！请等待管理员审核")
+  }
+}
 </script>
 
 <style scoped>
@@ -206,28 +175,25 @@ onMounted(() =>{
 }
 
 .res-data{
-  font-size: 12px;
-  padding-left: 5px;
+  font-size: 15px;
   margin-right: 10px;
 }
 
-.res-aside-collapse{
-  overflow-y: hidden;
+.first-item-img{
+  align-content: center;
+  width: 640px;
+  height: 360px;
+  --el-card-padding: 0;
+  margin-right: 20px;
 }
-
-.res-aside-item-text{
-  width: 70%;
-  padding: 0 0 3px 5px;
-  transition: color 0.3s ease;
-  cursor: pointer;
-}
-
-.res-aside-item-time{
-  padding: 0 0 3px 25px;
-  cursor: default;
-}
-
-.res-aside-item-text:hover{
-  color: #409eff;
+.error-image-slot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-secondary);
+  font-size: 20px;
 }
 </style>

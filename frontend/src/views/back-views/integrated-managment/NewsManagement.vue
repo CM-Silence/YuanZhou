@@ -1,6 +1,7 @@
 <template>
   <table-view
       key-data="mid"
+      search-data="title"
       :table-col-list="tableColList"
       :add-form="addForm"
       :edit-form="editForm"

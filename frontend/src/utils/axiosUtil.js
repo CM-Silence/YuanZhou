@@ -1,6 +1,6 @@
 import axios from "axios";
 import {ElMessage} from "element-plus";
-import {router} from "@/router/index.js";
+import router from "@/router/index.js";
 
 /**
  * @description 请求头中需要附带的鉴权token

@@ -36,10 +36,10 @@ onMounted(init)
 //侧边菜单内容
 const sideMenu = [
   {name: 'MyInfo', label: "我的信息", path: "/home/userCenter/myInfo", icon: "User"},
-  //{name: 'MyMsg', label: "我的消息", path: "/home/userCenter/myMsg", icon: "Message"},
-  //{name: 'MyCourse', label: "我的课程", path: "/home/userCenter/myCourse", icon: "DataBoard"},
-  //{name: 'MyExperiment', label: "我的实验", path: "/home/userCenter/myExperiment", icon: "DataAnalysis"},
-  {name: 'MyCollection', label: "我的收藏", path: "/home/userCenter/myCollection", icon: "Collection"},
+  // {name: 'MyMsg', label: "我的消息", path: "/home/userCenter/myMsg", icon: "Message"},
+  // {name: 'MyCourse', label: "我的课程", path: "/home/userCenter/myCourse", icon: "DataBoard"},
+  {name: 'MyExperiment', label: "实验室申请", path: "/home/userCenter/myExperiment", icon: "DataAnalysis"},
+  // {name: 'MyCollection', label: "我的收藏", path: "/home/userCenter/myCollection", icon: "Collection"},
 ];
 
 //初始tab内容

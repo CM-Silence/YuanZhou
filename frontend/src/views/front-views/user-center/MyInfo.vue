@@ -160,7 +160,7 @@ import {isSame, isPasswordValid, isNotSame, isNotEmptyCondition, isEmail} from "
 import {axiosGet, axiosPost, axiosPut} from "@/utils/axiosUtil.js";
 import {ElMessage} from "element-plus";
 
-const user = ref(CURRENT_USER.value)
+const user = CURRENT_USER
 
 const myEditForm = ref(null)
 const editFormVisible = ref(false)
@@ -192,48 +192,38 @@ const state = reactive({
 const editForm = reactive({
   data :{
     uid:'',
-    permission: 3,
-    old_password:'',
     new_password:'',
-    confirm:'',
-    nickname:'',
-    phone:''
+    name:'',
+    phone:'',
+    email:'',
+    occupational_type: ''
   },
   dataType:{
     uid:'String',
-    permission: 'Int',
-    old_password:'String',
     new_password:'String',
-    confirm:'String',
-    nickname:'String',
-    phone:'String'
+    permission:'Int',
+    name:'String',
+    phone:'String',
+    email:'String',
+    class_name:'String',
+    occupational_type: 'String'
   },
-  dataNum: 7,
+  dataNum: 8,
   rules: {
-    old_password: [
-      { min: 6, max: 16, message: '密码长度需要在6-16之间', trigger: 'blur' },
-      { validator: isPasswordValid, trigger: 'blur' },
-      { validator: (rule, value, callback) => isNotEmptyCondition(rule, value, callback, editForm.data.new_password, '旧密码不能为空'), trigger: 'blur' },
-    ],
     new_password: [
       { min: 6, max: 16, message: '密码长度需要在6-16之间', trigger: 'blur' },
       { validator: isPasswordValid, trigger: 'blur' },
-      { validator: (rule, value, callback) => isNotSame(rule, value, callback, editForm.data.old_password, '新密码与旧密码不能相同'), trigger: 'blur' },
     ],
-    confirm: [
-      { validator: (rule, value, callback) => isSame(rule, value, callback, editForm.data.new_password, '两次输入的密码不一致'), trigger: 'blur' },
-    ],
-    nickname:[
-      { required: 'true', message: '请输入用户昵称', trigger: 'blur' },
+    name:[
       { min: 1, max: 8, message: '昵称长度需要在1-8个字符之间', trigger: 'blur' },
     ]
   },
   item:[
-    {label: '昵称', prop: 'nickname', dataName: 'nickname', isInput: true,},
+    {label: '昵称', prop: 'name', dataName: 'name', isInput: true,},
     {label: '电话', prop: 'phone', dataName: 'phone', isInput: true, type: 'number'},
-    {label: '旧密码', prop: 'old_password', dataName: 'old_password', isInput: true, type: 'password'},
+    {label: '邮箱', prop: 'email', dataName: 'email', isInput: true,},
+    {label: '职业', prop: 'occupational_type', dataName: 'occupational_type', isInput: true,},
     {label: '新密码', prop: 'new_password', dataName: 'new_password', isInput: true, type: 'password'},
-    {label: '确认密码', prop: 'confirm', dataName: 'confirm', isInput: true, type: 'password'},
   ],
 })
 
@@ -334,13 +324,12 @@ const submitEditForm = async (form) => {
     if (valid) {
       editFormVisible.value = false
       const result = await axiosPut({
-        url:'/user/update',
+        url:'/user/edit',
         data: editForm.data,
         name: 'userCenter-edit'
       })
       if(result){
-        ElMessage.success("用户信息修改成功")
-        await refresh()
+        ElMessage.success("用户信息修改成功，重新登录后生效")
       }
     }
   })
@@ -368,23 +357,9 @@ const submitEmailForm = async (form) => {
       if(result){
         ElMessage.success("邮箱绑定成功")
         emailForm.data.code = ''
-        await refresh()
       }
     }
   })
-}
-
-const refresh = async () => {
-  state.isLoading = true
-  const result = await axiosGet({
-    url: '/user/info',
-    name: 'userCenter-refresh'
-  })
-  if(result && result.data && result.data.user){
-    user.value = result.data.user
-    setUser(result.data.user)
-  }
-  state.isLoading = false
 }
 
 const sendVerificationCode = async (form) => {

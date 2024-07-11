@@ -1,82 +1,70 @@
 <template>
-  <el-container
-      class="res-body"
-  >
-    <el-main
-        class="res-main"
-    >
-      <el-empty
-          v-if="state.getDataFail"
-          description="数据获取失败，请重试！"
-      />
-      <div
-          v-if="!state.getDataFail"
-      >
-        <div>
-          <el-text
-              class="res-title"
-              truncated
-          >
-            {{`${res.name}`}}
+  <el-container style="padding: 0">
+    <el-header class="header">
+      <el-image
+          class="title-img"
+          fit="cover"
+          :src="`${axios.defaults.baseURL}${res?.img1}`">
+      </el-image>
+      <div class="courseImgCover"></div>
+      <div class="title">
+        <el-text class="title-name">
+          {{res?.name}}
+        </el-text>
+        <el-text class="title-category">
+          创建时间：{{res?.created_at}}
+        </el-text>
+      </div>
+    </el-header>
+    <el-main class="main">
+      <el-tabs v-model="activeName" class="main-tabs">
+        <el-tab-pane label="实验室信息" name="one">
+          <el-text class="pane-info">
+            工位数：{{res?.workstation_amount}}
           </el-text>
-          <el-text
-              class="res-data"
-          >
-            创建时间：{{res.created_at}}
+          <el-text class="pane-info">
+            面积：{{res?.area}}m²
           </el-text>
-          <el-text
-              class="res-data"
-          >
-            工位数：{{res.workstation_amount}}
+          <el-text class="pane-info">
+            设施总值：{{res?.facility_value}}万
           </el-text>
-          <el-text
-              class="res-data"
-          >
-            占地面积：{{res.area}}m²
+          <el-text class="pane-info">
+            地址：{{res?.address}}
           </el-text>
-          <el-text
-              class="res-data"
-          >
-            关联设备数：{{res.devices_amount}}
+          <el-text class="pane-info">
+            管理员：{{administrator?.name}}
           </el-text>
-          <el-text
-              class="res-data"
-          >
-            设备总值：{{res.facility_value}}万
+          <el-text class="pane-info">
+            联系电话：{{administrator?.phone? administrator.phone : '无'}}
           </el-text>
-          <el-text
-              class="res-data"
-          >
-            地址：{{res.address}}
-          </el-text>
-        </div>
-
-        <el-card class="first-item-img">
-          <el-image
-              fit="fill"
-              class="first-item-img"
-              :src="`${axios.defaults.baseURL}${res.img1}`"
-          >
-            <template #error>
-              <div
-                  class="error-image-slot"
-              >
-                <el-icon><Picture /></el-icon>
-              </div>
-            </template>
-          </el-image>
-        </el-card>
-
-        <div>
+        </el-tab-pane>
+        <el-tab-pane label="实验室申请" name="two">
+          <el-form :model="dateList" :rules="rules" ref="myDateForm" label-position="left">
+            <el-form-item
+              style="width: 40%"
+              label="申请时间"
+              prop="date"
+            >
+              <el-date-picker
+                  v-model="dateList"
+                  type="datetimerange"
+                  range-separator="到"
+                  value-format="YYYY-MM-DD HH:mm"
+                  format="YYYY-MM-DD HH:mm"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+              />
+            </el-form-item>
+          </el-form>
           <el-button
             type="primary"
-            @click="apply"
+            @click="apply(myDateForm)"
+            style="margin-top: 20px"
           >
-            申请使用
+            提交申请
           </el-button>
-        </div>
-
-      </div>
+        </el-tab-pane>
+      </el-tabs>
     </el-main>
   </el-container>
 </template>
@@ -87,22 +75,55 @@ import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import {Collection, Delete, Star, View} from "@element-plus/icons-vue";
 import MyPlayer from "@/components/myPlayer.vue";
 import axios from "axios";
-import {axiosPost} from "@/utils/axiosUtil";
+import {axiosGet, axiosPost} from "@/utils/axiosUtil";
 import {CURRENT_USER, refreshUser} from "@/utils/appManager";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {isPasswordValid, pIntValidatorNRequire} from "@/utils/validator";
 
-const activeNames = ref(['1'])
+const activeName = ref('one')
 const route = useRoute();
 const res = ref('')
+const administrator = ref(null)
+
+const dateList = ref([])
+
+const myDateForm = ref(null)
+
+const notEmpty = (rule, value, callback) => {
+  if(dateList.value.length > 0){
+    callback()
+  }
+  else{
+    callback(new Error("请选择申请时间"))
+  }
+}
+
+
+const rules = {
+  date:[
+    { validator: notEmpty, trigger: 'blur' }
+  ]
+}
 
 const state = reactive({
   getDataFail: false
 })
 
-const update = (labsId) => {
+const update = async (labsId) => {
   const result = localStorage.getItem(`${labsId}`) || ''
   if(result){
     res.value = JSON.parse(result)
+    const staffList = await axiosGet({
+      url: '/staff/list',
+      name: 'labs-getStaff'
+    })
+    if(staffList){
+      for(const item of staffList.rows){
+        if(item.sid === res.value.administrator){
+          administrator.value = item
+        }
+      }
+    }
   }
   else{
     state.getDataFail = true
@@ -117,24 +138,29 @@ onBeforeRouteUpdate((to, from, next) => {
   next();
 });
 
-onMounted(() =>{
-  update(route.query.labsId)
+onMounted( async () =>{
+  await update(route.query.labsId)
 })
 
-const apply = async () => {
-  ElMessageBox.confirm(
-      '你确定要申请' + res.value.name + '吗？',
-      '注意',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-  )
-  .then(async () => {
-    await confirmApply()
+const apply = async (form) => {
+  if (!form) return
+  await form.validate((valid) => {
+    if (valid) {
+      ElMessageBox.confirm(
+          '你确定要申请使用' + res.value.name + '吗？',
+          '注意',
+          {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+      )
+      .then(async () => {
+        await confirmApply()
+      })
+      .catch(() => {})
+    }
   })
-  .catch(() => {})
 }
 
 const confirmApply = async () => {
@@ -143,7 +169,9 @@ const confirmApply = async () => {
     url: '/application/add',
     data: {
       lab: res.value.lid,
-      applicant: CURRENT_USER.value.uid
+      applicant: CURRENT_USER.value.uid,
+      start_time: dateList.value[0],
+      end_time: dateList.value[1],
     },
     name: 'applyLabs'
   })
@@ -154,46 +182,80 @@ const confirmApply = async () => {
 </script>
 
 <style scoped>
-.res-body{
+.header{
   display: flex;
+  position: absolute;
+  width: 99%;
+  height: 240px;
+  padding: 0;
 }
-
-.res-main{
-  padding: 5px;
-}
-
-.res-main div{
-  margin-bottom: 10px;
-}
-
-.res-title{
-  display: block;
-  color: black;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 30px;
-}
-
-.res-data{
-  font-size: 15px;
-  margin-right: 10px;
-}
-
-.first-item-img{
-  align-content: center;
-  width: 640px;
-  height: 360px;
-  --el-card-padding: 0;
-  margin-right: 20px;
-}
-.error-image-slot{
+.main{
   display: flex;
-  justify-content: center;
+  position: absolute;
+  margin-top: 240px;
+  width: 99%;
+  padding: 50px;
+}
+.title-img{
+  width: 99%;
+  height: 100%;
+  filter: blur(8px); /* 应用模糊效果 */
+}
+.courseImgCover {
+  display: flex;
+  z-index: 1;
+  background: -webkit-linear-gradient(left, rgba(2, 2, 2, .9), rgba(2, 2, 2, .4), rgba(2, 2, 2, .3));
+  background: -moz-linear-gradient(left, rgba(2, 2, 2, .9), rgba(2, 2, 2, .4), rgba(2, 2, 2, .3));
+  background: -o-linear-gradient(left, rgba(2, 2, 2, .9), rgba(2, 2, 2, .4), rgba(2, 2, 2, .3));
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  position: absolute; /* 绝对定位以覆盖在遮罩层上 */
+  top: 10%; /* 根据需要调整位置 */
+  left: 10%; /* 居中开始 */
+  z-index: 2; /* 确保在遮罩层之上 */
+  text-align: left;
+}
+.title-category{
+  display: inline-block;
+  padding-top: 5px;
+  color: white;
+  width: 100%;
+}
+.title-name-div{
+  display: flex;
   align-items: center;
-  width: 200px;
-  height: 100px;
-  background: var(--el-fill-color-light);
-  color: var(--el-text-color-secondary);
-  font-size: 20px;
+}
+.title-name{
+  display: inline-block;
+  width: 100%;
+  color: white;
+  font-size: 28px;
+}
+.main-tabs{
+  width: 100%;
+  --el-font-size-base: 16px;
+}
+.pane-info{
+  display: block;
+  margin-top: 5px;
+}
+.main-tabs :deep(.el-tabs__item){
+  padding: 0 50px;
+}
+.chapters-item :deep(.el-collapse-item__header){
+  padding: 10px;
+}
+.chapters-item :deep(.el-collapse-item__content){
+  padding-left: 10px;
+}
+.res-aside-collapse :deep(.el-collapse-item__header){
+  padding: 10px;
 }
 </style>

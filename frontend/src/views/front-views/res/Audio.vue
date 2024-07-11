@@ -2,6 +2,7 @@
 <data-show-view
   :extra-params="extraParams"
   :urls="urls"
+  :show-amount="true"
   data-show-view-url="/home/res/resShowView"
   data-show-view-params="resId"
   key-data="rid"

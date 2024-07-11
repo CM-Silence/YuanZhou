@@ -16,6 +16,7 @@
       v-for="item in state.currentDataArray"
       :res="item"
       :title-data="titleData"
+      :show-amount="showAmount"
       @card-click="cardClick"
     />
 
@@ -220,6 +221,11 @@ const prop = defineProps({
     type: String,
     default: () => 'title',
     description: '标题参数名'
+  },
+  showAmount: {
+    type: Boolean,
+    default: () => false,
+    description: '是否显示浏览量之类的数据'
   },
 })
 

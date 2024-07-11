@@ -11,6 +11,7 @@
           :has-submit-page="hasSubmitPage"
           :large="large"
           :permission="permission"
+          :ban-search="banSearch"
           @add="add"
           @download="download"
           @upload="upload"
@@ -446,6 +447,11 @@ const prop = defineProps({
     type: Number,
     default: () => 0,
     description: '用户权限等级'
+  },
+  banSearch:{
+    type: Boolean,
+    default: () => false,
+    description: '是否禁止搜索'
   }
 });
 //对外事件列表
@@ -569,6 +575,7 @@ function print(){
 
 function refresh(){
   emit("refresh");
+  ElMessage.success("刷新成功")
 }
 
 function add(){

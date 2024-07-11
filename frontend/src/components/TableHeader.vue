@@ -21,6 +21,7 @@
       <el-input
           v-model="search"
           style="width: 240px; margin-left: 20px"
+          :disabled="banSearch"
           placeholder="在当前页搜索"
           prefix-icon="Search"
           @input="searchChange"
@@ -31,10 +32,11 @@
       <el-input
           v-model="search"
           style="width: 240px; margin-left: 20px; margin-right: 10px;"
+          :disabled="banSearch"
           placeholder="关键字搜索"
           clearable
       />
-      <el-button type="success" icon="Search" @click="searchChange">
+      <el-button :disabled="banSearch" type="success" icon="Search" @click="searchChange">
         搜索
       </el-button>
     </span>
@@ -69,6 +71,11 @@ const prop = defineProps({
     type: Number,
     default: () => 0,
     description: '用户权限等级'
+  },
+  banSearch:{
+    type: Boolean,
+    default: () => false,
+    description: '是否禁止搜索'
   }
 })
 

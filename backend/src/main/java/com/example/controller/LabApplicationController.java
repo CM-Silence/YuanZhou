@@ -45,7 +45,7 @@ public class LabApplicationController {
         LambdaQueryWrapper<LabApplication> queryWrapper = new LambdaQueryWrapper<>();
 
         //添加过滤条件，使用like关键字
-        queryWrapper.like(key_word != null, LabApplication::getLab, key_word);
+        queryWrapper.like(key_word != null, LabApplication::getApplicant, key_word);
 
         //添加排序条件
         queryWrapper.orderByDesc(LabApplication::getAid);

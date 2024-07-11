@@ -17,6 +17,7 @@
       :has-submit-page="hasSubmitPage"
       :height="tableHeight"
       :permission="permission"
+      :ban-search="banSearch"
       @add="add"
       @upload="upload"
       @del="del"
@@ -126,6 +127,11 @@ const prop = defineProps({
     type: Boolean,
     default: () => false,
     description: '是否需要控制页面刷新的eventBus'
+  },
+  banSearch:{
+    type: Boolean,
+    default: () => false,
+    description: '是否禁止搜索'
   }
 });
 

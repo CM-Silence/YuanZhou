@@ -19,7 +19,7 @@
           </div>
         </template>
       </el-image>
-      <div class="res-card-img-cover">
+      <div v-if="showAmount" class="res-card-img-cover">
         <el-text
           size="small"
         >
@@ -77,6 +77,11 @@ const prop = defineProps({
     type: Object,
     default: () => null,
     description: '资源内容'
+  },
+  showAmount: {
+    type: Boolean,
+    default: () => false,
+    description: '是否显示浏览量之类的数据'
   },
   titleData: {
     type: String,

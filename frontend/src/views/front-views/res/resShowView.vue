@@ -82,7 +82,7 @@
         </el-text>
       </div>
 
-      <div>
+      <div v-if="res.type !== 1">
         <el-text
           :line-clamp="showLimit"
           style="white-space: pre-wrap;"

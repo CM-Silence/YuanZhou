@@ -24,15 +24,26 @@
       </el-text>
     </div>
     <div
+        v-if="itemList.length > 0"
         v-for="(item, index) in itemList"
         @click="clickCard(item)"
     >
       <div v-if="index === 0" class="first-item-body">
-        <div class="first-item-img">
+        <el-card class="first-item-img">
           <el-image
+              fit="fill"
+              class="first-item-img"
               :src="item.img"
-          />
-        </div>
+          >
+            <template #error>
+              <div
+                  class="error-image-slot"
+              >
+                <el-icon><Picture /></el-icon>
+              </div>
+            </template>
+          </el-image>
+        </el-card>
         <div class="first-item-content">
           <el-text class="title">
             {{item.title}}
@@ -57,12 +68,16 @@
         </el-text>
       </div>
     </div>
+    <div v-else>
+      <el-empty/>
+    </div>
   </div>
 </template>
 
 <script setup>
 import router from "@/router";
 import {setCurrentPage} from "@/utils/appManager";
+import axios from "axios";
 
 const prop = defineProps({
   url: {
@@ -123,8 +138,10 @@ const clickCard = async (item) => {
   margin: 10px 0 10px 0;
 }
 .first-item-img{
-  flex: 0 0 auto;
+  align-content: center;
   width: 200px;
+  height: 100px;
+  --el-card-padding: 0;
   margin-right: 20px;
 }
 .first-item-body:hover .title{
@@ -144,5 +161,15 @@ const clickCard = async (item) => {
 }
 .item-body:hover .title{
   color: #409eff;
+}
+.error-image-slot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-secondary);
+  font-size: 20px;
 }
 </style>

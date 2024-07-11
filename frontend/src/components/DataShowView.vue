@@ -280,7 +280,6 @@ const getData = async (url, params = {}, name = 'getData') => {
         result.rows[i].files1 = JSON.parse(result.rows[i].files1)
       }
     }
-    console.log("233re", result.rows)
     return result.rows
   }
   else{

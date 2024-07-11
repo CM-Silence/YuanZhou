@@ -26,7 +26,7 @@ const audit = (aid, isAudit) =>{
     const passed = ref(false)
     const comment = ref('')
     ElMessageBox({
-      title: '调拨审核',
+      title: '实验室申请审核',
       message: () =>
           h('p', null, [
             h('div', null, [
@@ -51,11 +51,11 @@ const audit = (aid, isAudit) =>{
     })
     .then(async () => {
       const result = await axiosPut({
-        url: '/apply/audit',
+        url: '/application/audit',
         data: {
-          tid: aid,
-          passed: passed.value,
-          audit_comment: comment.value
+          aid: aid,
+          audited_type: passed.value,
+          comment: comment.value
         },
         name: 'audit'
       })
@@ -77,9 +77,12 @@ const audit = (aid, isAudit) =>{
     )
     .then(async () => {
       const result = await axiosPut({
-        url: '/apply/audit/revoke',
+        url: '/application/audit',
         data: {
-          aid: aid
+          aid: aid,
+          audited_type: 0,
+          audited_time: '',
+          comment: ''
         },
         name: 'audit-revoke'
       })
@@ -97,13 +100,23 @@ const audit = (aid, isAudit) =>{
 const tableColList = [
   {property: "audited_type", label: "审批状态", sortable: false, width: 100, isFixed: true, operable: true, operationEvent: audit,
     isMapping: true, mappingList:[
-      {label: '通过', value: true},
-      {label: '未通过', value: false},
+      {label: '通过', value: 1},
+      {label: '未通过', value: 0},
     ]},
   {property: "lab", label: "实验室", sortable: false, width: 120},
-  {property: "applicant", label: "申请人", sortable: false, width: 100},
-  {property: "phone", label: "联系电话", sortable: false, width: 120},
-  {property: "apply_time", label: "申请时间", isDateFormat: true, sortable: false, width: 240},
+  {property: "applicant", label: "申请人", sortable: false, width: 100, isFK: true,
+    FKData:{
+      url: "/user/list",
+      property: "uid",
+      label: "name"
+    }},
+  {property: "applicant", label: "联系电话", sortable: false, width: 120, isFK: true,
+    FKData:{
+      url: "/user/list",
+      property: "uid",
+      label: "phone"
+    }},
+  {property: "created_time", label: "申请时间", isDateFormat: true, sortable: false, width: 240},
   {property: "audited_time", label: "审批时间", isDateFormat: true, sortable: false, width: 240},
   {property: "comment", label: "审批人备注", sortable: false, width: 300, isTextArea: true},
 ]
@@ -118,7 +131,7 @@ const editForm = {
     applicant: '',
   },
   dataType:{
-    lid: 'String',
+    aid: 'String',
     lab: 'String',
     applicant: 'String',
   },

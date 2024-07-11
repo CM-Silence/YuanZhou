@@ -80,6 +80,7 @@ public class UserController {
             //生成jwt令牌
             map.put("msg", "login success");
             map.put("code", 201);
+            userDB.setPassword(null);
             map.put("data", userDB);
 
 

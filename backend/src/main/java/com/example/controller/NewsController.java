@@ -27,7 +27,6 @@ import java.util.Map;
 @CrossOrigin
 public class NewsController {
 
-
     @Autowired
     private NewsService newsService;
 

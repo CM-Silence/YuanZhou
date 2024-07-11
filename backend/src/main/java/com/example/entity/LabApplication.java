@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,11 +28,11 @@ public class LabApplication {
     @TableField("applicant")
     private String applicant;
 
-    @TableField("phone")
-    private String phone;
-
-    @TableField("created_at")
+    @TableField(value = "created_at",fill = FieldFill.INSERT)
     private LocalDateTime created_at;
+
+    @TableField(value = "update_at", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime update_at;
 
     @TableField("audited_time")
     private LocalDateTime audited_time;

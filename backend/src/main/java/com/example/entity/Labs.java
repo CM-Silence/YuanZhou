@@ -22,28 +22,28 @@ public class Labs {
     @TableField("img1")
     private String img1;
 
-    @TableField("img")
+    @TableField("name")
     private String name;
 
-    @TableField("img")
+    @TableField("workstation_amount")
     private String workstation_amount;
 
-    @TableField("img")
+    @TableField("area")
     private String area;
 
-    @TableField("img")
+    @TableField("facility_value")
     private String facility_value;
 
-    @TableField("img")
+    @TableField("address")
     private String address;
 
-    @TableField("img")
+    @TableField("devices_amount")
     private String devices_amount;
 
-    @TableField("img")
+    @TableField("administrator")
     private Integer administrator;
 
-    @TableField("img")
+    @TableField("phone")
     private String phone;
 
     @TableField(value = "created_at", fill = FieldFill.INSERT)

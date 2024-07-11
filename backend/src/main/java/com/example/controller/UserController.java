@@ -3,13 +3,14 @@ package com.example.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.Result;
+import com.example.entity.User;
 import com.example.service.Impl.UserServiceImpl;
 import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.entity.User;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +33,9 @@ public class UserController {
      * @return 用户列表及分页信息
      */
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page){
+    public ResponseEntity<Map<String, Object>> page(@RequestParam(required = false)String key_word,
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page){
         //构造分页构造器
         Page<User> pageInfo = new Page<>(page, page_size);
 

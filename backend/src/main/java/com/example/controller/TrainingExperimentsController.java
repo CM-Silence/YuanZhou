@@ -44,10 +44,10 @@ public class TrainingExperimentsController {
      * @return 实训实验类
      */
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> page(String  key_word,
-                                                    Integer page_size,
-                                                    Integer page,
-                                                    String  type,
+    public ResponseEntity<Map<String, Object>> page(@RequestParam(required = false)String  key_word,
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                    @RequestParam(required = false) String  type,
                                                     @RequestParam(required = false) String start_time,
                                                     @RequestParam(required = false) String end_time) {
 
@@ -128,7 +128,7 @@ public class TrainingExperimentsController {
 
     }
 
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (TrainingExperiments trainingExperiments,
                                 @RequestParam(value = "img", required = false) MultipartFile img,
                                 @RequestParam(value = "files", required = false) MultipartFile[] files) {

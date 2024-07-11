@@ -38,8 +38,8 @@ public class LabsController {
      */
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> page(String key_word,
-                                                    Integer page_size,
-                                                    Integer page){
+                                                    @RequestParam(value = "page_size", defaultValue = "65535") Integer page_size,
+                                                    @RequestParam(value = "page", defaultValue = "1") Integer page){
 
         //构造分页构造器
         Page<Labs> pageInfo = new Page<>(page, page_size);
@@ -102,7 +102,7 @@ public class LabsController {
      * @param labs 实验室类
      * @return 成功信息
      */
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public Result<String> edit (Labs labs,
                                 @RequestParam(value = "img", required = false) MultipartFile img) {
         log.info(labs.toString());
